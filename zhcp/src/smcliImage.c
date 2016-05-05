@@ -1,5 +1,5 @@
 /**
- * IBM (C) Copyright 2013 Eclipse Public License
+ * IBM (C) Copyright 2013,2016 Eclipse Public License
  * http://www.eclipse.org/org/documents/epl-v10.html
  */
 #include <stdio.h>
@@ -4876,5 +4876,62 @@ int imageVolumeSpaceRemoveDM(int argC, char* argV[], struct _vmApiInternalContex
                 output->common.reasonCode, vmapiContextP);
     }
 
+    return rc;
+}
+
+
+int imageConsoleGet(int argC, char* argV[], struct _vmApiInternalContext* vmapiContextP) {
+    int rc;
+    int option;
+    char * image = NULL;
+    vmApiImageConsoleGetOutput * output;
+
+    // Options that have arguments are followed by a : character
+    while ((option = getopt(argC, argV, "-T:h?")) != -1)
+        switch (option) {
+            case 'T':
+                image = optarg;
+                break;
+
+            case 'h':
+                printf("NAME\n"
+                    "  Image_Console_Get\n\n"
+                    "SYNOPSIS\n"
+                    "  smcli Image_Console_Get [-T] image_name \n\n"
+                    "DESCRIPTION\n"
+                    "  Use Image_Console_Get to get a virtual image's console log\n"
+                    "  The following options are required:\n"
+                    "    -T    The name of the image to be get console from\n");
+                return 1;
+                break;
+
+            case '?':  // Missing option data!
+                return 1;
+                break;
+
+            case 1:  // API name type data(other non option element key data)
+                break;
+
+            default:
+                return 1;
+                break;
+        }
+
+    if (!image) {
+        printf("ERROR: Missing required options\n");
+        return 1;
+    }
+
+    rc = smImage_Console_Get(vmapiContextP, "", 0, "",  // Authorizing user, password length, password
+            image, // Image name
+            &output);
+
+    if (rc) {
+        printAndLogSmapiCallReturnCode("Image_Console_Get", rc, vmapiContextP);
+    } else {
+        // Handle SMAPI return code and reason code
+        rc = printAndLogSmapiReturnCodeReasonCodeDescription("Image_Console_Get", output->common.returnCode,
+                output->common.reasonCode, vmapiContextP);
+    }
     return rc;
 }

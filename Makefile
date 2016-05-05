@@ -42,6 +42,7 @@ VMAPI_OBJECTS += vmapiDirectoryManagerSearchDm.o
 VMAPI_OBJECTS += vmapiDirectoryManagerTaskCancelDm.o 
 VMAPI_OBJECTS += vmapiImageActivate.o 
 VMAPI_OBJECTS += vmapiImageActiveConfigurationQuery.o 
+VMAPI_OBJECTS += vmapiImageConsoleGet.o
 VMAPI_OBJECTS += vmapiImageCpuDefine.o 
 VMAPI_OBJECTS += vmapiImageCpuDefineDm.o 
 VMAPI_OBJECTS += vmapiImageCpuDelete.o 
@@ -380,6 +381,9 @@ vmapiImageActivate.o : $(SRC_DIR)vmapiImageActivate.c
 
 vmapiImageActiveConfigurationQuery.o : $(SRC_DIR)vmapiImageActiveConfigurationQuery.c
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiImageActiveConfigurationQuery.c
+
+vmapiImageConsoleGet.o : $(SRC_DIR)vmapiImageConsoleGet.c
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiImageConsoleGet.c
 
 vmapiImageCpuDefine.o : $(SRC_DIR)vmapiImageCpuDefine.c
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiImageCpuDefine.c
