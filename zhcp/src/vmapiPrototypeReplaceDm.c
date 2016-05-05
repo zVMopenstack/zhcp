@@ -1,5 +1,4 @@
 /**
- * IBM (C) Copyright 2013 Eclipse Public License
  * http://www.eclipse.org/org/documents/epl-v10.html
  */
 #include "smSocket.h"
