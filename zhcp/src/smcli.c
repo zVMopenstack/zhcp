@@ -468,9 +468,17 @@ static const char * APIS_630[APIS_630_COUNT] = {
     "Virtual_Network_Adapter_Query_Extended",
     "xCAT_Commands_IUO",
 };
+
+
+//TODO(jichenjc) need ignore this function call before zvm6.4
+#define APIS_640_COUNT 1
+static const char * APIS_640[APIS_640_COUNT] = {
+    "Image_Console_Get",
+};
+
     // Check for older releases and being passed an API that does not fit current release
     // API mismatch name is checked in if then else if following
-    if (smapiLevel < 630){
+    if (smapiLevel < 640){
         int foundit = 0;
         if (smapiLevel < 611) {
             for (j = 0; j < APIS_611_COUNT; j++ ){
@@ -559,6 +567,8 @@ static const char * APIS_630[APIS_630_COUNT] = {
         rc = imageCPUQueryDM(argC, argV, &vmapiContext);
     } else if (!strcmp(argV[1], "Image_CPU_Set_Maximum_DM")) {
         rc = imageCPUSetMaximumDM(argC, argV, &vmapiContext);
+    } else if (!strcmp(argV[1], "Image_Console_Get")) {
+        rc = imageConsoleGet(argC, argV, &vmapiContext);
     } else if (!strcmp(argV[1], "Image_Create_DM")) {
         rc = imageCreateDM(argC, argV, &vmapiContext);
     } else if (!strcmp(argV[1], "Image_Deactivate")) {
