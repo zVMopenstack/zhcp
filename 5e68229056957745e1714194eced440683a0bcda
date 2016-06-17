@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_f0b8ac2c",
+        "filename": "zhcp/include/vmapiImage.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-17T14:43:22Z",
+      "side": 1,
+      "message": "This name needs to match your api and then have the _Layout suffix",
+      "range": {
+        "startLine": 1170,
+        "startChar": 19,
+        "endLine": 1170,
+        "endChar": 43
+      },
+      "revId": "5e68229056957745e1714194eced440683a0bcda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_900960e0",
+        "filename": "zhcp/include/vmapiImage.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-17T14:43:22Z",
+      "side": 1,
+      "message": "This SMAPI call does not return any data, but just sets return codes? The console file is just sent to some virtual machine?",
+      "range": {
+        "startLine": 1174,
+        "startChar": 0,
+        "endLine": 1174,
+        "endChar": 4
+      },
+      "revId": "5e68229056957745e1714194eced440683a0bcda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_d0ba480a",
+        "filename": "zhcp/src/smcli.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-17T14:43:22Z",
+      "side": 1,
+      "message": "Around lines 123 you need to add this new api to the help. Something like:\nif (smapiLevel \u003e\u003d 640) {\n    printf(\"  Image_Console_Get\\n\");\n}",
+      "revId": "5e68229056957745e1714194eced440683a0bcda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
