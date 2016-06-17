@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_30a3b4a0",
+        "filename": "zhcp/src/smcli.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-17T15:30:53Z",
+      "side": 1,
+      "message": "Actually they are sorted, which is why I mentioned line 123 or so. You may have to break apart the current items and add another if to keep the sort order.",
+      "range": {
+        "startLine": 391,
+        "startChar": 8,
+        "endLine": 391,
+        "endChar": 9
+      },
+      "revId": "461cec01f9afa1f8ebda8efa2b37180bd33a05a0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
