@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_2b72297d",
+        "filename": "zhcp/include/vmapiImage.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-06-17T18:07:47Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "baa041b7_b0b584d1",
+      "revId": "5e68229056957745e1714194eced440683a0bcda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_f0b8ac2c",
         "filename": "zhcp/include/vmapiImage.h",
         "patchSetId": 1
@@ -78,6 +96,30 @@
       "side": 1,
       "message": "maybe I flagged the wrong line, I thought the static had the wrong api name... could of just been the comment?",
       "parentUuid": "baa041b7_d016c8f0",
+      "range": {
+        "startLine": 1170,
+        "startChar": 19,
+        "endLine": 1170,
+        "endChar": 43
+      },
+      "revId": "5e68229056957745e1714194eced440683a0bcda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_0b6f6593",
+        "filename": "zhcp/include/vmapiImage.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-06-17T18:07:47Z",
+      "side": 1,
+      "message": "yes, I think so",
+      "parentUuid": "baa041b7_90ba80bf",
       "range": {
         "startLine": 1170,
         "startChar": 19,
