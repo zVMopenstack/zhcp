@@ -1507,9 +1507,9 @@ int imageDiskCopyDM(int argC, char* argV[], struct _vmApiInternalContext* vmapiC
     char * srcDiskAddress = NULL;
     char * tgtDiskAddress = NULL;
     char * tgtImage = NULL;
-    char * allocType = NULL;
-    char * areaOrVolser = NULL;
-    char * accessMode = NULL;
+    char * allocType = "";
+    char * areaOrVolser = "";
+    char * accessMode = "";
     char * readPass = "";
     char * writePass = "";
     char * multiPass = "";
@@ -1575,6 +1575,7 @@ int imageDiskCopyDM(int argC, char* argV[], struct _vmApiInternalContext* vmapiC
                     "    -S    The name of the virtual image that owns the image disk being copied\n"
                     "    -s    The image disk number of the virtual image that owns the disk\n"
                     "          being copied\n"
+                    "  The following options are optional if the vdev exists on target machine:\n"
                     "    -a    Disk allocation type:\n"
                     "            The starting location\n"
                     "            AUTOG: Automatic_Group_Allocation\n"
@@ -1609,7 +1610,7 @@ int imageDiskCopyDM(int argC, char* argV[], struct _vmApiInternalContext* vmapiC
                 break;
         }
 
-    if (!srcImage || !srcDiskAddress || !tgtDiskAddress || !tgtImage || !allocType || !areaOrVolser || !accessMode) {
+    if (!srcImage || !srcDiskAddress || !tgtDiskAddress || !tgtImage) {
         printf("ERROR: Missing required options\n");
         return 1;
     }
