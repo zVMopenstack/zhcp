@@ -381,7 +381,7 @@ int systemIOQuery(int argC, char* argV[], struct _vmApiInternalContext* vmapiCon
     } else {
         printf("Real device address %s. CHIPID count: %d \n", rDev, output->chipidCount);
         for (i = 0; i < output->chipidCount; i++) {
-            printf("Real device address %s CHIPID list[%d]: %s\n", rDev, i, output->chipidList->vmapiString);
+            printf("Real device address %s CHIPID list[%d]: %s\n", rDev, i, output->chipidList[i].vmapiString);
         }
     }
     return rc;
