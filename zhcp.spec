@@ -6,7 +6,7 @@ Version: %(cat /root/build/zhcp/Version)
 Release: snap%(date +"%Y%m%d%H%M")
 Source: zhcp-build.tar.gz
 Vendor: IBM
-License: IBM Copyright 2012 Eclipse Public License
+License: IBM Copyright 2012, 2016 Eclipse Public License
 Group: System/tools
 BuildRoot: %{_tmppath}/zhcp
 Prefix: /opt/zhcp
@@ -59,6 +59,8 @@ echo "Configuring syslog"
 if [ -e "/etc/init.d/syslog" ]; then
     # Syslog is the standard for log messages
     grep ${ZHCP_LOG} /etc/syslog.conf > /dev/null || (echo -e "\n${ZHCP_LOG_HEADER}\nlocal4.*        ${ZHCP_LOG}" >> /etc/syslog.conf)
+elsif [ -e "/opt/ibm/cmo/version" ]; then
+    grep ${ZHCP_LOG} /etc/rsyslog.conf > /dev/null || (echo -e "\n${ZHCP_LOG_HEADER}\nlocal4.*        ${ZHCP_LOG}" >> /etc/syslog.conf)
 fi
 if [ -e "/etc/syslog-ng/syslog-ng.conf" ]; then
     # Syslog-ng is the replacement for syslogd
@@ -74,8 +76,10 @@ if [ -e "/etc/rc.d/init.d/rsyslog" ]; then
 fi
 
 # Restart syslog
-if [ -e "/etc/redhat-release" ]; then
+if [ -e "/etc/rc.d/init.d/rsyslog" ]; then
     /etc/rc.d/init.d/rsyslog restart
+elsif [ -e "/opt/ibm/cmo/version" ]; then
+    service rsyslog restart
 else
     /etc/init.d/syslog restart
 fi
