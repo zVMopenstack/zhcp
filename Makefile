@@ -252,6 +252,7 @@ CIKADA_OBJECTS += ckddecode.o
 CIKADA_OBJECTS += ckdencode.o
 CIKADA_OBJECTS += ckdhex.o
 
+
 .PHONY: all install post clean
 #-----------------------------------------------------------------------
 # All
@@ -298,7 +299,9 @@ all: $(ZHCPLIB) \
     stopvs \
     syncfileutil \
     undedicatedevice \
-    smcli
+    smcli\
+    iucvserver\
+    iucvclient
     
 #------------------------------------------------------------------------------------------------------------------------------------------------------
 # Utils object files
@@ -961,7 +964,20 @@ ckdencode.o : $(SRC_DIR)ckdencode.c
 	gcc -c -Wall -std=c99 -O2 $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)ckdencode.c 
 ckdhex.o : $(SRC_DIR)ckdhex.c
 	gcc -c -Wall -std=c99 -O2 $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)ckdhex.c
-                  
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------
+# IUCV files
+#------------------------------------------------------------------------------------------------------------------------------------------------------
+iucvserver : iucvserver.o 
+	gcc -o iucvserver   iucvserver.o
+iucvserver.o : $(SRC_DIR)/IUCV/iucvserver.c
+	gcc -c  $(DEBUG) -I$(INCLUDE_DIR)IUCV/ $(SRC_DIR)IUCV/iucvserver.c
+
+iucvclient : iucvclient.o 
+	gcc -o iucvclient   iucvclient.o
+iucvclient.o : $(SRC_DIR)/IUCV/iucvclient.c
+	gcc -c $(DEBUG) -I$(INCLUDE_DIR)IUCV/ $(SRC_DIR)IUCV/iucvclient.c 
+	                                  
 #-----------------------------------------------------------------------
 # Libraries
 #-----------------------------------------------------------------------
@@ -1013,8 +1029,7 @@ ckdencode : ckdencode.o
 	gcc -o ckdencode  -Wall  ckdencode.o
 
 ckdhex : ckdhex.o 
-	gcc -o ckdhex  -Wall  ckdhex.o 
-
+	gcc -o ckdhex  -Wall  ckdhex.o
 connectnic2guestlan : connectnic2guestlan.o $(ZHCPLIB)
 	gcc -o connectnic2guestlan  -L./ -lzhcp $(UTILS_OBJECTS) connectnic2guestlan.o
 connectnic2guestlan.o : $(SRC_DIR)connectnic2guestlan.c
@@ -1206,6 +1221,10 @@ install:
 	install smcli $(BIN_DIR)
 	install syncfileutil $(BIN_DIR)
 	mkdir -p $(LD_DIR)
+	mkdir -p $(BIN_DIR)/IUCV
+	install iucvserver  $(BIN_DIR)/IUCV/
+	install iucvclient $(BIN_DIR)/IUCV/
+	cp $(SRC_DIR)IUCV/iucvserverd $(BIN_DIR)/IUCV/
 
 #-----------------------------------------------------------------------
 # Post
@@ -1258,3 +1277,5 @@ clean:
 	-rm syncfileutil
 	-rm undedicatedevice
 	-rm smcli
+	-rm iucvserver
+	-rm iucvclient
