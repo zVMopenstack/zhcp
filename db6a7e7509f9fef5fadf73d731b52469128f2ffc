@@ -45,6 +45,30 @@
       "revId": "db6a7e7509f9fef5fadf73d731b52469128f2ffc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_d8724a7c",
+        "filename": "zhcp.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-27T17:11:48Z",
+      "side": 1,
+      "message": "Since it checks for existance, then if not there will skip.",
+      "parentUuid": "baa041b7_78e21e31",
+      "range": {
+        "startLine": 62,
+        "startChar": 12,
+        "endLine": 62,
+        "endChar": 32
+      },
+      "revId": "db6a7e7509f9fef5fadf73d731b52469128f2ffc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
