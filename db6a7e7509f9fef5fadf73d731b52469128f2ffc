@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_38ec9628",
+        "filename": "zhcp.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008499
+      },
+      "writtenOn": "2016-06-27T16:58:26Z",
+      "side": 1,
+      "message": "change to \"2012, 2016\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "db6a7e7509f9fef5fadf73d731b52469128f2ffc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_78e21e31",
+        "filename": "zhcp.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1008499
+      },
+      "writtenOn": "2016-06-27T16:58:26Z",
+      "side": 1,
+      "message": "What happen if we are in \"MN\" mode in z/VM 6.4 ? Will that file still exist ? It definitely is does not exist in z/VM 6.3 \"classic\" mode.",
+      "range": {
+        "startLine": 62,
+        "startChar": 12,
+        "endLine": 62,
+        "endChar": 32
+      },
+      "revId": "db6a7e7509f9fef5fadf73d731b52469128f2ffc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
