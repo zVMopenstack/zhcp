@@ -69,6 +69,30 @@
       "revId": "db6a7e7509f9fef5fadf73d731b52469128f2ffc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_18b432f0",
+        "filename": "zhcp.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-27T17:31:23Z",
+      "side": 1,
+      "message": "The code is the same now for the appliance in each mode, just some things are not enabled.",
+      "parentUuid": "baa041b7_d8724a7c",
+      "range": {
+        "startLine": 62,
+        "startChar": 12,
+        "endLine": 62,
+        "endChar": 32
+      },
+      "revId": "db6a7e7509f9fef5fadf73d731b52469128f2ffc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
