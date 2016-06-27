@@ -1,5 +1,5 @@
 /**
- * IBM (C) Copyright 2013 Eclipse Public License
+ * IBM (C) Copyright 2013, 2016 Eclipse Public License
  * http://www.eclipse.org/org/documents/epl-v10.html
  */
 #ifndef _VMAPI_IMAGE_H
@@ -1161,6 +1161,22 @@ static tableLayout Image_Volume_Space_Remove_DM_Layout = {
 int smImage_Volume_Space_Remove_DM(struct _vmApiInternalContext* vmapiContextP, char * userid, int passwordLength, char * password,
         char * targetIdentifier, char functionType, char * regionName, char * imageVolumeId, char * groupName,
         vmApiImageVolumeSpaceRemoveDmOutput ** outData);
+
+typedef struct _vmApiImageConsoleGetOutput {
+    commonOutputFields common;
+} vmApiImageConsoleGetOutput;
+
+/* Parser table for Image_Console_Get  */
+static tableLayout Image_Console_Get_Layout = {
+    { APITYPE_BASE_STRUCT_LEN, 4, 4, STRUCT_INDX_0, NEST_LEVEL_0, sizeof(vmApiImageConsoleGetOutput) },
+    { APITYPE_INT4,            4, 4, STRUCT_INDX_0, NEST_LEVEL_0, offsetof(vmApiImageConsoleGetOutput, common.requestId) },
+    { APITYPE_RC_INT4,         4, 4, STRUCT_INDX_0, NEST_LEVEL_0, offsetof(vmApiImageConsoleGetOutput, common.returnCode) },
+    { APITYPE_RS_INT4,         4, 4, STRUCT_INDX_0, NEST_LEVEL_0, offsetof(vmApiImageConsoleGetOutput, common.reasonCode) },
+    { APITYPE_END_OF_TABLE, 0, 0, 0, 0 }
+};
+
+int smImage_Console_Get(struct _vmApiInternalContext* vmapiContextP, char * userid, int passwordLength, char * password,
+        char * targetIdentifier, vmApiImageConsoleGetOutput ** outData);
 
 #ifdef __cplusplus
 }
