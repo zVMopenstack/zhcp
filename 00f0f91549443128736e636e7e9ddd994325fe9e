@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_0d09992c",
+        "filename": "zhcp.spec",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1008756
+      },
+      "writtenOn": "2016-06-27T05:54:55Z",
+      "side": 1,
+      "message": "the conf file is /etc/rsyslog.conf",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 2
+      },
+      "revId": "00f0f91549443128736e636e7e9ddd994325fe9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
