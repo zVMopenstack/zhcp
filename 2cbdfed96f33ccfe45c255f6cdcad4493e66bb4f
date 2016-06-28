@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_641277b6",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T15:50:17Z",
+      "side": 1,
+      "message": "Is this really an unauthorized error, or just an error with the vmcp q userid? I doubt it will fail, but it seems like this can be labeled as a vmcp query error. Plus is errno even set in this case?",
+      "range": {
+        "startLine": 88,
+        "startChar": 56,
+        "endLine": 88,
+        "endChar": 74
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_040f2b89",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T15:50:17Z",
+      "side": 1,
+      "message": "Not sure errno is the right thing to return here.",
+      "range": {
+        "startLine": 89,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 20
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_8449fbb9",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T15:50:17Z",
+      "side": 1,
+      "message": "Do you need to check if this is end of file or error? From manual:\nfread() does not distinguish between end-of-file and error, and callers must use feof(3) and ferror(3) to determine which occurred.",
+      "range": {
+        "startLine": 125,
+        "startChar": 15,
+        "endLine": 125,
+        "endChar": 20
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_44cad31b",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T15:50:17Z",
+      "side": 1,
+      "message": "Should you check for close error?\nReturn Value\nUpon successful completion 0 is returned. Otherwise, EOF is returned and errno is set to indicate the error. In either case any further access (including another call to fclose()) to the stream results in undefined behavior.",
+      "range": {
+        "startLine": 133,
+        "startChar": 12,
+        "endLine": 133,
+        "endChar": 18
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_ca6cad0a",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T15:50:17Z",
+      "side": 1,
+      "message": "What SMAPI does is to first return a 4 byte field that indicates the size of the data. You can then decide if the data will fit into your buffer or if you have to alloc storage. If you alloc the storage then you need to clean it up, actually the caller will need to clean it up or copy it.",
+      "range": {
+        "startLine": 166,
+        "startChar": 12,
+        "endLine": 166,
+        "endChar": 16
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_cd5727c9",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T15:50:17Z",
+      "side": 1,
+      "message": "Won\u0027t get get a buffer overrun in the routine since result can be very large? (when doing the strcpy) I think strncpy is what you need.",
+      "range": {
+        "startLine": 182,
+        "startChar": 62,
+        "endLine": 182,
+        "endChar": 68
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
