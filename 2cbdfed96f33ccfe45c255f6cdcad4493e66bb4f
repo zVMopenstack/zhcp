@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "baa041b7_30182675",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T18:51:59Z",
+      "side": 1,
+      "message": "I think you will want to use the zVM name from Mike instead of AGENT. This way it will not conflict with a customer name.",
+      "range": {
+        "startLine": 68,
+        "startChar": 35,
+        "endLine": 68,
+        "endChar": 40
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_3046e64f",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T18:51:59Z",
+      "side": 1,
+      "message": "You will also want to set the timeout in the socket. Ex:\n   timeoutValue.tv_usec \u003d 0;\n    timeoutValue.tv_sec \u003d 60;  // Changed to 60 now that af iucv and CMS are working better\n    retValue \u003d setsockopt(*sockId, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *) \u0026timeoutValue, sizeof(struct timeval));\n    if (retValue \u003c 0) {\n        sprintf(line, \"setsockopt(): connect timeout returned errno %d\\n\", errno);\n        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, errno, line);\n        retValue \u003d close(*sockId);\n        CHECK_SOCKET_CLOSE(*sockId);\n        return SOCKET_PROCESSING_ERROR;\n    }",
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_641277b6",
         "filename": "zhcp/src/IUCV/client.c",
         "patchSetId": 2
@@ -134,6 +174,109 @@
         "endLine": 182,
         "endChar": 68
       },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_b022f6a1",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T18:51:59Z",
+      "side": 1,
+      "message": "5 seconds would be too short to wait.",
+      "range": {
+        "startLine": 13,
+        "startChar": 25,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_d01fba59",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T18:51:59Z",
+      "side": 1,
+      "message": "I think you will want to use the zVM name from Mike instead of AGENT. This way it will not conflict with a customer name.",
+      "range": {
+        "startLine": 53,
+        "startChar": 34,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_f09d1ebc",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T18:51:59Z",
+      "side": 1,
+      "message": "Do you want to put a max queue number on the listen?\nThe backlog argument defines the maximum length to which the queue of\n       pending connections for sockfd may grow.  If a connection request\n       arrives when the queue is full, the client may receive an error with\n       an indication of ECONNREFUSED or, if the underlying protocol supports\n       retransmission, the request may be ignored so that a later reattempt\n       at connection succeeds.",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 10
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_50b96a2d",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T18:51:59Z",
+      "side": 1,
+      "message": "Don\u0027t you need to check the return value from the listen before you try to accept?\n\nRETURN VALUE         top\n\n       On success, zero is returned.  On error, -1 is returned, and errno is\n       set appropriately.",
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_70aa2ed4",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-06-28T18:51:59Z",
+      "side": 1,
+      "message": "Does the \"good\" path need to be forked so it runs in another thread and other requests can come in?",
       "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
