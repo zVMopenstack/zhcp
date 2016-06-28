@@ -180,6 +180,29 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_d057bac8",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1008499
+      },
+      "writtenOn": "2016-06-28T19:57:06Z",
+      "side": 1,
+      "message": "Is this z/VM userid something that the customer will have to create beforehand ? Will it be in the documentation ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 23,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_b022f6a1",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
@@ -196,6 +219,29 @@
         "startChar": 25,
         "endLine": 13,
         "endChar": 26
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_f0d51e1b",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1008499
+      },
+      "writtenOn": "2016-06-28T19:57:06Z",
+      "side": 1,
+      "message": "Should this be /tmp/authorized_userid  ? with a z",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 15,
+        "endChar": 50
       },
       "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
@@ -266,6 +312,29 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_701b4e1d",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1008499
+      },
+      "writtenOn": "2016-06-28T19:57:06Z",
+      "side": 1,
+      "message": "typo: authorized_userid",
+      "range": {
+        "startLine": 92,
+        "startChar": 11,
+        "endLine": 92,
+        "endChar": 28
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_70aa2ed4",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
@@ -277,6 +346,29 @@
       "writtenOn": "2016-06-28T18:51:59Z",
       "side": 1,
       "message": "Does the \"good\" path need to be forked so it runs in another thread and other requests can come in?",
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_9020124b",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1008499
+      },
+      "writtenOn": "2016-06-28T19:57:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we add lines for \"iucvserver start\" and \"iucvserver stop\" to this help message ?",
+      "range": {
+        "startLine": 226,
+        "startChar": 16,
+        "endLine": 226,
+        "endChar": 43
+      },
       "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
