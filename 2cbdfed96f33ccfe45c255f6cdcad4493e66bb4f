@@ -535,6 +535,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_9089f928",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T05:03:20Z",
+      "side": 1,
+      "message": "will make enhancement on next sprint.",
+      "parentUuid": "baa041b7_f09d1ebc",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 10
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_50b96a2d",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
@@ -546,6 +570,24 @@
       "writtenOn": "2016-06-28T18:51:59Z",
       "side": 1,
       "message": "Don\u0027t you need to check the return value from the listen before you try to accept?\n\nRETURN VALUE         top\n\n       On success, zero is returned.  On error, -1 is returned, and errno is\n       set appropriately.",
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_f093a559",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T05:03:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_50b96a2d",
       "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -616,6 +658,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_507ff116",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T05:03:20Z",
+      "side": 1,
+      "message": "good suggestion.\nWill implement multi-thread later",
+      "parentUuid": "baa041b7_70aa2ed4",
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_9020124b",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
@@ -627,6 +687,30 @@
       "writtenOn": "2016-06-28T19:57:06Z",
       "side": 1,
       "message": "Shouldn\u0027t we add lines for \"iucvserver start\" and \"iucvserver stop\" to this help message ?",
+      "range": {
+        "startLine": 226,
+        "startChar": 16,
+        "endLine": 226,
+        "endChar": 43
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_107e0919",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T05:03:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_9020124b",
       "range": {
         "startLine": 226,
         "startChar": 16,
