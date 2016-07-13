@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_50da514c",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "prefer to change to use \"OPNCLOUD\",\nin case \"vmcp q userid\" failed (maybe not init this module)to get zVM name.",
+      "parentUuid": "baa041b7_30182675",
+      "range": {
+        "startLine": 68,
+        "startChar": 35,
+        "endLine": 68,
+        "endChar": 40
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_3046e64f",
         "filename": "zhcp/src/IUCV/client.c",
         "patchSetId": 2
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_30dfcd3b",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "We should get agreement,\nUNAUTHORIZED_ERROR means it occurs from authorized stage,\nthe error details means that \"failed to get userid\"to make authorized.\nVMCP will failed with many values I think, I can specify the errno.",
+      "parentUuid": "baa041b7_641277b6",
+      "range": {
+        "startLine": 88,
+        "startChar": 56,
+        "endLine": 88,
+        "endChar": 74
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_040f2b89",
         "filename": "zhcp/src/IUCV/client.c",
         "patchSetId": 2
@@ -76,6 +124,30 @@
       "writtenOn": "2016-06-28T15:50:17Z",
       "side": 1,
       "message": "Not sure errno is the right thing to return here.",
+      "range": {
+        "startLine": 89,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 20
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_10e969e6",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "If failed the make authorized, connection should be disconnect.",
+      "parentUuid": "baa041b7_040f2b89",
       "range": {
         "startLine": 89,
         "startChar": 15,
@@ -111,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_f0e5e508",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "Done!",
+      "parentUuid": "baa041b7_8449fbb9",
+      "range": {
+        "startLine": 125,
+        "startChar": 15,
+        "endLine": 125,
+        "endChar": 20
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_44cad31b",
         "filename": "zhcp/src/IUCV/client.c",
         "patchSetId": 2
@@ -122,6 +218,30 @@
       "writtenOn": "2016-06-28T15:50:17Z",
       "side": 1,
       "message": "Should you check for close error?\nReturn Value\nUpon successful completion 0 is returned. Otherwise, EOF is returned and errno is set to indicate the error. In either case any further access (including another call to fclose()) to the stream results in undefined behavior.",
+      "range": {
+        "startLine": 133,
+        "startChar": 12,
+        "endLine": 133,
+        "endChar": 18
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_d0ee61ec",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "Done!",
+      "parentUuid": "baa041b7_44cad31b",
       "range": {
         "startLine": 133,
         "startChar": 12,
@@ -180,6 +300,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_b0ebdddb",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "I think use network socket to send a large string is not good, so I will cut the result into pieces, every piece is 1024 byte.",
+      "parentUuid": "baa041b7_cd5727c9",
+      "range": {
+        "startLine": 182,
+        "startChar": 62,
+        "endLine": 182,
+        "endChar": 68
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_d057bac8",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
@@ -191,6 +335,30 @@
       "writtenOn": "2016-06-28T19:57:06Z",
       "side": 1,
       "message": "Is this z/VM userid something that the customer will have to create beforehand ? Will it be in the documentation ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 23,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_10d0491e",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "OH,It is my test code, have removed it.",
+      "parentUuid": "baa041b7_d057bac8",
       "range": {
         "startLine": 12,
         "startChar": 23,
@@ -226,6 +394,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_90bb39e5",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "I haven\u0027t met timeout in my test,\nbut still enlarge to 20, \nMaybe you can apply a proper value, \nI don\u0027t have experience on it.",
+      "parentUuid": "baa041b7_b022f6a1",
+      "range": {
+        "startLine": 13,
+        "startChar": 25,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_f0d51e1b",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
@@ -249,6 +441,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_70c0b550",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "Yes, sorry, a typo.",
+      "parentUuid": "baa041b7_f0d51e1b",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 15,
+        "endChar": 50
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_d01fba59",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
@@ -260,6 +476,30 @@
       "writtenOn": "2016-06-28T18:51:59Z",
       "side": 1,
       "message": "I think you will want to use the zVM name from Mike instead of AGENT. This way it will not conflict with a customer name.",
+      "range": {
+        "startLine": 53,
+        "startChar": 34,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_50b13100",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "Has replied it on client.c",
+      "parentUuid": "baa041b7_d01fba59",
       "range": {
         "startLine": 53,
         "startChar": 34,
@@ -323,6 +563,30 @@
       "writtenOn": "2016-06-28T19:57:06Z",
       "side": 1,
       "message": "typo: authorized_userid",
+      "range": {
+        "startLine": 92,
+        "startChar": 11,
+        "endLine": 92,
+        "endChar": 28
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_30b6adf9",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-13T03:42:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_701b4e1d",
       "range": {
         "startLine": 92,
         "startChar": 11,
