@@ -2,6 +2,92 @@
   "comments": [
     {
       "key": {
+        "uuid": "baa041b7_d09c216c",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008756
+      },
+      "writtenOn": "2016-07-13T05:16:26Z",
+      "side": 1,
+      "message": "Guess you want to add copyright information",
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_b0999d7b",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1008756
+      },
+      "writtenOn": "2016-07-13T05:16:26Z",
+      "side": 1,
+      "message": "You want server and output in upper case?",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_708e752f",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1008756
+      },
+      "writtenOn": "2016-07-13T05:16:26Z",
+      "side": 1,
+      "message": "check length of message first?",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_30846d09",
+        "filename": "zhcp/src/IUCV/client.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1008756
+      },
+      "writtenOn": "2016-07-13T05:16:26Z",
+      "side": 1,
+      "message": "You might want to define those in header file.",
+      "range": {
+        "startLine": 37,
+        "startChar": 26,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_30182675",
         "filename": "zhcp/src/IUCV/client.c",
         "patchSetId": 2
@@ -418,6 +504,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_d073014d",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1008756
+      },
+      "writtenOn": "2016-07-13T05:16:26Z",
+      "side": 1,
+      "message": "don\u0027t hard code it might be better.",
+      "parentUuid": "baa041b7_90bb39e5",
+      "range": {
+        "startLine": 13,
+        "startChar": 25,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_f0d51e1b",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
@@ -465,6 +575,29 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_9090d944",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1008756
+      },
+      "writtenOn": "2016-07-13T05:16:26Z",
+      "side": 1,
+      "message": "If this service is managed by systemd, you might need to double check whether you can use absolute file path.Systemd will create a sandbox for each service by default.",
+      "range": {
+        "startLine": 15,
+        "startChar": 57,
+        "endLine": 15,
+        "endChar": 58
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_d01fba59",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
@@ -500,6 +633,30 @@
       "side": 1,
       "message": "Has replied it on client.c",
       "parentUuid": "baa041b7_d01fba59",
+      "range": {
+        "startLine": 53,
+        "startChar": 34,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_5096d13e",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1008756
+      },
+      "writtenOn": "2016-07-13T05:16:26Z",
+      "side": 1,
+      "message": "Guess Chuck means the DMSXXXX name?",
+      "parentUuid": "baa041b7_50b13100",
       "range": {
         "startLine": 53,
         "startChar": 34,
