@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_71fb107c",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-15T03:07:39Z",
+      "side": 1,
+      "message": "Yes,length of md5 is 32, has changed to use macro.",
+      "parentUuid": "baa041b7_a661673b",
+      "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_81640db9",
         "filename": "zhcp/src/IUCV/iucvserver.c",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-13T18:06:15Z",
       "side": 1,
       "message": "This should be: syslog(LOG_INFO,\"file md5\u003d%s\",md5);",
+      "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_51000c66",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-15T03:07:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_81640db9",
       "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2016-07-13T18:06:15Z",
       "side": 1,
       "message": "In other words, say the file is 1025 bytes long:\n\n347 len\u003d0;                         // len \u003d 0 \n348 bzero(send_buf, BUFFER_SIZE)   // send_buf\u003d 0 bytes\n349 fgets(buffer, sizeof(buffer)...// buffer\u003d1st 1024 bytes\n354 len+\u003dstrlen(buffer)            // len \u003d 1024\n355 if(len \u003c\u003d BUFFER_SIZE)         // TRUE\n357 strcat(send_buf, buffer)       // send_buf\u003d1st 1024 bytes\n359 if(len \u003e\u003d BUFFER_SIZE)         // TRUE\n362 send_buf[strlen(send_buf)]\u003d0   // send_buf[1024] \u003d 0\n363 send(newsockfd, sendbuf...     // 1st 1024 bytes sent\n364 len\u003dstrlen(buffer)             // len \u003d 1024\n366 strcpy(send_buf,buffer)        // send_buf still the same\n\n349 fgets(buffer, sizeof(buffer)...// buffer \u003d last byte\n354 len+\u003dstrlen(buffer)            // len \u003d 1024 + 1 \u003d 1025\n355 if(len \u003c\u003d BUFFER_SIZE)         // FALSE\n359 if(len \u003e\u003d BUFFER_SIZE)         // TRUE\n362 send_buf[strlen(send_buf)] \u003d 0 // send_buf[1024] \u003d 0\n363 send(newsockfd, sendbuf... // 1st 1024 bytes sent AGAIN",
+      "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_d1ec1cbd",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-15T03:07:39Z",
+      "side": 1,
+      "message": "No, Paul.Not the case.\nOn Line 364, \n364 len\u003dstrlen(buffer) // len \u003d 1024 --------len is the strength, which fgets read this time.\n366 strcpy(send_buf,buffer) // send_buf still the same\n-----refresh send_buf to the content which fgets read this time.\n\nI have made test to execute \"cat largerfile.txt\", the content is the same as original file.",
+      "parentUuid": "baa041b7_5c1dca60",
       "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
