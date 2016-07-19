@@ -37,6 +37,52 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_72ad44e8",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-19T09:50:15Z",
+      "side": 1,
+      "message": "I think this logic has some problem.\nWhen the file does not exist, you shouldn\u0027t just create a new file and write the client userid into it. The file should exist after initialization and I think we should report and return error when the file is missing,  not just write a new one with the client userid.",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_52b6c03e",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-19T09:50:15Z",
+      "side": 1,
+      "message": "Ditto, I think we should report error and exit here.",
+      "range": {
+        "startLine": 66,
+        "startChar": 60,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_81640db9",
         "filename": "zhcp/src/IUCV/iucvserver.c",
         "patchSetId": 4
@@ -66,6 +112,29 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "baa041b7_81640db9",
+      "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_726664ee",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-19T09:50:15Z",
+      "side": 1,
+      "message": "would this errno be overwritten by the previous close(sockfd)?  maybe need to move this syslog before close(sockfd).\n\nAnd same change needed for following syslog.",
+      "range": {
+        "startLine": 229,
+        "startChar": 62,
+        "endLine": 229,
+        "endChar": 67
+      },
       "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
