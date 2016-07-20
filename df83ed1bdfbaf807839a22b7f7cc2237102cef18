@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_1bef3388",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-20T03:02:25Z",
+      "side": 1,
+      "message": "I make this design because I think the userid(zhcp) must be the first user to make IUCV communication.\nwe can create a bug to talk about it.",
+      "parentUuid": "baa041b7_72ad44e8",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_52b6c03e",
         "filename": "zhcp/src/IUCV/iucvserver.c",
         "patchSetId": 4
@@ -71,6 +95,30 @@
       "writtenOn": "2016-07-19T09:50:15Z",
       "side": 1,
       "message": "Ditto, I think we should report error and exit here.",
+      "range": {
+        "startLine": 66,
+        "startChar": 60,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_fbf36f71",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-20T03:02:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_52b6c03e",
       "range": {
         "startLine": 66,
         "startChar": 60,
@@ -129,6 +177,30 @@
       "writtenOn": "2016-07-19T09:50:15Z",
       "side": 1,
       "message": "would this errno be overwritten by the previous close(sockfd)?  maybe need to move this syslog before close(sockfd).\n\nAnd same change needed for following syslog.",
+      "range": {
+        "startLine": 229,
+        "startChar": 62,
+        "endLine": 229,
+        "endChar": 67
+      },
+      "revId": "df83ed1bdfbaf807839a22b7f7cc2237102cef18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_3bdf97d7",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-20T03:02:25Z",
+      "side": 1,
+      "message": "if a function works well, it will not change previous errno.\nAnyway, I will change the sequence, to call syslog first.",
+      "parentUuid": "baa041b7_726664ee",
       "range": {
         "startLine": 229,
         "startChar": 62,
