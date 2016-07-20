@@ -22,7 +22,7 @@ int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasonco
         syslog(LOG_ERR,"%s", msg);
         printf("return code %d, reason code %d, %s\n", returncode, reasoncode, msg);
     }
-    eles
+    else
     {
         printf("%s", msg);
     }
@@ -132,7 +132,7 @@ int send_file_to_server(int sockfd, char *src_path)
     if((fp = fopen(src_path, "rb"))==NULL)
     {
         syslog(LOG_ERR, "Failed to open file %s for read", src_path);
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno,"Failed to open the transport file:");
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "Failed to open the transport file:");
         free(file_buf);
         file_buf = NULL;
         return errno;
@@ -146,7 +146,7 @@ int send_file_to_server(int sockfd, char *src_path)
             len = fread(file_buf, sizeof(char), BUFFER_SIZE, fp);
             if ((len = send(sockfd, file_buf, len, 0)) < 0)
             {
-                 printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno,"Failed to send file to serer.");
+                 printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "Failed to send file to serer.");
                  free(file_buf);
                  file_buf = NULL;
                  return errno;
