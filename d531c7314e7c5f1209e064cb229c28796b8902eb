@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_3348db5b",
+        "filename": "Makefile",
+        "patchSetId": 5
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-07-20T13:05:06Z",
+      "side": 1,
+      "message": "yes, make clean should clean the build stuffs",
+      "parentUuid": "baa041b7_13171746",
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_e656365d",
         "filename": "zhcp/include/IUCV/iucvclient.h",
         "patchSetId": 5
