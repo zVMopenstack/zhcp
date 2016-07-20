@@ -4,7 +4,7 @@
 #!/bin/bash
 #
 # chkconfig: 345 99 01
-# Description:  This shell script takes care of starting and stopping IUCV agent 
+# Description:  This shell script takes care of starting and stopping IUCV agent
 # Sophie Song created on Jun. 7th, 2016
 #
 # Source function library

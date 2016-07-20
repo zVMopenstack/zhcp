@@ -22,7 +22,7 @@ int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasonco
         syslog(LOG_ERR,"%s", msg);
         printf("return code %d, reason code %d, %s\n", returncode, reasoncode, msg);
     }
-    eles
+    else
     {
         printf("%s", msg);
     }

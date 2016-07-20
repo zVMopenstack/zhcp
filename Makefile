@@ -42,7 +42,6 @@ VMAPI_OBJECTS += vmapiDirectoryManagerSearchDm.o
 VMAPI_OBJECTS += vmapiDirectoryManagerTaskCancelDm.o 
 VMAPI_OBJECTS += vmapiImageActivate.o 
 VMAPI_OBJECTS += vmapiImageActiveConfigurationQuery.o 
-VMAPI_OBJECTS += vmapiImageConsoleGet.o
 VMAPI_OBJECTS += vmapiImageCpuDefine.o 
 VMAPI_OBJECTS += vmapiImageCpuDefineDm.o 
 VMAPI_OBJECTS += vmapiImageCpuDelete.o 
@@ -308,7 +307,7 @@ all: $(ZHCPLIB) \
 # Utils object files
 #------------------------------------------------------------------------------------------------------------------------------------------------------
 rcdescriptions.o : $(SRC_DIR)rcdescriptions.c
-    gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)rcdescriptions.c
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)rcdescriptions.c
 
 wrapperutils.o : $(SRC_DIR)wrapperutils.c 
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)wrapperutils.c
@@ -384,9 +383,6 @@ vmapiImageActivate.o : $(SRC_DIR)vmapiImageActivate.c
 
 vmapiImageActiveConfigurationQuery.o : $(SRC_DIR)vmapiImageActiveConfigurationQuery.c
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiImageActiveConfigurationQuery.c
-
-vmapiImageConsoleGet.o : $(SRC_DIR)vmapiImageConsoleGet.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiImageConsoleGet.c
 
 vmapiImageCpuDefine.o : $(SRC_DIR)vmapiImageCpuDefine.c
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiImageCpuDefine.c
@@ -913,59 +909,59 @@ smcliAuthorization.o : $(SRC_DIR)smcliAuthorization.c
 smcliCheck.o : $(SRC_DIR)smcliCheck.c
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliCheck.c
 smcliDelete.o : $(SRC_DIR)smcliDelete.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliDelete.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliDelete.c
 smcliDirectory.o : $(SRC_DIR)smcliDirectory.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliDirectory.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliDirectory.c
 smcliEvent.o : $(SRC_DIR)smcliEvent.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliEvent.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliEvent.c
 smcliImage.o : $(SRC_DIR)smcliImage.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliImage.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliImage.c
 smcliImageDefinition.o : $(SRC_DIR)smcliImageDefinition.c
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliImageDefinition.c
 smcliMetadata.o : $(SRC_DIR)smcliMetadata.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliMetadata.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliMetadata.c
 smcliName.o : $(SRC_DIR)smcliName.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliName.c  
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliName.c
 smcliNetwork.o : $(SRC_DIR)smcliNetwork.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliNetwork.c	  
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliNetwork.c
 smcliPage.o : $(SRC_DIR)smcliPage.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliPage.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliPage.c
 smcliProcess.o : $(SRC_DIR)smcliProcess.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliProcess.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliProcess.c
 smcliProfile.o : $(SRC_DIR)smcliProfile.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliProfile.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliProfile.c  
 smcliPrototype.o : $(SRC_DIR)smcliPrototype.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliPrototype.c        
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliPrototype.c     
 smcliQuery.o : $(SRC_DIR)smcliQuery.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliQuery.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliQuery.c
 smcliResponse.o : $(SRC_DIR)smcliResponse.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliResponse.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliResponse.c
 smcliShared.o : $(SRC_DIR)smcliShared.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliShared.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliShared.c
 smcliSMAPI.o : $(SRC_DIR)smcliSMAPI.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliSMAPI.c	
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliSMAPI.c
 smcliSSI.o : $(SRC_DIR)smcliSSI.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliSSI.c        
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliSSI.c      
 smcliStatic.o : $(SRC_DIR)smcliStatic.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliStatic.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliStatic.c
 smcliSystem.o : $(SRC_DIR)smcliSystem.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliSystem.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliSystem.c
 smcliVirtual.o : $(SRC_DIR)smcliVirtual.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliVirtual.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliVirtual.c 
 smcliVMRelocate.o : $(SRC_DIR)smcliVMRelocate.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliVMRelocate.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliVMRelocate.c
 smcliVMRM.o : $(SRC_DIR)smcliVMRM.c
-	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliVMRM.c    
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliVMRM.c  
 smcliUnDocumented.o : $(SRC_DIR)smcliUnDocumented.c
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)smcliUnDocumented.c
- 
+
 #------------------------------------------------------------------------------------------------------------------------------------------------------
 # CIKADA object files
 #------------------------------------------------------------------------------------------------------------------------------------------------------
 ckddecode.o : $(SRC_DIR)ckddecode.c
-	gcc -c -Wall -std=c99 -O2 $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)ckddecode.c 
+	gcc -c -Wall -std=c99 -O2 $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)ckddecode.c
 ckdencode.o : $(SRC_DIR)ckdencode.c
-	gcc -c -Wall -std=c99 -O2 $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)ckdencode.c 
+	gcc -c -Wall -std=c99 -O2 $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)ckdencode.c
 ckdhex.o : $(SRC_DIR)ckdhex.c
 	gcc -c -Wall -std=c99 -O2 $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)ckdhex.c
 
@@ -980,12 +976,12 @@ iucvserver.o : $(SRC_DIR)/IUCV/iucvserver.c
 iucvclient : iucvclient.o
 	gcc -o iucvclient   iucvclient.o
 iucvclient.o : $(SRC_DIR)/IUCV/iucvclient.c
-	gcc -c $(DEBUG) -I$(INCLUDE_DIR)IUCV/ $(SRC_DIR)IUCV/iucvclient.c 
+	gcc -c $(DEBUG) -I$(INCLUDE_DIR)IUCV/ $(SRC_DIR)IUCV/iucvclient.c
 
 #-----------------------------------------------------------------------
 # Libraries
 #-----------------------------------------------------------------------
-$(ZHCPLIB) : $(SM_OBJECTS) $(UTILS_OBJECTS) $(VMAPI_OBJECTS) 
+$(ZHCPLIB) : $(SM_OBJECTS) $(UTILS_OBJECTS) $(VMAPI_OBJECTS)
 	gcc -Wl,-d -shared -pthread -ldl -o $(ZHCPLIB) $(SM_OBJECTS) $(UTILS_OBJECTS) $(VMAPI_OBJECTS)
 
 #-----------------------------------------------------------------------
@@ -1026,13 +1022,13 @@ addnic : addnic.o $(ZHCPLIB)
 addnic.o : $(SRC_DIR)addnic.c
 	gcc -c $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)addnic.c
 
-ckddecode : ckddecode.o 
+ckddecode : ckddecode.o
 	gcc -o ckddecode  -Wall  ckddecode.o
 
-ckdencode : ckdencode.o 
+ckdencode : ckdencode.o
 	gcc -o ckdencode  -Wall  ckdencode.o
 
-ckdhex : ckdhex.o 
+ckdhex : ckdhex.o
 	gcc -o ckdhex  -Wall  ckdhex.o
 connectnic2guestlan : connectnic2guestlan.o $(ZHCPLIB)
 	gcc -o connectnic2guestlan  -L./ -lzhcp $(UTILS_OBJECTS) connectnic2guestlan.o
