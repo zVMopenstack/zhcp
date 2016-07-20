@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_937d676f",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-07-20T13:29:50Z",
+      "side": 0,
+      "message": "why remove this ? this is newly added for image console get function.......",
+      "range": {
+        "startLine": 389,
+        "startChar": 20,
+        "endLine": 389,
+        "endChar": 25
+      },
+      "revId": "812c1ff020629d2f4d3fb9bbdb879398321a5c2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
