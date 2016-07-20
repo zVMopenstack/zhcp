@@ -22,6 +22,30 @@
       "revId": "3c919508c280a3ae7e78141dc8f77cc89228bbc7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_53935f5b",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-07-20T14:47:57Z",
+      "side": 1,
+      "message": "The builds are done on 9.60.27.175 \nI don\u0027t believe they are automatic anymore from GerritHub, I think there needs to be some automation installed on 175.",
+      "parentUuid": "baa041b7_53947f89",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "3c919508c280a3ae7e78141dc8f77cc89228bbc7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
