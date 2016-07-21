@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_6940b6a5",
+        "filename": "Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1166,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-07-21T08:07:34Z",
+      "side": 1,
+      "message": "this is makefile, so even if we have some blanks, I think we are still ok..",
+      "range": {
+        "startLine": 1166,
+        "startChar": 0,
+        "endLine": 1166,
+        "endChar": 1
+      },
+      "revId": "1445f611a77cf79faed815ce51c5fbf2ae3dc3ec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
