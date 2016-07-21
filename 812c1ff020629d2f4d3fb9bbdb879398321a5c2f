@@ -22,6 +22,30 @@
       "revId": "812c1ff020629d2f4d3fb9bbdb879398321a5c2f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_49dbb27c",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-21T03:12:28Z",
+      "side": 0,
+      "message": "I think this is because I clone the project before you submit?\nI don\u0027t know the reason. but I will add it with another submit.",
+      "parentUuid": "baa041b7_937d676f",
+      "range": {
+        "startLine": 389,
+        "startChar": 20,
+        "endLine": 389,
+        "endChar": 25
+      },
+      "revId": "812c1ff020629d2f4d3fb9bbdb879398321a5c2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
