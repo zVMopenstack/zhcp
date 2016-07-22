@@ -717,6 +717,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_0219ff87",
+        "filename": "zhcp/src/IUCV/server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-07-22T07:19:29Z",
+      "side": 1,
+      "message": "DMSXXXXX is the name that we can use unique in the CMS system\ne.g some SMAPI exec called DMSSSIDA etc",
+      "parentUuid": "baa041b7_42c1472e",
+      "range": {
+        "startLine": 53,
+        "startChar": 34,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "2cbdfed96f33ccfe45c255f6cdcad4493e66bb4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_f09d1ebc",
         "filename": "zhcp/src/IUCV/server.c",
         "patchSetId": 2
