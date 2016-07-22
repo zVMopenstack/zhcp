@@ -1,14 +1,14 @@
+#!/bin/bash
+#
 # IBM (C) Copyright 2016, 2016 Eclipse Public License
 #http://www.eclipse.org/org/documents/epl-v10.html
-#
-#!/bin/bash
 #
 # chkconfig: 345 99 01
 # Description:  This shell script takes care of starting and stopping IUCV agent
 # Sophie Song created on Jun. 7th, 2016
 #
 # Source function library
-. /etc/init.d/function
+. /etc/init.d/functions
 
 #the service name  for example: iucvserver
 SNAME=iucvserver

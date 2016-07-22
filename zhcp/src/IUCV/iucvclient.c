@@ -91,7 +91,7 @@ int prepare_commands(char* buffer, int argc, char *argv[])
         strcat(buffer, " ");
         strcat(buffer, argv[i]);
     }
-    printf("command=%s\n",buffer);
+    //printf("command=%s\n",buffer);
     return 0;
 }
 
@@ -226,9 +226,15 @@ int main(int argc, char *argv[])
         bzero(buffer,BUFFER_SIZE);
         sprintf(buffer, "Usage:\niucvclient [--version]\n\
                               iucvclient server_userid %s src_file_path dst_file_path\n\
+                              iucvclient server_userid command [command_parm2, ...]\n",
+                      FILE_TRANSPORT);
+        /*(to-do) add pars password to not show it in log file.
+        sprintf(buffer, "Usage:\niucvclient [--version]\n\
+                              iucvclient server_userid %s src_file_path dst_file_path\n\
                               iucvclient server_userid command [command_parm2, pw:passwd_parm, ...]\n \
                       Pw:passwd_parm is used for password in command, will not show passwd in log file\n",
                       FILE_TRANSPORT);
+        */
         printAndLogIUCVserverReturnCodeReasonCodeoutput(USAGE_ERROR,1,buffer);
         return -1;
     }

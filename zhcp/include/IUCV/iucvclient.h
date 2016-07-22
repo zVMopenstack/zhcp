@@ -26,7 +26,7 @@
 #define FILE_TRANSPORT_ERROR 16
 
 /*string define*/
-#define IUCV_CLIENT_VERSION "0.0.0.1-20160623"
+#define IUCV_CLIENT_VERSION "0.0.0.1"
 #define FILE_TRANSPORT "file_transport"
 #define READY_TO_RECEIVE "ready_to_receive"
 #define FILE_SENT_OVER "FILE_SENT_OVER"

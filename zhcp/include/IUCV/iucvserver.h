@@ -22,7 +22,7 @@
 #define PATH_FOR_AUTHORIZED_USERID "/tmp/authorized_userid"
 //#define PATH_FOR_IUCV_SERVER "/usr/bin/iucvserver"
 //#define PATH_FOR_IUCV_SERVER_SERVICE "/etc/init.d/iucvserverd"
-#define IUCV_SERVER_VERSION "0.0.0.1-20160623"
+#define IUCV_SERVER_VERSION "0.0.0.1"
 #define FILE_TRANSPORT "file_transport"
 #define PIPE_FIFO_NAME "pipe_fifo"
 #define READY_TO_RECEIVE "ready_to_receive"

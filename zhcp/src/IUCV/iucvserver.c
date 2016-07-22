@@ -6,7 +6,7 @@
 
 
 /*Check authorization for client.
-* For Security reason, IUCV server only allow zhcp user to make IUCV communication.
+* For Security reason, IUCV server only allow OPNCLOUD user to make IUCV communication.
 *
 * @param $1: the userid which is sent from IUCV command.
 *
@@ -19,64 +19,32 @@ int check_client_authorization(char *req_userid)
     FILE *fp = NULL;
     int len = 0;
     char client_userid[16];
+    /* authorized file is copied for opencloud when IUCV initialized*/
     fp = fopen(PATH_FOR_AUTHORIZED_USERID,"r+");
-    /* if the file doesn't exist, will create it and save the userid in it
-    * if the file exists, read the value in it and make comparation.*/
     if( NULL == fp)
     {
-        syslog(LOG_ERR,"%s doesn't exist, create it userid len=%u\n", PATH_FOR_AUTHORIZED_USERID,strlen(req_userid));
-        fp=fopen(PATH_FOR_AUTHORIZED_USERID,"w");
-        if(NULL == fp)
-        {
-            syslog(LOG_ERR, "ERROR to open %s to write userid.", PATH_FOR_AUTHORIZED_USERID);
-        }
-        else
-        {
-            req_userid[strlen(req_userid)] = 0;
-            if(fwrite(req_userid, strlen(req_userid)+1, 1, fp)!=1)
-            {
-                syslog(LOG_ERR,"ERROR to write userid to %s.",PATH_FOR_AUTHORIZED_USERID);
-            }
-            if (fclose(fp) != 0)
-            {
-                syslog(LOG_ERR, "ERROR Fail to close authorized file after writing: %s\n",strerror(errno));
-            }
-            fp = NULL;
-        }
+        syslog(LOG_ERR,"Authorized path %s doesn't exist\n", PATH_FOR_AUTHORIZED_USERID);
+        return NOT_AUTHORIZED_USERID;
     }
     else
     {
-        syslog(LOG_ERR,"%s exists, check authorization.\n", PATH_FOR_AUTHORIZED_USERID);
+        syslog(LOG_INFO,"%s exists, check authorization.\n", PATH_FOR_AUTHORIZED_USERID);
         fseek(fp , 0 , SEEK_END);
-        len = ftell(fp);
+        len = ftell(fp)-1;
         fseek(fp, 0, SEEK_SET);
         if(fread(client_userid, 1, len, fp)!=len)
         {
             syslog(LOG_ERR,"ERROR to read userid from %s.",PATH_FOR_AUTHORIZED_USERID);
+            return NOT_AUTHORIZED_USERID;
         }
-        syslog(LOG_ERR, "senduserid=%s, auth=%s, len=%d",req_userid, client_userid,len);
+        syslog(LOG_INFO, "senduserid=%s, authuserid=%s, len=%d",req_userid, client_userid,len);
         if (fclose(fp) != 0)
         {
             syslog(LOG_ERR, "ERROR Fail to close authorized file after reading: %s\n",strerror(errno));
         }
         fp = NULL;
-        if(strlen(client_userid) == 0)
-        {
-            syslog(LOG_ERR, "%s exists, but is empty, will overwrite the value to it.\n", PATH_FOR_AUTHORIZED_USERID);
-            if(fwrite(req_userid,sizeof(req_userid),1,fp)!=1)
-            {
-                syslog(LOG_ERR,"ERROR to write userid to %s.",PATH_FOR_AUTHORIZED_USERID);
-                return NOT_AUTHORIZED_USERID;
-            }
-            if (fclose(fp) != 0)
-            {
-                syslog(LOG_ERR, "ERROR Fail to close empty authorized file after writing: %s\n",strerror(errno));
-            }
-            fp = NULL;
-        }
-
         /* if the userid is not authorized, send error message back*/
-        if(strlen(client_userid) > 0 && strncasecmp(req_userid,client_userid,len))
+        if(strncasecmp(req_userid,client_userid,len))
         {
             return NOT_AUTHORIZED_USERID;
         }
@@ -318,12 +286,12 @@ int server_socket()
             strcpy(buffer, buffer + strlen(tmp) + 1);
             /* for file_transport command, received string should contain the path.
                if user is authorized, just accept the file, or else will pop up the error.
-               later should add a Mutex, when file is transport, command is not be allowed.
+               (to-do) add a Mutex, when file is transport, command is not be allowed.
             */
             if(strncmp(buffer, FILE_TRANSPORT, strlen(FILE_TRANSPORT))==0)
             {
                 strtok(buffer," ");
-                char path[256];
+                char path[BUFFER_SIZE];
                 strcpy(path, strtok(NULL," "));
                 if((returncode = receive_file_from_client(newsockfd, path)) != 0)
                 {
@@ -335,7 +303,10 @@ int server_socket()
             else
             {
             	//(to-do) tranport passwd.
+                /* to collect the system error info*/
+                strcat(buffer, " 2>&1");
                 syslog(LOG_INFO,"Will execute the linux command %s sent from IUCV client.\n", buffer);
+
                 if(NULL == (fp=popen(buffer, "r")))
                 {
                     strcpy(buffer, "Failed to execute command with popen.");
@@ -360,7 +331,7 @@ int server_socket()
                     }
                     if(len >= BUFFER_SIZE)
                     {
-                        syslog(LOG_DEBUG,"result len=%u strlen=%u,\n %s", len, strlen(send_buf), send_buf);
+                        syslog(LOG_INFO,"result length=%u, send message length=%u,\n %s", len, strlen(send_buf), send_buf);
                         send_buf[strlen(send_buf)] = 0;
                         send(newsockfd, send_buf,strlen(send_buf)+1, 0);
                         len = strlen(buffer);
@@ -368,7 +339,7 @@ int server_socket()
                         strcpy(send_buf,buffer);
                      }
                 }
-                syslog(LOG_DEBUG,"result len=%u strlen=%u,\n %s", len, strlen(send_buf), send_buf);
+                syslog(LOG_INFO,"result length=%u, send message length=%u,\n %s", len, strlen(send_buf), send_buf);
                 send_buf[strlen(send_buf)] = 0;
                 send(newsockfd, send_buf, strlen(send_buf)+1, 0);
                 /* close */
@@ -394,6 +365,7 @@ int server_socket()
 */
 int main(int argc,char* argv[])
 {
+	/*(to-do) change to use "getopt"*/
     if(argc==2 && strcmp(argv[1],"--version")==0)
     {
         printf("%s\n", IUCV_SERVER_VERSION);
