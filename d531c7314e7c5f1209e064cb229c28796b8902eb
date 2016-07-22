@@ -125,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_22be43ae",
+        "filename": "zhcp/include/IUCV/iucvserver.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_f326f3b8",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 25,
+        "endChar": 45
+      },
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_06311a5a",
         "filename": "zhcp/src/IUCV/iucvclient.c",
         "patchSetId": 5
@@ -136,6 +160,30 @@
       "writtenOn": "2016-07-20T09:46:09Z",
       "side": 1,
       "message": "which command need password?",
+      "range": {
+        "startLine": 230,
+        "startChar": 22,
+        "endLine": 230,
+        "endChar": 36
+      },
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_02de9f10",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "Currently not have this requirement, will move it to (to-do), and finish it when I have time.",
+      "parentUuid": "baa041b7_06311a5a",
       "range": {
         "startLine": 230,
         "startChar": 22,
@@ -195,6 +243,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_e2e29bd4",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "yes, and this connection is not very frequently, I think use short link is better.",
+      "parentUuid": "baa041b7_733b03d2",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 12
+      },
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_a6dcaee4",
         "filename": "zhcp/src/IUCV/iucvserver.c",
         "patchSetId": 5
@@ -206,6 +278,30 @@
       "writtenOn": "2016-07-20T09:46:09Z",
       "side": 1,
       "message": "this is incorrect.... we don\u0027t use ZHCP user now",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c2e317d7",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "OK, change it to opencloud.",
+      "parentUuid": "baa041b7_a6dcaee4",
       "range": {
         "startLine": 9,
         "startChar": 46,
@@ -241,6 +337,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_a2e813b4",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "Will change it to set authorized file when setup iucv.",
+      "parentUuid": "baa041b7_86008a35",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_6690e6ed",
         "filename": "zhcp/src/IUCV/iucvserver.c",
         "patchSetId": 5
@@ -252,6 +372,30 @@
       "writtenOn": "2016-07-20T09:46:09Z",
       "side": 1,
       "message": "this means online update iucvserverd itself? \ncurious the mechanism under it\nare we going to replace the iucv related files then restart iucvserverd?",
+      "range": {
+        "startLine": 309,
+        "startChar": 29,
+        "endLine": 309,
+        "endChar": 43
+      },
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_82d2affe",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "currently,yes.\nwill not replace iucvserver, just copy it as iucvserer.new\nand in scripts will mv to iucvserver after kill iucvserver.",
+      "parentUuid": "baa041b7_6690e6ed",
       "range": {
         "startLine": 309,
         "startChar": 29,
@@ -281,6 +425,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_62cfab56",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "yes, correct, has change it to BUFFER_SIZE(1024)",
+      "parentUuid": "baa041b7_b353cb15",
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_c6b7b283",
         "filename": "zhcp/src/IUCV/iucvserver.c",
         "patchSetId": 5
@@ -292,6 +454,30 @@
       "writtenOn": "2016-07-20T09:46:09Z",
       "side": 1,
       "message": "what\u0027s this value ? \"\"?",
+      "range": {
+        "startLine": 328,
+        "startChar": 69,
+        "endLine": 328,
+        "endChar": 73
+      },
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_42d8271e",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "pass is got from command, when transport file, it will include the des path.",
+      "parentUuid": "baa041b7_c6b7b283",
       "range": {
         "startLine": 328,
         "startChar": 69,
@@ -327,6 +513,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_22d523e4",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "yes, good suggestion, I will add it in (to-do)code.",
+      "parentUuid": "baa041b7_e6fab676",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 6
+      },
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_c6ffb264",
         "filename": "zhcp/src/IUCV/iucvserver.c",
         "patchSetId": 5
@@ -338,6 +548,30 @@
       "writtenOn": "2016-07-20T09:46:09Z",
       "side": 1,
       "message": "you might need catch some signal to stop the service?\nsuch as SIGHUP or simliar?",
+      "range": {
+        "startLine": 415,
+        "startChar": 8,
+        "endLine": 415,
+        "endChar": 14
+      },
+      "revId": "d531c7314e7c5f1209e064cb229c28796b8902eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_02057f78",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-22T02:12:22Z",
+      "side": 1,
+      "message": "I write here is for the upgrade.\nupgrade will be made in sprint 3, \nwhich will to stop service and replace files.",
+      "parentUuid": "baa041b7_c6ffb264",
       "range": {
         "startLine": 415,
         "startChar": 8,
