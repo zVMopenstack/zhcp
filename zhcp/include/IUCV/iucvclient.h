@@ -24,6 +24,7 @@
 #define SOCKET_ERROR 4
 #define CMD_EXEC_ERROR 8
 #define FILE_TRANSPORT_ERROR 16
+#define IUCV_FILE_NOT_EXIST 32
 
 /*string define*/
 #define IUCV_CLIENT_VERSION "0.0.0.1"

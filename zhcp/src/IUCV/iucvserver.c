@@ -11,6 +11,7 @@
 * @param $1: the userid which is sent from IUCV command.
 *
 * @return 0: successfully to make authorized.
+* 		  errno: other reason which lead to authorized failed
 *         NOT_AUTHORIZED_USERID: userid is not authorized.
 */
 int check_client_authorization(char *req_userid)
@@ -24,7 +25,7 @@ int check_client_authorization(char *req_userid)
     if( NULL == fp)
     {
         syslog(LOG_ERR,"Authorized path %s doesn't exist\n", PATH_FOR_AUTHORIZED_USERID);
-        return NOT_AUTHORIZED_USERID;
+        return errno;
     }
     else
     {
@@ -35,7 +36,7 @@ int check_client_authorization(char *req_userid)
         if(fread(client_userid, 1, len, fp)!=len)
         {
             syslog(LOG_ERR,"ERROR to read userid from %s.",PATH_FOR_AUTHORIZED_USERID);
-            return NOT_AUTHORIZED_USERID;
+            return errno;
         }
         syslog(LOG_INFO, "senduserid=%s, authuserid=%s, len=%d",req_userid, client_userid,len);
         if (fclose(fp) != 0)
@@ -257,7 +258,7 @@ int server_socket()
         /*check the client userid's authorized*/
         if((returncode = check_client_authorization(tmp)) != 0)
         {
-            strcpy(buffer,"NOT_AUTHORIZED_USERID");
+            sprintf(buffer,"NOT_AUTHORIZED_USERID\n %d",returncode);
             send(newsockfd, buffer, strlen(buffer)+1, 0);
             syslog(LOG_ERR, "ERROR %d:userid %s is not a authorized userid,IUCV agent only can communicate with specified open cloud user!\n", NOT_AUTHORIZED_USERID, tmp);
             close(newsockfd);
@@ -269,6 +270,7 @@ int server_socket()
            upgrade is needed.
         */
         len = strcspn(buffer, " ");
+        bzero(tmp, 16);
         strncpy(tmp, buffer, len);
         syslog(LOG_DEBUG, "Current version is %s, upgraded version is %s", IUCV_SERVER_VERSION, tmp);
         if(strcmp(tmp, IUCV_SERVER_VERSION) > 0)
@@ -304,7 +306,7 @@ int server_socket()
             {
             	//(to-do) tranport passwd.
                 /* to collect the system error info*/
-                strcat(buffer, " 2>&1");
+                strcat(buffer, " ; echo iucvcmdrc=$? 2>&1");
                 syslog(LOG_INFO,"Will execute the linux command %s sent from IUCV client.\n", buffer);
 
                 if(NULL == (fp=popen(buffer, "r")))
