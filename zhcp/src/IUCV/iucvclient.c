@@ -9,21 +9,26 @@
 * @param $1: the return value for client.
 *        $2: the reason for the details.
 *        $3: results.
+*        $4: whether to print error reason which is get from errno.  
 *
 * @return returncode:
 */
-int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasoncode, char * message)
+int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasoncode, char * message, int with_strerr)
 {
     char msg[BUFFER_SIZE];
     strcpy(msg,message);
     if(returncode || reasoncode)
     {
-        strcat(msg,strerror(reasoncode));
+        if(with_strerr == 1)
+        {
+            strcat(msg,strerror(reasoncode));
+        }
         syslog(LOG_ERR,"%s", msg);
-        printf("return code %d, reason code %d, %s\n", returncode, reasoncode, msg);
+        printf("%s\nReturn code %d, Reason code %d.\n", msg, returncode, reasoncode);
     }
     else
     {
+        syslog(LOG_INFO,"%s", msg);
         printf("%s", msg);
     }
     return returncode;
@@ -45,7 +50,7 @@ int prepare_commands(char* buffer, int argc, char *argv[])
     /* 1. Prepare client_userid. */
     /* Now ask for a message from the user, this message will be read by server */
     /* Need to add userid to make authorized, if not a opencloud user, request will be refused */
-    char user_buf[32];
+    char user_buf[32], err_buf[256];
     int i = 0;
 
     bzero(buffer,BUFFER_SIZE);
@@ -53,19 +58,29 @@ int prepare_commands(char* buffer, int argc, char *argv[])
     if(fgets(user_buf,sizeof(user_buf),fp) != NULL)
     {
         strcpy(buffer, strtok(user_buf," "));
+        pclose(fp);
+        fp = NULL;
     }
     else
     {
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(UNAUTHORIZED_ERROR, errno,"ERROR failed to get userid:");
-        return errno;
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(UNAUTHORIZED_ERROR, errno,"ERROR failed to get userid:", 1);
+        pclose(fp);
+        fp = NULL;
+        return UNAUTHORIZED_ERROR;
     }
     /* 2. Get the IUCV server's version which exists on zhcp
        This is used for IUCV server's upgrade, when the server's version which installed on VM is lower,
        upgrade is needed.
     */
+    /* Check whether the IUCV server exist */
+    if(fopen(FILE_PATH_IUCV_SERVER,"r") == NULL)
+    {
+        sprintf(err_buf, "ERROR: can't find IUCV server in path %s, please copy file to the path and try again.\n", FILE_PATH_IUCV_SERVER);
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(IUCV_FILE_NOT_EXIST, errno, err_buf, 1);
+        return IUCV_FILE_NOT_EXIST;
+    }
     char tmp_buf[BUFFER_SIZE];
     sprintf(tmp_buf, "%s --version", FILE_PATH_IUCV_SERVER);
-    fp = NULL;
     fp = popen(tmp_buf, "r");
     if(fgets(tmp_buf, sizeof(tmp_buf), fp) != NULL)
     {
@@ -111,7 +126,7 @@ int handle_upgrade()
 }
 
 
-/* Send specified file to IUCV server.
+/* Send specified file (NOT support to transport folder) to IUCV server.
 * @param $1: the socket which is used to make IUCV communication to server.
 *        $2: the path for the file which need to be sent.
 *
@@ -131,11 +146,11 @@ int send_file_to_server(int sockfd, char *src_path)
     file_buf = (char *) malloc(BUFFER_SIZE);
     if((fp = fopen(src_path, "rb"))==NULL)
     {
-        syslog(LOG_ERR, "Failed to open file %s for read", src_path);
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "Failed to open the transport file:");
+        sprintf(buffer, "Failed to open file %s for read", src_path);
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, errno, buffer, 1);
         free(file_buf);
         file_buf = NULL;
-        return errno;
+        return FILE_TRANSPORT_ERROR;
     }
     else
     {
@@ -146,16 +161,15 @@ int send_file_to_server(int sockfd, char *src_path)
             len = fread(file_buf, sizeof(char), BUFFER_SIZE, fp);
             if ((len = send(sockfd, file_buf, len, 0)) < 0)
             {
-                 printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "Failed to send file to serer.");
+                 printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "Failed to send file to serer.", 1);
                  free(file_buf);
                  file_buf = NULL;
-                 return errno;
+                 return SOCKET_ERROR;
             }
         }
         if (fclose(fp) != 0)
         {
             syslog(LOG_ERR, "ERROR Fail to close sent file after reading: %s\n",strerror(errno));
-            return errno;
         }
         fp = NULL;
         free(file_buf);
@@ -165,7 +179,7 @@ int send_file_to_server(int sockfd, char *src_path)
         sprintf(buffer, "md5sum %s",src_path);
         if((fp = popen(buffer, "r"))==NULL)
         {
-            printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno,"Failed to get md5 for file");
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, errno,"Failed to get md5 for file", 1);
             strcpy(buffer, "FILE_SENT_OVER");
             send(sockfd, buffer, strlen(buffer) + 1, 0);
         }
@@ -186,13 +200,13 @@ int send_file_to_server(int sockfd, char *src_path)
         if(strcmp(buffer, "FILE_RECEIVED_OK")==0)
         {
             sprintf(buffer,"Transport file %s successfully.\n", src_path);
-            printAndLogIUCVserverReturnCodeReasonCodeoutput(0, 0, buffer);
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(0, 0, buffer, 1);
             return 0;
         }
         else
         {
             sprintf(buffer,"Transport file %s failed.\n", src_path);
-            printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, FILE_TRANSPORT_ERROR, buffer);
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, FILE_TRANSPORT_ERROR, buffer, 0);
             return FILE_TRANSPORT_ERROR;
         }
     }
@@ -204,28 +218,34 @@ int send_file_to_server(int sockfd, char *src_path)
 * @param $1: the number of param.
 *        $2: the params which is input.
 *
-* @return 0: if file transport is successful.
-*         -1: Usage.
-*         errno: if there are any socket connection error.
+* @return 0: command are executed successfully.
+*         1: UNAUTHORIZED_ERROR
+*         2: USAGE_ERROR
+*         4: SOCKET_ERROR
+*         8: CMD_EXEC_ERROR
+*        16: FILE_TRANSPORT_ERROR
+*        32: IUCV_FILE_NOT_EXIST
+*        -1: Usage:
 */
 int main(int argc, char *argv[])
 {
     int sockfd, portno, n, i;
     struct sockaddr_iucv serv_addr;
     int flags;
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE],result[BUFFER_SIZE],cmd_rc[8];
     int returncode = 0;
+    char* pos = NULL;
 
     if (argc < 3)
     {
         if (argc==2 && strcmp(argv[1],"--version")==0)
         {
-            printAndLogIUCVserverReturnCodeReasonCodeoutput(0,0,IUCV_CLIENT_VERSION);
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(0, 0, IUCV_CLIENT_VERSION, 1);
             return 0;
         }
         bzero(buffer,BUFFER_SIZE);
         sprintf(buffer, "Usage:\niucvclient [--version]\n\
-                              iucvclient server_userid %s src_file_path dst_file_path\n\
+                              iucvclient server_userid %s src_file_path/filename dst_file_path/filename\n\
                               iucvclient server_userid command [command_parm2, ...]\n",
                       FILE_TRANSPORT);
         /*(to-do) add pars password to not show it in log file.
@@ -235,16 +255,16 @@ int main(int argc, char *argv[])
                       Pw:passwd_parm is used for password in command, will not show passwd in log file\n",
                       FILE_TRANSPORT);
         */
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(USAGE_ERROR,1,buffer);
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(USAGE_ERROR, 1, buffer, 0);
         return -1;
     }
     /* Create a socket point */
     sockfd = socket(AF_IUCV, SOCK_STREAM, IPPROTO_IP);
     if (sockfd < 0)
     {
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno,"ERROR opening socket:");
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR opening socket:", 1);
         close(sockfd);
-        return errno;
+        return SOCKET_ERROR;
     }
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.siucv_family = AF_IUCV;
@@ -254,9 +274,9 @@ int main(int argc, char *argv[])
      /* Now connect to the server */
     if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
     {
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno,"ERROR connecting socket:");
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR connecting socket:", 1);
         close(sockfd);
-        return errno;
+        return SOCKET_ERROR;
     }
     if((returncode = prepare_commands(buffer, argc, argv)) != 0)
     {
@@ -265,14 +285,27 @@ int main(int argc, char *argv[])
     /* Send messages to server. */
     n = send(sockfd, buffer, strlen(buffer)+1,0);
     if (n < 0) {
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno,"ERROR writing to socket:");
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR writing to socket:", 1);
         close(sockfd);
-        return errno;
+        return SOCKET_ERROR;
     }
     /* Receive messages from server, to determine what should be done next */
     bzero(buffer,BUFFER_SIZE);
     while (n = recv(sockfd, buffer, BUFFER_SIZE,0) > 0)
     {
+        //printf("result =%s\n",buffer);
+        /* Check the result is NOT_AUTHORIZED_USERID */
+        if(strncmp(buffer, "NOT_AUTHORIZED_USERID", strlen("NOT_AUTHORIZED_USERID")) == 0)
+        {
+            bzero(result, 8);
+            strcpy(result, strtok(buffer, " "));
+            bzero(cmd_rc, 8);
+            strcpy(cmd_rc, strtok(NULL," "));
+            returncode = (atoi(cmd_rc) == UNAUTHORIZED_ERROR) ? 0 : atoi(cmd_rc);
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(UNAUTHORIZED_ERROR, returncode, buffer, 1);
+            close(sockfd);
+            return UNAUTHORIZED_ERROR;
+        }
         /* if upgrade is needed */
         if(strcmp(buffer, IUCV_SERVER_NEED_UPGRADE) == 0)
         {
@@ -287,16 +320,25 @@ int main(int argc, char *argv[])
         /* (to-do)later should add a Mutex, when file is transport, command is not be allowed */
         else if(strcmp(argv[2], FILE_TRANSPORT)==0)
         {
+            /* If the source path is a folder, return error */
+            struct stat st;
+            stat(argv[3], &st);
+            if((st.st_mode & S_IFDIR) == S_IFDIR)
+            {
+                sprintf(buffer, "The source path %s should include the file name.", argv[3]);
+                printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, 1, buffer, 0);
+                return FILE_TRANSPORT_ERROR;
+            }
             printf("Begin to send file.\n");
             if(n < 0 || strcmp(buffer,READY_TO_RECEIVE) != 0)
             {
-                printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno,"Failed to receive server's response to accept file.");
+                printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "Failed to receive server's response to accept file.", 1);
                 close(sockfd);
-                return errno;
+                return SOCKET_ERROR;
             }
-
             if((returncode = send_file_to_server(sockfd, argv[3])) != 0)
             {
+                close(sockfd);
                 return returncode;
             }
             break;
@@ -305,16 +347,41 @@ int main(int argc, char *argv[])
         else
         {
             /* Now read server response */
-            //printf("result len=%d\n",strlen(buffer));
-            printAndLogIUCVserverReturnCodeReasonCodeoutput(0, 0, buffer);
+            //printf("result =%s\n",buffer);
+            /* check the command return code */
+            pos = strstr(buffer, "iucvcmdrc=");
+            if(pos == NULL)
+            {
+                strcpy(cmd_rc, "0");
+                bzero(result,BUFFER_SIZE);
+                strcpy(result, buffer);
+            }
+            else
+            {
+                bzero(cmd_rc, 8);
+                strcpy(cmd_rc, pos+strlen("iucvcmdrc="));
+                bzero(result,BUFFER_SIZE);
+                strncpy(result, buffer, strlen(buffer)-strlen(pos));
+            }
+            //printf("rc=%d,result=%s,buffer=%s",atoi(cmd_rc),result,buffer);
+            if(atoi(cmd_rc) == 0)
+            {
+                printAndLogIUCVserverReturnCodeReasonCodeoutput(0, 0, result, 0);
+            }
+            else
+            {
+                printAndLogIUCVserverReturnCodeReasonCodeoutput(CMD_EXEC_ERROR, atoi(cmd_rc), result, 1);
+                close(sockfd);
+                return CMD_EXEC_ERROR;
+            }
             if (n < 0)
             {
-                printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno,"ERROR reading from socket:");
+                printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR reading from socket:", 1);
                 close(sockfd);
-                return errno;
+                return SOCKET_ERROR;
             }
         }
     }
     close(sockfd);
-    return errno;
+    return 0;
 }

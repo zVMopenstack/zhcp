@@ -3,12 +3,23 @@
 # IBM (C) Copyright 2016, 2016 Eclipse Public License
 #http://www.eclipse.org/org/documents/epl-v10.html
 #
-# chkconfig: 345 99 01
-# Description:  This shell script takes care of starting and stopping IUCV agent
 # Sophie Song created on Jun. 7th, 2016
 #
+### BEGIN INIT INFO
+# Provides:          iucvserver
+# Required-Start:    
+# Should-Start:      
+# Required-Stop:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Description:       This shell script takes care of starting and stopping IUCV agent
+### END INIT INFO
+
 # Source function library
-. /etc/init.d/functions
+if [ -f "/etc/init.d/functions" ]; then
+    . /etc/init.d/functions
+fi
 
 #the service name  for example: iucvserver
 SNAME=iucvserver
@@ -26,7 +37,8 @@ start() {
         echo "$SNAME is already started!"
         exit 0;
     else
-        action "Starting $SNAME ..." $PROG start
+        echo "Starting $SNAME ..."
+        $PROG start-as-daemon
         [ $? -eq 0 ] && touch /var/lock/subsys/$SNAME
         exit 0;
     fi

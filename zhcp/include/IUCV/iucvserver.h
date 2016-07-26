@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <netdb.h>
+#include <sys/stat.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <netiucv/iucv.h>
@@ -30,7 +31,7 @@
 #define IUCV_SERVER_NEED_UPGRADE "need_upgrade"
 
 /*ERROR defined*/
-#define NOT_AUTHORIZED_USERID 1
+#define UNAUTHORIZED_ERROR 1
 #define CLIENT_USAGE_ERROR 2
 #define FILE_TRANSPORT_ERROR 16
 

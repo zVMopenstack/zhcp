@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <netdb.h>
+#include <sys/stat.h>
 #include <netinet/in.h>
 #include <netiucv/iucv.h>
 #include <errno.h>
@@ -24,6 +25,7 @@
 #define SOCKET_ERROR 4
 #define CMD_EXEC_ERROR 8
 #define FILE_TRANSPORT_ERROR 16
+#define IUCV_FILE_NOT_EXIST 32
 
 /*string define*/
 #define IUCV_CLIENT_VERSION "0.0.0.1"
@@ -34,7 +36,7 @@
 #define IUCV_SERVER_NEED_UPGRADE "need_upgrade"
 
 /*functions*/
-int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasoncode, char * message);
+int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasoncode, char * message, int with_strerr);
 int prepare_commands(char* buffer, int argc, char *argv[]);
 int handle_upgrade();
 int send_file_to_server(int sockfd, char *src_path);
