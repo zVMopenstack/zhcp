@@ -11,7 +11,8 @@
 * @param $1: the userid which is sent from IUCV command.
 *
 * @return 0: successfully to make authorized.
-*         NOT_AUTHORIZED_USERID: userid is not authorized.
+*     errno: other reason which lead to authorized failed
+*     NOT_AUTHORIZED_USERID: userid is not authorized.
 */
 int check_client_authorization(char *req_userid)
 {
@@ -24,7 +25,7 @@ int check_client_authorization(char *req_userid)
     if( NULL == fp)
     {
         syslog(LOG_ERR,"Authorized path %s doesn't exist\n", PATH_FOR_AUTHORIZED_USERID);
-        return NOT_AUTHORIZED_USERID;
+        return errno;
     }
     else
     {
@@ -35,7 +36,7 @@ int check_client_authorization(char *req_userid)
         if(fread(client_userid, 1, len, fp)!=len)
         {
             syslog(LOG_ERR,"ERROR to read userid from %s.",PATH_FOR_AUTHORIZED_USERID);
-            return NOT_AUTHORIZED_USERID;
+            return errno;
         }
         syslog(LOG_INFO, "senduserid=%s, authuserid=%s, len=%d",req_userid, client_userid,len);
         if (fclose(fp) != 0)
@@ -53,7 +54,7 @@ int check_client_authorization(char *req_userid)
 }
 
 
-/* receicve file from client for upgrade or transport
+/* receicve file (NOT support to tranport folder) from client for upgrade or transport
 *
 * @param $1: the socket which is used to make IUCV communication to client.
 *        $2: the path for the file which need to be saved
@@ -68,6 +69,17 @@ int receive_file_from_client(int newsockfd, char *des_path)
     int n = 0;
     FILE * fp = NULL;
     syslog(LOG_INFO,"Will receive and save file to %s which is sent from IUCV client.\n", des_path);
+    /* If the destination path is a folder, return error */
+    struct stat st;
+    stat(des_path, &st);
+    if((st.st_mode & S_IFDIR) == S_IFDIR)
+    {
+        sprintf(buffer, "The destination path %s should include the file name.", des_path);
+        syslog(LOG_ERR, buffer);
+        send(newsockfd, buffer,strlen(buffer)+1, 0);
+        close(newsockfd);
+        return errno;
+    }
     /* If file exists, rename it firstly */
     if(!access(des_path, 0))
     {
@@ -75,15 +87,16 @@ int receive_file_from_client(int newsockfd, char *des_path)
         sprintf(buffer,"mv %s %s.old", des_path, des_path);
         system(buffer);
     }
-    send(newsockfd, READY_TO_RECEIVE,strlen(READY_TO_RECEIVE)+1, 0);
-
     fp = fopen(des_path, "ab");
     if(NULL == fp)
     {
-        syslog(LOG_ERR, "Failed to open file %s for write", des_path);
+        sprintf(buffer, "Failed to open file %s for write", des_path);
+        syslog(LOG_ERR, buffer);
+        send(newsockfd, buffer,strlen(buffer)+1, 0);
         close(newsockfd);
         return errno;
     }
+    send(newsockfd, READY_TO_RECEIVE,strlen(READY_TO_RECEIVE)+1, 0);
     bzero(buffer,BUFFER_SIZE);
     while((n=recv(newsockfd, buffer, BUFFER_SIZE, 0)) > 0)
     {
@@ -257,7 +270,7 @@ int server_socket()
         /*check the client userid's authorized*/
         if((returncode = check_client_authorization(tmp)) != 0)
         {
-            strcpy(buffer,"NOT_AUTHORIZED_USERID");
+            sprintf(buffer,"NOT_AUTHORIZED_USERID\n %d",returncode);
             send(newsockfd, buffer, strlen(buffer)+1, 0);
             syslog(LOG_ERR, "ERROR %d:userid %s is not a authorized userid,IUCV agent only can communicate with specified open cloud user!\n", NOT_AUTHORIZED_USERID, tmp);
             close(newsockfd);
@@ -269,6 +282,7 @@ int server_socket()
            upgrade is needed.
         */
         len = strcspn(buffer, " ");
+        bzero(tmp, 16);
         strncpy(tmp, buffer, len);
         syslog(LOG_DEBUG, "Current version is %s, upgraded version is %s", IUCV_SERVER_VERSION, tmp);
         if(strcmp(tmp, IUCV_SERVER_VERSION) > 0)
@@ -302,9 +316,9 @@ int server_socket()
             }
             else
             {
-            	//(to-do) tranport passwd.
+                //(to-do) tranport passwd.
                 /* to collect the system error info*/
-                strcat(buffer, " 2>&1");
+                strcat(buffer, " ; echo iucvcmdrc=$? 2>&1");
                 syslog(LOG_INFO,"Will execute the linux command %s sent from IUCV client.\n", buffer);
 
                 if(NULL == (fp=popen(buffer, "r")))
@@ -361,23 +375,33 @@ int server_socket()
 *        $2: the params which is input.
 *
 * @return 0: if file transport is successful.
-*         -1: Usage.
+*         -1: Usage:
 */
 int main(int argc,char* argv[])
 {
-	/*(to-do) change to use "getopt"*/
+    /*(to-do) change to use "getopt"*/
     if(argc==2 && strcmp(argv[1],"--version")==0)
     {
         printf("%s\n", IUCV_SERVER_VERSION);
         return 0;
     }
-    else if(argc==2 && strcmp(argv[1],"start")==0)
+    else if(argc==2 && strcmp(argv[1],"start-as-daemon")==0)
     {
-        syslog(LOG_ERR,"IUCV server start to work!\n");
+        syslog(LOG_INFO,"IUCV server start to work as daemon!\n");
         daemon(0,0);
         while(1)
         {
-            syslog(LOG_ERR,"Begin a new socket.\n");
+            syslog(LOG_INFO,"Begin a new socket.\n");
+            server_socket();
+        }
+        return 0;
+    }
+    else if(argc==2 && strcmp(argv[1],"start")==0)
+    {
+        syslog(LOG_INFO,"IUCV server start to work!\n");
+        while(1)
+        {
+            syslog(LOG_INFO,"Begin a new socket.\n");
             server_socket();
         }
         return 0;
@@ -385,11 +409,12 @@ int main(int argc,char* argv[])
     else if(argc==2 && strcmp(argv[1],"stop")==0)
     {
         syslog(LOG_INFO, "Send command stop IUCV server!\n");
+        system("pkill iucvserver");
         return 0;
     }
     else
     {
-        printf("Usage: iucvserver [--version] [start] [stop]\n");
+        printf("Usage: iucvserver [--version] [start] [start-as-daemon] [stop]\n");
         return -1;
     }
 }

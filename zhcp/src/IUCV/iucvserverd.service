@@ -1,0 +1,14 @@
+[Unit]
+Description=IUCV agent service which is used to communicate with IUCV client in zhcp.
+Wants=
+After=cloud-init-local.service
+Before=
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/iucvserver start
+ExecStop=/usr/bin/iucvserver stop
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
