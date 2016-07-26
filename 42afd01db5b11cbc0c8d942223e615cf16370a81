@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_de588433",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-07-26T12:31:56Z",
+      "side": 1,
+      "message": "If you are printing the message first, add a newline after the message so the return and reason code appear on next line.",
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_bb0dd23f",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-07-26T12:31:56Z",
+      "side": 1,
+      "message": "Don\u0027t you have to close the pipe before you return?",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 55
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_de0ac41f",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-07-26T12:31:56Z",
+      "side": 1,
+      "message": "I think this is a tab, use spaces instead. Fix other places also.",
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_1e7a6c88",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-07-26T12:31:56Z",
+      "side": 1,
+      "message": "Do you mean error here instead of \"Usage:\"?",
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_fe5468c6",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-07-26T12:31:56Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this loop be broken into two parts/changed? I would think you need to read enough to find out whether an error, or file to be transmitted, etc. Then I would think if the initial read was for a file/etc and more data should be coming then loop...\nNow if you look at the SMAPI book, the output data from SMAPI first sends a 4 byte field saying how much total data is in the buffer, then request id, return code, reason code; then it can figure out what to do next. I think it would be best if you did something similar.",
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
