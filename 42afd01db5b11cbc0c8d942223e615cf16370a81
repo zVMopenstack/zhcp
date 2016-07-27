@@ -119,6 +119,98 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_8f3f68b3",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-27T03:38:02Z",
+      "side": 1,
+      "message": "this isn\u0027t a socket_error, maybe change to command_exec_error.",
+      "range": {
+        "startLine": 145,
+        "startChar": 56,
+        "endLine": 145,
+        "endChar": 68
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_6f48a45c",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-27T03:38:02Z",
+      "side": 1,
+      "message": "Need to free(file_buf) before return.\nAny special reason you use dynamically allocated memory for this buffer? If not, maybe we can just use an array so that we won\u0027t need to worry about the memory leak caused by forgetting to free.",
+      "range": {
+        "startLine": 168,
+        "startChar": 12,
+        "endLine": 168,
+        "endChar": 18
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_4f45e040",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-27T03:38:02Z",
+      "side": 1,
+      "message": "This also isn\u0027t a SOCKET_ERROR.",
+      "range": {
+        "startLine": 178,
+        "startChar": 60,
+        "endLine": 178,
+        "endChar": 72
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_2f75fc96",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-27T03:38:02Z",
+      "side": 1,
+      "message": "returned code is not consistent with the return code passed to printAndLogIUCVserverReturnCodeReasonCodeoutput",
+      "range": {
+        "startLine": 206,
+        "startChar": 19,
+        "endLine": 206,
+        "endChar": 39
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_1e7a6c88",
         "filename": "zhcp/src/IUCV/iucvclient.c",
         "patchSetId": 1
@@ -183,6 +275,75 @@
       "side": 1,
       "message": "I have thought about this method, but I think there are two reasons I didn\u0027t use it.\n1. send an additional message with the length will increase the risk to fail.\n2. If the output is too large, only use one socket to send such large message will easily to fail.",
       "parentUuid": "baa041b7_fe5468c6",
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_2f9cdcbe",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-27T03:38:02Z",
+      "side": 1,
+      "message": "close sockfd before return.",
+      "range": {
+        "startLine": 322,
+        "startChar": 16,
+        "endLine": 322,
+        "endChar": 22
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_4f5cc018",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-27T03:38:02Z",
+      "side": 1,
+      "message": "There\u0027s also a chance that the \"icucvcmdrc\" substr not exists in the buffer, maybe you need to first check before additional handling to \u0027pos\u0027",
+      "range": {
+        "startLine": 332,
+        "startChar": 9,
+        "endLine": 332,
+        "endChar": 12
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_6f5f840f",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-27T03:38:02Z",
+      "side": 1,
+      "message": "you cann\u0027t return a self-defined number as the reason number to client, client will use strerror to decode this reason number and print a not-related error message. just like the \"operation not permitted\" msg in bug 1226.",
+      "range": {
+        "startLine": 50,
+        "startChar": 19,
+        "endLine": 50,
+        "endChar": 40
+      },
       "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
