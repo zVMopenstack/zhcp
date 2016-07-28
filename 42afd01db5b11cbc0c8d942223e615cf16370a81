@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_0fd6b84e",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-28T09:10:24Z",
+      "side": 1,
+      "message": "not cmd too, will change to FILE_TRANSPORT_ERROR",
+      "parentUuid": "baa041b7_8f3f68b3",
+      "range": {
+        "startLine": 145,
+        "startChar": 56,
+        "endLine": 145,
+        "endChar": 68
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_6f48a45c",
         "filename": "zhcp/src/IUCV/iucvclient.c",
         "patchSetId": 1
@@ -153,6 +177,30 @@
       "writtenOn": "2016-07-27T03:38:02Z",
       "side": 1,
       "message": "Need to free(file_buf) before return.\nAny special reason you use dynamically allocated memory for this buffer? If not, maybe we can just use an array so that we won\u0027t need to worry about the memory leak caused by forgetting to free.",
+      "range": {
+        "startLine": 168,
+        "startChar": 12,
+        "endLine": 168,
+        "endChar": 18
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_efc6f49a",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-28T09:10:24Z",
+      "side": 1,
+      "message": "Not return error. file has transported,just leave an error message here.",
+      "parentUuid": "baa041b7_6f48a45c",
       "range": {
         "startLine": 168,
         "startChar": 12,
@@ -188,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_cfcb30a3",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-28T09:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_4f45e040",
+      "range": {
+        "startLine": 178,
+        "startChar": 60,
+        "endLine": 178,
+        "endChar": 72
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_2f75fc96",
         "filename": "zhcp/src/IUCV/iucvclient.c",
         "patchSetId": 1
@@ -199,6 +271,30 @@
       "writtenOn": "2016-07-27T03:38:02Z",
       "side": 1,
       "message": "returned code is not consistent with the return code passed to printAndLogIUCVserverReturnCodeReasonCodeoutput",
+      "range": {
+        "startLine": 206,
+        "startChar": 19,
+        "endLine": 206,
+        "endChar": 39
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_afc58c8e",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-28T09:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_2f75fc96",
       "range": {
         "startLine": 206,
         "startChar": 19,
@@ -304,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_8fc2c883",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-28T09:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_2f9cdcbe",
+      "range": {
+        "startLine": 322,
+        "startChar": 16,
+        "endLine": 322,
+        "endChar": 22
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_4f5cc018",
         "filename": "zhcp/src/IUCV/iucvclient.c",
         "patchSetId": 1
@@ -315,6 +435,30 @@
       "writtenOn": "2016-07-27T03:38:02Z",
       "side": 1,
       "message": "There\u0027s also a chance that the \"icucvcmdrc\" substr not exists in the buffer, maybe you need to first check before additional handling to \u0027pos\u0027",
+      "range": {
+        "startLine": 332,
+        "startChar": 9,
+        "endLine": 332,
+        "endChar": 12
+      },
+      "revId": "42afd01db5b11cbc0c8d942223e615cf16370a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_911786a2",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-07-28T09:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_4f5cc018",
       "range": {
         "startLine": 332,
         "startChar": 9,
