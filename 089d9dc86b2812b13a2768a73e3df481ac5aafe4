@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_6e58a38a",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-28T02:28:09Z",
+      "side": 1,
+      "message": "this will be used as the reason code by client which may be translated to a unrelated error mesg. Maybe we can just return the error in msg, not as reason code to client.",
+      "range": {
+        "startLine": 50,
+        "startChar": 19,
+        "endLine": 50,
+        "endChar": 40
+      },
+      "revId": "089d9dc86b2812b13a2768a73e3df481ac5aafe4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_4e5b9f86",
+        "filename": "zhcp/src/IUCV/iucvserverd.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1008926
+      },
+      "writtenOn": "2016-07-28T02:28:09Z",
+      "side": 1,
+      "message": "maybe opncloud",
+      "range": {
+        "startLine": 2,
+        "startChar": 80,
+        "endLine": 2,
+        "endChar": 84
+      },
+      "revId": "089d9dc86b2812b13a2768a73e3df481ac5aafe4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
