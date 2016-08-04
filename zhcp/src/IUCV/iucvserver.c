@@ -8,23 +8,27 @@
 /*Check authorization for client.
 * For Security reason, IUCV server only allow OPNCLOUD user to make IUCV communication.
 *
-* @param $1: the userid which is sent from IUCV command.
+* @param $1: the socket which is used to make IUCV communication to client.
+*        $2: the userid which is sent from IUCV command.
 *
 * @return 0: successfully to make authorized.
 *     errno: other reason which lead to authorized failed
 *     UNAUTHORIZED_ERROR: userid is not authorized.
 */
-int check_client_authorization(char *req_userid)
+int check_client_authorization(int newsockfd, char *req_userid)
 {
     /* authoroized_useid is saved in PATH_FOR_AUTHORIZED_USERID */
     FILE *fp = NULL;
     int len = 0;
-    char client_userid[16];
+    char client_userid[16], err_msg[BUFFER_SIZE];
     /* authorized file is copied for opencloud when IUCV initialized*/
     fp = fopen(PATH_FOR_AUTHORIZED_USERID,"r+");
     if( NULL == fp)
     {
-        syslog(LOG_ERR,"Authorized path %s doesn't exist\n", PATH_FOR_AUTHORIZED_USERID);
+        /* all the message sent to client, should start with UNAUTHORIZED_ERROR: reason.#errno*/
+        sprintf(err_msg, "UNAUTHORIZED_ERROR: Authorized path %s doesn't exist on iucvserver.#%d", PATH_FOR_AUTHORIZED_USERID, errno);
+        syslog(LOG_ERR, err_msg);
+        send(newsockfd, err_msg, strlen(err_msg)+1, 0);
         return errno;
     }
     else
@@ -35,7 +39,9 @@ int check_client_authorization(char *req_userid)
         fseek(fp, 0, SEEK_SET);
         if(fread(client_userid, 1, len, fp)!=len)
         {
-            syslog(LOG_ERR,"ERROR to read userid from %s.",PATH_FOR_AUTHORIZED_USERID);
+            sprintf(err_msg, "UNAUTHORIZED_ERROR: Failed to read userid from %s.#%d",PATH_FOR_AUTHORIZED_USERID, errno);
+            syslog(LOG_ERR, err_msg);
+            send(newsockfd, err_msg, strlen(err_msg)+1, 0);
             return errno;
         }
         syslog(LOG_INFO, "senduserid=%s, authuserid=%s, len=%d",req_userid, client_userid,len);
@@ -45,8 +51,11 @@ int check_client_authorization(char *req_userid)
         }
         fp = NULL;
         /* if the userid is not authorized, send error message back*/
-        if(strncasecmp(req_userid,client_userid,len))
+        if(strcasecmp(req_userid,client_userid))
         {
+            sprintf(err_msg, "UNAUTHORIZED_ERROR: Userid %s is not authorized, IUCV agent only can communicate with specified open cloud user!#0", req_userid);
+            syslog(LOG_ERR, err_msg);
+            send(newsockfd, err_msg, strlen(err_msg)+1, 0);
             return UNAUTHORIZED_ERROR;
         }
     } /* End of check authorization */
@@ -76,7 +85,7 @@ int receive_file_from_client(int newsockfd, char *des_path)
     {
         sprintf(buffer, "The destination path %s should include the file name.", des_path);
         syslog(LOG_ERR, buffer);
-        send(newsockfd, buffer,strlen(buffer)+1, 0);
+        send(newsockfd, buffer, strlen(buffer)+1, 0);
         close(newsockfd);
         return errno;
     }
@@ -268,11 +277,8 @@ int server_socket()
         strncpy(tmp, buffer, len);
         strcpy(buffer, buffer+len+1);
         /*check the client userid's authorized*/
-        if((returncode = check_client_authorization(tmp)) != 0)
+        if((returncode = check_client_authorization(newsockfd, tmp)) != 0)
         {
-            sprintf(buffer,"NOT_AUTHORIZED_USERID\n %d",returncode);
-            send(newsockfd, buffer, strlen(buffer)+1, 0);
-            syslog(LOG_ERR, "ERROR %d:userid %s is not a authorized userid,IUCV agent only can communicate with specified open cloud user!\n", UNAUTHORIZED_ERROR, tmp);
             close(newsockfd);
             close(sockfd);
             return returncode;
@@ -318,7 +324,7 @@ int server_socket()
             {
                 //(to-do) tranport passwd.
                 /* to collect the system error info*/
-                strcat(buffer, " ; echo iucvcmdrc=$? 2>&1");
+                strcat(buffer, "  2>&1; echo iucvcmdrc=$?");
                 syslog(LOG_INFO,"Will execute the linux command %s sent from IUCV client.\n", buffer);
 
                 if(NULL == (fp=popen(buffer, "r")))

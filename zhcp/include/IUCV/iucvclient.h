@@ -32,7 +32,7 @@
 #define FILE_TRANSPORT "file_transport"
 #define READY_TO_RECEIVE "ready_to_receive"
 #define FILE_SENT_OVER "FILE_SENT_OVER"
-#define FILE_PATH_IUCV_SERVER "/root/iucvserver"
+#define FILE_PATH_IUCV_SERVER "/opt/zhcp/bin/iucvserver"
 #define IUCV_SERVER_NEED_UPGRADE "need_upgrade"
 
 /*functions*/
