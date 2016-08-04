@@ -36,7 +36,7 @@
 #define FILE_TRANSPORT_ERROR 16
 
 /*functions*/
-int check_client_authorization(char *req_userid);
+int check_client_authorization(int newsockfd, char *req_userid);
 int receive_file_from_client(int newsockfd, char *des_path);
 int handle_upgrade();
 int server_socket();
