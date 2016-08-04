@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_1a7a58bd",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-04T13:23:22Z",
+      "side": 1,
+      "message": "You need to use strncpy to make sure you do not exceed the buffer size. Or buffer size -1 so there is room for the newline char.",
+      "range": {
+        "startLine": 19,
+        "startChar": 15,
+        "endLine": 19,
+        "endChar": 22
+      },
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_1a0ff837",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-04T13:23:22Z",
+      "side": 1,
+      "message": "You should close the socket if you are returning.",
+      "range": {
+        "startLine": 318,
+        "startChar": 12,
+        "endLine": 318,
+        "endChar": 13
+      },
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_5a10e058",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-04T13:23:22Z",
+      "side": 1,
+      "message": "Why an else here? If an error in previous if; you return, if not then you break out the loop.",
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_d5b72138",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-04T13:23:22Z",
+      "side": 1,
+      "message": "you should use strncpy to make sure cmd_rc is not overrun. Using strstr to find a string in a string does not add a null. So are you saying the buffer contains \"iucmcmdrc\u003dnnnnnnn\"followed by a null terminator? you can only hold 7 chars plus a null.",
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
