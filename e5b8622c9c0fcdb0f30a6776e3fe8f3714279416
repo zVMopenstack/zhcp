@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_2bb5d0eb",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-08-05T02:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_1a7a58bd",
+      "range": {
+        "startLine": 19,
+        "startChar": 15,
+        "endLine": 19,
+        "endChar": 22
+      },
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_1a0ff837",
         "filename": "zhcp/src/IUCV/iucvclient.c",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-08-04T13:23:22Z",
       "side": 1,
       "message": "You should close the socket if you are returning.",
+      "range": {
+        "startLine": 318,
+        "startChar": 12,
+        "endLine": 318,
+        "endChar": 13
+      },
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_8ba3bcb1",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-08-05T02:49:27Z",
+      "side": 1,
+      "message": "upgrade will be made in sprint 3, so I just make a stub here.",
+      "parentUuid": "baa041b7_1a0ff837",
       "range": {
         "startLine": 318,
         "startChar": 12,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_0b98cc76",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-08-05T02:49:27Z",
+      "side": 1,
+      "message": "yes, \"else if\" or \"if\" should be the same.",
+      "parentUuid": "baa041b7_5a10e058",
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_d5b72138",
         "filename": "zhcp/src/IUCV/iucvclient.c",
         "patchSetId": 1
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_6b8d1830",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-08-05T02:49:27Z",
+      "side": 1,
+      "message": "what after \"iucvcmdrc\u003d\" is the errno which is got from system command result. \nI should less than 999..\nanyway, Add a strncpy will be safer.",
+      "parentUuid": "baa041b7_d5b72138",
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_abb7a01f",
         "filename": "zhcp/src/IUCV/iucvserver.c",
         "patchSetId": 1
@@ -93,6 +177,24 @@
       "writtenOn": "2016-08-05T00:45:32Z",
       "side": 1,
       "message": "Is \"errno\" a constant ?\nIf it is a variable then it should be defined first.",
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_2b9a7062",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-08-05T02:49:27Z",
+      "side": 1,
+      "message": "errno is defined in \u003cerrno.h\u003e, when I include errno.h, it is there.",
+      "parentUuid": "baa041b7_abb7a01f",
       "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
