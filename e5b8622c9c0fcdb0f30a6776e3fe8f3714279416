@@ -79,6 +79,23 @@
       "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_abb7a01f",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008499
+      },
+      "writtenOn": "2016-08-05T00:45:32Z",
+      "side": 1,
+      "message": "Is \"errno\" a constant ?\nIf it is a variable then it should be defined first.",
+      "revId": "e5b8622c9c0fcdb0f30a6776e3fe8f3714279416",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
