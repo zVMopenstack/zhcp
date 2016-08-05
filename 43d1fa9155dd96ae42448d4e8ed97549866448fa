@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_64ff8602",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-08-05T14:45:58Z",
+      "side": 1,
+      "message": "don\u0027t know why need this check\njust append \\n should be fine?",
+      "range": {
+        "startLine": 30,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "43d1fa9155dd96ae42448d4e8ed97549866448fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e709582c",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-08-05T14:45:58Z",
+      "side": 1,
+      "message": "why don\u0027t use \n\nprintf(\"%s \\n Return code %d, Reason code %d\\n\" ...\nand not copy msg ?\ncopy message every time especially for log is time consuming",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 5
+      },
+      "revId": "43d1fa9155dd96ae42448d4e8ed97549866448fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c7153440",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-08-05T14:45:58Z",
+      "side": 1,
+      "message": "why we need return here ?all buffer handled if pos!\u003dNULL?",
+      "range": {
+        "startLine": 377,
+        "startChar": 19,
+        "endLine": 377,
+        "endChar": 22
+      },
+      "revId": "43d1fa9155dd96ae42448d4e8ed97549866448fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
