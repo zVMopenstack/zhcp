@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_be6595e1",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-08T12:54:02Z",
+      "side": 1,
+      "message": "Do you really need this field or can you use the input parameter \"message\"? You are just logging the string.",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 24
+      },
+      "revId": "40e1e89d2c9da6242dfc907e12b99e6be04d97fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_fe579dfe",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-08T12:54:02Z",
+      "side": 1,
+      "message": "I thought you were going to add a newline after the message, and or switch by printing out the return and reason code first.",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 17
+      },
+      "revId": "40e1e89d2c9da6242dfc907e12b99e6be04d97fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
