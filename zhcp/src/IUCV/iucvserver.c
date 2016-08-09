@@ -35,13 +35,25 @@ int check_client_authorization(int newsockfd, char *req_userid)
     {
         syslog(LOG_INFO,"%s exists, check authorization.\n", PATH_FOR_AUTHORIZED_USERID);
         fseek(fp , 0 , SEEK_END);
-        len = ftell(fp)-1;
+        len = ftell(fp);
+        if(len > 16)
+        {
+            sprintf(err_msg, "UNAUTHORIZED_ERROR: Userid in authorized file is not correct.#0",PATH_FOR_AUTHORIZED_USERID);
+            syslog(LOG_ERR, err_msg);
+            send(newsockfd, err_msg, strlen(err_msg)+1, 0);
+            fclose(fp);
+            fp = NULL;
+            return UNAUTHORIZED_ERROR;
+        }
         fseek(fp, 0, SEEK_SET);
+        bzero(client_userid, 16);
         if(fread(client_userid, 1, len, fp)!=len)
         {
             sprintf(err_msg, "UNAUTHORIZED_ERROR: Failed to read userid from %s.#%d",PATH_FOR_AUTHORIZED_USERID, errno);
             syslog(LOG_ERR, err_msg);
             send(newsockfd, err_msg, strlen(err_msg)+1, 0);
+            fclose(fp);
+            fp = NULL;
             return errno;
         }
         syslog(LOG_INFO, "senduserid=%s, authuserid=%s, len=%d",req_userid, client_userid,len);
@@ -86,14 +98,13 @@ int receive_file_from_client(int newsockfd, char *des_path)
         sprintf(buffer, "The destination path %s should include the file name.", des_path);
         syslog(LOG_ERR, buffer);
         send(newsockfd, buffer, strlen(buffer)+1, 0);
-        close(newsockfd);
         return errno;
     }
     /* If file exists, rename it firstly */
     if(!access(des_path, 0))
     {
-        syslog(LOG_INFO,"Transport file has existed on system, rename it to xxx.old.");
-        sprintf(buffer,"mv %s %s.old", des_path, des_path);
+        syslog(LOG_INFO,"Transport file has existed on system, rename it to xxx.iucvold.");
+        sprintf(buffer,"mv %s %s.iucvold", des_path, des_path);
         system(buffer);
     }
     fp = fopen(des_path, "ab");
@@ -102,7 +113,6 @@ int receive_file_from_client(int newsockfd, char *des_path)
         sprintf(buffer, "Failed to open file %s for write", des_path);
         syslog(LOG_ERR, buffer);
         send(newsockfd, buffer,strlen(buffer)+1, 0);
-        close(newsockfd);
         return errno;
     }
     send(newsockfd, READY_TO_RECEIVE,strlen(READY_TO_RECEIVE)+1, 0);
@@ -130,7 +140,6 @@ int receive_file_from_client(int newsockfd, char *des_path)
                 syslog(LOG_ERR, "ERROR Fail to close received file after writing failed: %s\n",strerror(errno));
             }
             fp = NULL;
-            close(newsockfd);
             return errno;
         }
         syslog(LOG_INFO, "write to file a time");
@@ -144,7 +153,6 @@ int receive_file_from_client(int newsockfd, char *des_path)
     if (n < 0)
     {
         syslog(LOG_ERR, "ERROR reading from socket to get the tranport file: %s\n",strerror(errno));
-        close(newsockfd);
         return errno;
     }
 
@@ -168,10 +176,14 @@ int receive_file_from_client(int newsockfd, char *des_path)
                 strcpy(buffer,"FILE_RECEIVED_OK");
                 send(newsockfd,buffer,strlen(buffer)+1,0);
                 syslog(LOG_INFO, "send FILE_RECEIVED_OK to client",buffer);
+                pclose(fp);
+                fp = NULL;
                 return 0;
             }
         }
     }
+    pclose(fp);
+    fp = NULL;
     strcpy(buffer,"FILE_RECEIVED_FAILED");
     send(newsockfd,buffer,strlen(buffer)+1,0);
     syslog(LOG_INFO, "send FILE_RECEIVED_FAILED to client",buffer);
@@ -296,6 +308,7 @@ int server_socket()
             syslog(LOG_ERR, "Upgrade for IUCV is needed.Current version is %s, upgraded version is %s", IUCV_SERVER_VERSION, tmp);
             if((returncode = handle_upgrade()) != 0)
             {
+                close(newsockfd);
                 close(sockfd);
                 return returncode;
             }
@@ -311,10 +324,19 @@ int server_socket()
             if(strncmp(buffer, FILE_TRANSPORT, strlen(FILE_TRANSPORT))==0)
             {
                 strtok(buffer," ");
-                char path[BUFFER_SIZE];
+                char path[BUFFER_SIZE], tmp_path[BUFFER_SIZE + 10];
                 strcpy(path, strtok(NULL," "));
                 if((returncode = receive_file_from_client(newsockfd, path)) != 0)
                 {
+                    //rollback
+                    sprintf(tmp_path,"%s.iucvold", path);
+                    if(!access(tmp_path, 0))
+                    {
+                        syslog(LOG_INFO,"rollback file from xxx.iucvold to xxx.");
+                        sprintf(buffer,"mv %s %s", tmp_path, path);
+                        system(buffer);
+                    }
+                    close(newsockfd);
                     close(sockfd);
                     return returncode;
                 }
@@ -333,6 +355,7 @@ int server_socket()
                     syslog(LOG_ERR, buffer);
                     send(newsockfd, buffer,strlen(buffer)+1, 0);
                     close(newsockfd);
+                    close(sockfd);
                     return errno;
                 }
 
