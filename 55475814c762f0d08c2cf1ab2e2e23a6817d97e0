@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_aedd64e1",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-08-09T08:39:59Z",
+      "side": 1,
+      "message": "this line is needless",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "55475814c762f0d08c2cf1ab2e2e23a6817d97e0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
