@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_f55573c1",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-08-10T09:21:50Z",
+      "side": 1,
+      "message": "I might be aggressive again\n\nis it possible someone make the path as \n\n\u0027a;passwd root  xxxx\u0027 and we will make it\n\n\"mv a; passwd root xxxx.iucvold\" to execute with root authority? \n\nJust curious :)",
+      "range": {
+        "startLine": 326,
+        "startChar": 47,
+        "endLine": 326,
+        "endChar": 48
+      },
+      "revId": "a6ae2b067e44ed6e1b7ab3e4e605c5758fdc14e0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
