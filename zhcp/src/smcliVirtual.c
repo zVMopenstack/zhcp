@@ -1,5 +1,5 @@
 /**
- * IBM (C) Copyright 2013 Eclipse Public License
+ * IBM (C) Copyright 2013, 2016 Eclipse Public License
  * http://www.eclipse.org/org/documents/epl-v10.html
  */
 
@@ -3890,6 +3890,10 @@ int virtualNetworkVswitchSet(int argC, char* argV[], struct _vmApiInternalContex
     char * altParmDiskNumber = "";
     char * altParmDiskPassword = "";
     char * macId = "";
+    char vlanIDcopy[20];
+    int tempLength;
+    int i;
+    int commaCount = 0;
     vmApiVirtualNetworkVswitchSetOutput* output;
 
     // Options that have arguments are followed by a : character
@@ -4016,7 +4020,7 @@ int virtualNetworkVswitchSet(int argC, char* argV[], struct _vmApiInternalContex
                     "  The following options are optional:\n"
                     "    -I    A userid to be added to the access list for the specified virtual\n"
                     "          switch\n"
-                    "    -v    The user VLAN ID\n"
+                    "    -v    The user VLAN ID, a range, or a comma separated list. Maximum of 19 chars\n"
                     "    -U    A userid to be removed from the access list for the specified\n"
                     "          virtual switch\n"
                     "    -r    The real device address of a real OSA-Express QDIO device used to\n"
@@ -4080,9 +4084,30 @@ int virtualNetworkVswitchSet(int argC, char* argV[], struct _vmApiInternalContex
         return 1;
     }
 
+    tempLength = strlen(userVlanId);
+    if (tempLength > 19) {
+        printf("ERROR: vlanId cannot be longer than 19 characters\n");
+        return 1;
+    }
+
+    strcpy(vlanIDcopy, userVlanId);
+    if (tempLength > 0) {
+        // If any commas in the string change it to blanks for SMAPI
+        for (i=0; i< tempLength; i++) {
+            if (vlanIDcopy[i] == ',') {
+                vlanIDcopy[i] = ' ';
+                commaCount++;
+            }
+        }
+        if (commaCount >= 0 && (tempLength==commaCount)) {
+            printf("ERROR: vlanId has only commas, must contain vlan id numbers\n");
+            return 1;
+        }
+    }
+
     printf("Changing configuration of virtual switch %s... ", switchName);
     rc = smVirtual_Network_Vswitch_Set(vmapiContextP, "", 0, "",
-            image, switchName,  grantUserid, userVlanId, revokeUserid, realDeviceAddress,
+            image, switchName,  grantUserid, vlanIDcopy, revokeUserid, realDeviceAddress,
             portName, controllerName, connectionValue, queueMemoryLimit, routingValue, portType,
             updateSystemConfigIndicator, systemConfigName, systemConfigType, parmDiskOwner, parmDiskNumber,
             parmDiskPassword, altSystemConfigName, altSystemConfigType, altParmDiskOwner,
