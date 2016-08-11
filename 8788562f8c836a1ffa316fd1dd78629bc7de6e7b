@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_3f6f3561",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-11T13:43:26Z",
+      "side": 1,
+      "message": "don\u0027t you want a %s here? Not the hash tag...\nMy reason for wanting this check is because this file could updated by someone (even though we do not want them to). If you only want a zVM userid then you can check for \u003e8. I just am very cautious about any copy that is not checking for a buffer overflow. It causes very odd problems.",
+      "range": {
+        "startLine": 41,
+        "startChar": 92,
+        "endLine": 41,
+        "endChar": 93
+      },
+      "revId": "8788562f8c836a1ffa316fd1dd78629bc7de6e7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
