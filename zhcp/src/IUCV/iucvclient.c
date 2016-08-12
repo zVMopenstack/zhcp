@@ -24,7 +24,6 @@ int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasonco
             return returncode;
         }
         printf("%s\nReturn code %d, Reason code %d.\n", message, returncode, reasoncode);
-        return returncode;
     }
     else
     {
@@ -89,8 +88,8 @@ int prepare_commands(char* buffer, int argc, char *argv[])
         strcat(buffer, tmp_buf);
         buffer[strlen(buffer)-1]='\0';//command has an enter;
     }
+    pclose(fp);
     fp = NULL;
-    close(fp);
 
     /* 3.commands */
     for (i = 2; i < argc;i++)
@@ -164,6 +163,8 @@ int send_file_to_server(int sockfd, char *src_path)
                  printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "Failed to send file to serer.", 1);
                  free(file_buf);
                  file_buf = NULL;
+                 fclose(fp);
+                 fp = NULL;
                  return SOCKET_ERROR;
             }
         }
@@ -193,6 +194,8 @@ int send_file_to_server(int sockfd, char *src_path)
             }
             send(sockfd, md5, strlen(md5) + 1, 0);
         }
+        pclose(fp);
+        fp = NULL;
         /* After finish sending file, wait for the message from server to get the file transport result */
         printf("Finish sending file, just need to wait for the server's receive respond\n");
         bzero(buffer,SMALL_BUFFER_SIZE);
@@ -280,6 +283,7 @@ int main(int argc, char *argv[])
     }
     if((returncode = prepare_commands(buffer, argc, argv)) != 0)
     {
+        close(sockfd);
         return returncode;
     }
     /* Send messages to server. */
@@ -328,6 +332,7 @@ int main(int argc, char *argv[])
             {
                 sprintf(buffer, "The source path %s should include the file name.", argv[3]);
                 printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, 1, buffer, 0);
+                close(sockfd);
                 return FILE_TRANSPORT_ERROR;
             }
             printf("Begin to send file.\n");
@@ -373,7 +378,7 @@ int main(int argc, char *argv[])
                 if(pos != NULL)
                 {
                     close(sockfd);
-                    return 0; 
+                    return 0;
                 }
             }
             else
