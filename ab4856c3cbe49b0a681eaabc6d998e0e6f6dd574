@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_4cc35c58",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-22T12:50:20Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to shorten the Linux executable. See above examples.",
+      "revId": "ab4856c3cbe49b0a681eaabc6d998e0e6f6dd574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_2c9ff866",
+        "filename": "zhcp/bin/IUCV/iucvserd",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-22T12:50:20Z",
+      "side": 1,
+      "message": "You do not need to shorten this name.",
+      "revId": "ab4856c3cbe49b0a681eaabc6d998e0e6f6dd574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_0ca434b7",
+        "filename": "zhcp/bin/IUCV/iucvserd.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-22T12:50:20Z",
+      "side": 1,
+      "message": "You do not need to shorten the Linux names.",
+      "revId": "ab4856c3cbe49b0a681eaabc6d998e0e6f6dd574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_6cabc076",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-08-22T12:50:20Z",
+      "side": 1,
+      "message": "You just need to make the punch file name 8 chars, not the Linux executable.",
+      "revId": "ab4856c3cbe49b0a681eaabc6d998e0e6f6dd574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
