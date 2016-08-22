@@ -6,8 +6,7 @@ Before=
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/iucvserver start
-ExecStop=/usr/bin/iucvserver stop
+ExecStart=/usr/bin/iucvserv start
 StandardOutput=journal+console
 
 [Install]

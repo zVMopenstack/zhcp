@@ -301,8 +301,8 @@ all: $(ZHCPLIB) \
     syncfileutil \
     undedicatedevice \
     smcli\
-    iucvserver\
-    iucvclient
+    iucvserv\
+    iucvclnt
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------
 # Utils object files
@@ -972,13 +972,13 @@ ckdhex.o : $(SRC_DIR)ckdhex.c
 #------------------------------------------------------------------------------------------------------------------------------------------------------
 # IUCV files
 #------------------------------------------------------------------------------------------------------------------------------------------------------
-iucvserver : iucvserver.o
-	gcc -o iucvserver   iucvserver.o
+iucvserv : iucvserver.o
+	gcc -o iucvserv   iucvserver.o
 iucvserver.o : $(SRC_DIR)/IUCV/iucvserver.c
 	gcc -c  $(DEBUG) -I$(INCLUDE_DIR)IUCV/ $(SRC_DIR)IUCV/iucvserver.c
 
-iucvclient : iucvclient.o
-	gcc -o iucvclient   iucvclient.o
+iucvclnt : iucvclient.o
+	gcc -o iucvclnt   iucvclient.o
 iucvclient.o : $(SRC_DIR)/IUCV/iucvclient.c
 	gcc -c $(DEBUG) -I$(INCLUDE_DIR)IUCV/ $(SRC_DIR)IUCV/iucvclient.c
 
@@ -1226,9 +1226,8 @@ install:
 	install syncfileutil $(BIN_DIR)
 	mkdir -p $(LD_DIR)
 	mkdir -p $(BIN_DIR)/IUCV
-	install iucvserver  $(BIN_DIR)/IUCV/
-	install iucvclient $(BIN_DIR)/IUCV/
-	cp $(SRC_DIR)IUCV/iucvserverd $(BIN_DIR)/IUCV/
+	install iucvserv  $(BIN_DIR)/IUCV/
+	install iucvclnt $(BIN_DIR)/IUCV/
 
 #-----------------------------------------------------------------------
 # Post
@@ -1281,5 +1280,5 @@ clean:
 	-rm syncfileutil
 	-rm undedicatedevice
 	-rm smcli
-	-rm iucvserver
-	-rm iucvclient
+	-rm iucvserv
+	-rm iucvclnt

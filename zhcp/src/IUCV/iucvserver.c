@@ -26,7 +26,7 @@ int check_client_authorization(int newsockfd, char *req_userid)
     if( NULL == fp)
     {
         /* all the message sent to client, should start with UNAUTHORIZED_ERROR: reason.#errno*/
-        sprintf(err_msg, "UNAUTHORIZED_ERROR: Authorized path %s doesn't exist on iucvserver.#%d", PATH_FOR_AUTHORIZED_USERID, errno);
+        sprintf(err_msg, "UNAUTHORIZED_ERROR: Authorized path %s doesn't exist on iucv server.#%d", PATH_FOR_AUTHORIZED_USERID, errno);
         syslog(LOG_ERR, err_msg);
         send(newsockfd, err_msg, strlen(err_msg)+1, 0);
         return errno;
@@ -439,7 +439,7 @@ int main(int argc,char* argv[])
     }
     else
     {
-        printf("Usage: iucvserver [--version] [start] [start-as-daemon]\n");
+        printf("Usage: iucvserv [--version] [start] [start-as-daemon]\n");
         return -1;
     }
 }

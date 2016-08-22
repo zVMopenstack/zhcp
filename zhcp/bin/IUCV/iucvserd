@@ -21,8 +21,8 @@ if [ -f "/etc/init.d/functions" ]; then
     . /etc/init.d/functions
 fi
 
-#the service name  for example: iucvserver
-SNAME=iucvserver
+#the service name  for example: iucvserv
+SNAME=iucvserv
 
 #the full path and name of the daemon program
 #Warning: The name of executable file must be identical with service name
