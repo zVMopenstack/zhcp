@@ -105,6 +105,7 @@ VMAPI_OBJECTS += vmapiIPaddrGet.o
 VMAPI_OBJECTS += vmapiMetadataDelete.o
 VMAPI_OBJECTS += vmapiMetadataGet.o
 VMAPI_OBJECTS += vmapiMetadataSet.o
+VMAPI_OBJECTS += vmapiMetadataSpaceQuery.o
 VMAPI_OBJECTS += vmapiNameListAdd.o
 VMAPI_OBJECTS += vmapiNameListDestroy.o
 VMAPI_OBJECTS += vmapiNameListQuery.o
@@ -573,6 +574,9 @@ vmapiMetadataGet.o : $(SRC_DIR)vmapiMetadataGet.c
 	
 vmapiMetadataSet.o : $(SRC_DIR)vmapiMetadataSet.c
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiMetadataSet.c		
+
+vmapiMetadataSpaceQuery.o : $(SRC_DIR)vmapiMetadataSpaceQuery.c
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiMetadataSpaceQuery.c
 
 vmapiNameListAdd.o : $(SRC_DIR)vmapiNameListAdd.c $(INCLUDE_DIR)vmapiName.h
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiNameListAdd.c
