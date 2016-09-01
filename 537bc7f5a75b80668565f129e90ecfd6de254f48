@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_42ac2035",
+        "filename": "zhcp/src/vmapiMetadataSpaceQuery.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-09-01T18:00:16Z",
+      "side": 1,
+      "message": "I don\u0027t believe Steve Shultz has any error buffer information or plans to. You can delete these 3 lines.",
+      "revId": "537bc7f5a75b80668565f129e90ecfd6de254f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
