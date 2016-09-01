@@ -68,10 +68,6 @@ int smMetadataSpaceQuery(struct _vmApiInternalContext* vmapiContextP, char * use
     strcpy(cursor, keywordlist);
     cursor += tempSize;
 
-    // Set the context flag that indicates a possible error buffer from SMAPI
-    vmapiContextP->smapiErrorBufferPossible =
-            ERROR_OUTPUT_BUFFER_POSSIBLE_WITH_LENGTH_FIELD;
-
     // This routine will send SMAPI the input, delete the input storage
     // and call the table parser to set the output in outData
     rc = getAndParseSmapiBuffer(vmapiContextP, &inputP, inputSize,
