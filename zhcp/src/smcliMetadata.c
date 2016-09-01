@@ -1,5 +1,5 @@
 /**
- * IBM (C) Copyright 2013 Eclipse Public License
+ * IBM (C) Copyright 2013, 2016 Eclipse Public License
  * http://www.eclipse.org/org/documents/epl-v10.html
  */
 #include "smcliMetadata.h"
@@ -270,3 +270,80 @@ int metadataSet(int argC, char* argV[],
     };
     return rc;
 }
+
+int metadataSpaceQuery(int argC, char* argV[], struct _vmApiInternalContext* vmapiContextP) {
+    // Parse the command-line arguments
+    int option;
+    int rc;
+    char * image = NULL;
+    int i;
+    const char * optString = "-T:k:h?";
+    char * keywords = NULL;
+    vmApiMetadataSpaceQueryOutput* output;
+
+    // Options that have arguments are followed by a : character
+    while ((option = getopt(argC, argV, optString)) != -1)
+        switch (option) {
+            case 'T':
+                image = optarg;
+                break;
+
+            case 'k':
+                keywords = optarg;
+                break;
+
+            case 'h':
+                printf("NAME\n"
+                    "  Metadata_Space_Query\n\n"
+                    "SYNOPSIS\n"
+                    "  smcli Metadata_Space_Query [-T] image_name\n"
+                    "    [-k] 'searchkey=<pattern>'\n\n"
+                    "DESCRIPTION\n"
+                    "  Use Metadata_Space_Qyery to obtain metadata values associated with a\n"
+                    "  textual identifier (typically a directory entry name).\n"
+                    "  The following options are required:\n"
+                    "    -T    A textual identifier (typically a directory entry name).\n"
+                    "    -k    One quoted searchkey=<pattern> search term to select the metadata items to be displayed\n"
+                    "          The search pattern may include a trailing ""*"" to broaden the scope of the search   \n");
+                return 1;
+                break;
+
+            case '?':  // Missing option data or invalid option
+                return 1;
+                break;
+
+            case 1:  // API name type data(other non option element key data)
+               break;
+
+            default:
+                return 1;
+                break;
+        }
+
+    if (!image || !keywords) {
+        printf("\nERROR: Missing required options\n");
+        return 1;
+    }
+
+    rc = smMetadataSpaceQuery(vmapiContextP, "", 0, "",  // Authorizing user, password length, password
+            image, keywords, &output);
+
+    if (rc) {
+        printAndLogSmapiCallReturnCode("MetadataSpaceQuery", rc, vmapiContextP);
+    } else if (output->common.returnCode || output->common.reasonCode) {
+        // Handle SMAPI return code and reason code
+        rc = printAndLogSmapiReturnCodeReasonCodeDescription("MetadataSpaceQuery", output->common.returnCode,
+                output->common.reasonCode, vmapiContextP);
+    } else {
+        int i;
+        int entryCount = output->metadataEntryCount;
+        if (entryCount > 0) {
+            // Loop through metadata entries and print out metadata entry
+            for (i = 0; i < entryCount; i++) {
+                printf("%s\n", output->metadataEntryList[i].vmapiString);
+            }
+        }
+    }
+    return rc;
+}
+

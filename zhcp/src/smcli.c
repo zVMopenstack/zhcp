@@ -208,6 +208,9 @@ int main(int argC, char* argV[]) {
                    "  Metadata_Get\n"
                    "  Metadata_Set\n");
         }
+        if (smapiLevel >= 640) {
+            printf("  Metadata_Space_Query\n");	
+        }
         printf("  Name_List_Add\n"
                "  Name_List_Destroy\n"
                "  Name_List_Query\n"
@@ -686,6 +689,8 @@ static const char * APIS_640[APIS_640_COUNT] = {
         rc = metadataGet(argC, argV, &vmapiContext);
     } else if (!strcmp(argV[1], "Metadata_Set")) {
         rc = metadataSet(argC, argV, &vmapiContext);
+    } else if (!strcmp(argV[1], "Metadata_Space_Query")) {
+        rc = metadataSpaceQuery(argC, argV, &vmapiContext);
     } else if (!strcmp(argV[1], "Name_List_Add")) {
         rc = nameListAdd(argC, argV, &vmapiContext);
     } else if (!strcmp(argV[1], "Name_List_Destroy")) {
