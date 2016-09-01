@@ -105,6 +105,7 @@ VMAPI_OBJECTS += vmapiIPaddrGet.o
 VMAPI_OBJECTS += vmapiMetadataDelete.o
 VMAPI_OBJECTS += vmapiMetadataGet.o
 VMAPI_OBJECTS += vmapiMetadataSet.o
+VMAPI_OBJECTS += vmapiMetadataSpaceQuery.o
 VMAPI_OBJECTS += vmapiNameListAdd.o
 VMAPI_OBJECTS += vmapiNameListDestroy.o
 VMAPI_OBJECTS += vmapiNameListQuery.o
@@ -301,8 +302,8 @@ all: $(ZHCPLIB) \
     syncfileutil \
     undedicatedevice \
     smcli\
-    iucvserver\
-    iucvclient
+    iucvserv\
+    iucvclnt
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------
 # Utils object files
@@ -573,6 +574,9 @@ vmapiMetadataGet.o : $(SRC_DIR)vmapiMetadataGet.c
 	
 vmapiMetadataSet.o : $(SRC_DIR)vmapiMetadataSet.c
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiMetadataSet.c		
+
+vmapiMetadataSpaceQuery.o : $(SRC_DIR)vmapiMetadataSpaceQuery.c
+	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiMetadataSpaceQuery.c
 
 vmapiNameListAdd.o : $(SRC_DIR)vmapiNameListAdd.c $(INCLUDE_DIR)vmapiName.h
 	gcc -c $(CFLAGS) $(DEBUG) -I$(INCLUDE_DIR) $(SRC_DIR)vmapiNameListAdd.c
@@ -972,13 +976,13 @@ ckdhex.o : $(SRC_DIR)ckdhex.c
 #------------------------------------------------------------------------------------------------------------------------------------------------------
 # IUCV files
 #------------------------------------------------------------------------------------------------------------------------------------------------------
-iucvserver : iucvserver.o
-	gcc -o iucvserver   iucvserver.o
+iucvserv : iucvserver.o
+	gcc -o iucvserv   iucvserver.o
 iucvserver.o : $(SRC_DIR)/IUCV/iucvserver.c
 	gcc -c  $(DEBUG) -I$(INCLUDE_DIR)IUCV/ $(SRC_DIR)IUCV/iucvserver.c
 
-iucvclient : iucvclient.o
-	gcc -o iucvclient   iucvclient.o
+iucvclnt : iucvclient.o
+	gcc -o iucvclnt   iucvclient.o
 iucvclient.o : $(SRC_DIR)/IUCV/iucvclient.c
 	gcc -c $(DEBUG) -I$(INCLUDE_DIR)IUCV/ $(SRC_DIR)IUCV/iucvclient.c
 
@@ -1226,9 +1230,8 @@ install:
 	install syncfileutil $(BIN_DIR)
 	mkdir -p $(LD_DIR)
 	mkdir -p $(BIN_DIR)/IUCV
-	install iucvserver  $(BIN_DIR)/IUCV/
-	install iucvclient $(BIN_DIR)/IUCV/
-	cp $(SRC_DIR)IUCV/iucvserverd $(BIN_DIR)/IUCV/
+	install iucvserv  $(BIN_DIR)/IUCV/
+	install iucvclnt $(BIN_DIR)/IUCV/
 
 #-----------------------------------------------------------------------
 # Post
@@ -1281,5 +1284,5 @@ clean:
 	-rm syncfileutil
 	-rm undedicatedevice
 	-rm smcli
-	-rm iucvserver
-	-rm iucvclient
+	-rm iucvserv
+	-rm iucvclnt
