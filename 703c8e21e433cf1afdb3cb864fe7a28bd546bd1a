@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_1fe30607",
+        "filename": "Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-09-06T07:54:11Z",
+      "side": 1,
+      "message": "weird it says some changes here but actually no change at all",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 6
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
