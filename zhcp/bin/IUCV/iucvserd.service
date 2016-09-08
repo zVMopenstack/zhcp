@@ -1,7 +1,7 @@
 [Unit]
 Description=IUCV agent service which is used to communicate with IUCV client in OPNCLOUD.
-Wants=
-After=cloud-init-local.service
+Wants=local-fs.target
+After=local-fs.target
 Before=
 
 [Service]
