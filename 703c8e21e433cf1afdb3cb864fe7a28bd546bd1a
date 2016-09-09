@@ -22,6 +22,190 @@
       "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_8a122557",
+        "filename": "zhcp/src/smcliMetadata.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-09T15:06:08Z",
+      "side": 1,
+      "message": "Every line of this file is being flagged as changed.  Is it possible that one of the versions has the wrong line ends?  Can you please tell us why there is a difference between the base and the new file on unchanged lines.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 1
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_0afe1505",
+        "filename": "zhcp/src/smcliMetadata.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-09T15:06:08Z",
+      "side": 1,
+      "message": "Extra space at end of this line.",
+      "range": {
+        "startLine": 307,
+        "startChar": 121,
+        "endLine": 307,
+        "endChar": 125
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_aa0a891e",
+        "filename": "zhcp/src/smcliMetadata.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-09T15:06:08Z",
+      "side": 1,
+      "message": "There are only two required options.  Can you please improve this so that it indicates which options are missing?  I suggest you duplicate the test and in the first case handle !image and in the second case handle ! keywords.  Then tell us in the message.",
+      "range": {
+        "startLine": 324,
+        "startChar": 42,
+        "endLine": 324,
+        "endChar": 49
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_2a179946",
+        "filename": "zhcp/src/vmapiMetadataSpaceQuery.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-09T15:06:08Z",
+      "side": 1,
+      "message": "This appears to be a new file.  Thus, I would not expect to see the 2013 date in the copyright.",
+      "range": {
+        "startLine": 2,
+        "startChar": 27,
+        "endLine": 2,
+        "endChar": 31
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_6a0da134",
+        "filename": "zhcp/src/vmapiMetadataSpaceQuery.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-09T15:06:08Z",
+      "side": 1,
+      "message": "extra space at the end of the line.",
+      "range": {
+        "startLine": 26,
+        "startChar": 48,
+        "endLine": 26,
+        "endChar": 49
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_4a1c1d6a",
+        "filename": "zhcp/src/vmapiMetadataSpaceQuery.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-09T15:06:08Z",
+      "side": 1,
+      "message": "extra space",
+      "range": {
+        "startLine": 27,
+        "startChar": 42,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_ea2771b3",
+        "filename": "zhcp/src/vmapiMetadataSpaceQuery.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-09T15:06:08Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.  \"1..8 or 0..8\"",
+      "range": {
+        "startLine": 48,
+        "startChar": 35,
+        "endLine": 48,
+        "endChar": 41
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_ca1eed5e",
+        "filename": "zhcp/src/vmapiMetadataSpaceQuery.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-09T15:06:08Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment \"1..200 or 0..200\".  Which range is correct?",
+      "range": {
+        "startLine": 55,
+        "startChar": 43,
+        "endLine": 55,
+        "endChar": 44
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
