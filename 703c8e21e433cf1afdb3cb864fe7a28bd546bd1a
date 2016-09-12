@@ -186,6 +186,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_9eff0366",
+        "filename": "zhcp/src/vmapiMetadataSpaceQuery.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2016-09-12T12:38:50Z",
+      "side": 1,
+      "message": "Actually this came from the SMAPI manual. Ex:\nauthenticated_userid\nOne of the following:\nv (string,1-8,char42) The userid under whose authority to perform the function\n(AF_INET requests).\nv (string,0-8,char42) The userid under whose authority to perform the function\n(AF_IUCV requests).\n\nSince we only use IUCV I guess we can just use the 0..8 which indicates some string between 0 and 8 bytes.\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d This comment is just copied from another request, since this part of the setup is similar in all the requests.",
+      "parentUuid": "baa041b7_ea2771b3",
+      "range": {
+        "startLine": 48,
+        "startChar": 35,
+        "endLine": 48,
+        "endChar": 41
+      },
+      "revId": "703c8e21e433cf1afdb3cb864fe7a28bd546bd1a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_ca1eed5e",
         "filename": "zhcp/src/vmapiMetadataSpaceQuery.c",
         "patchSetId": 2
