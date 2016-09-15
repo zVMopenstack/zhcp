@@ -39,7 +39,7 @@ cp config/tracing.conf $RPM_BUILD_ROOT/var/opt/zhcp
 cp config/settings.conf $RPM_BUILD_ROOT/var/opt/zhcp
 chmod 755 zhcp/bin/*
 chmod 755 zhcp/lib/*
-cp zhcp/bin/* $RPM_BUILD_ROOT/opt/zhcp/bin
+cp -rf zhcp/bin/* $RPM_BUILD_ROOT/opt/zhcp/bin
 cp zhcp/lib/* $RPM_BUILD_ROOT/opt/zhcp/lib
 echo "zhcp version: "%{xcatver} "Built on: "%{builddate} > $RPM_BUILD_ROOT/opt/zhcp/version
 
