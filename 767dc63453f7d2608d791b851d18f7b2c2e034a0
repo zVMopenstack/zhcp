@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_fdc28752",
+        "filename": "Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-15T15:52:57Z",
+      "side": 1,
+      "message": "Extra space added by someone else. You might consider removing them on 571, 574 and 576",
+      "revId": "767dc63453f7d2608d791b851d18f7b2c2e034a0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_7db677fa",
+        "filename": "zhcp/src/smcli.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-09-15T15:52:57Z",
+      "side": 1,
+      "message": "Extra space at the end of this line.",
+      "revId": "767dc63453f7d2608d791b851d18f7b2c2e034a0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
