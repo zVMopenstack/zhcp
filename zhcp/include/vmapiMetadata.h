@@ -1,5 +1,5 @@
 /**
- * IBM (C) Copyright 2013 Eclipse Public License
+ * IBM (C) Copyright 2013, 2016 Eclipse Public License
  * http://www.eclipse.org/org/documents/epl-v10.html
  */
 #ifndef VMAPIMETADATA_H_
@@ -79,6 +79,29 @@ int smMetadataSet(struct _vmApiInternalContext* vmapiContextP, char * userid,
         int passwordLength, char * password, char * targetIdentifier, int keyValueCount,
         char ** nameArray, char ** dataArray, vmApiMetadataSetOutput ** outData);
 
+/* Metadata_Space_Query */
+
+typedef struct _vmApiMetadataSpaceQueryOutput {
+    commonOutputFields common;
+    int metadataEntryCount;
+    vmApiCStringInfo * metadataEntryList;
+} vmApiMetadataSpaceQueryOutput;
+
+/* Parser table for Metadata_Space_Query */
+static tableLayout Metadata_Space_Query_Layout = {
+    { APITYPE_BASE_STRUCT_LEN,     4,    4, STRUCT_INDX_0, NEST_LEVEL_0, sizeof(vmApiMetadataSpaceQueryOutput) },
+    { APITYPE_INT4,                4,    4, STRUCT_INDX_0, NEST_LEVEL_0, offsetof(vmApiMetadataSpaceQueryOutput, common.requestId) },
+    { APITYPE_RC_INT4,             4,    4, STRUCT_INDX_0, NEST_LEVEL_0, offsetof(vmApiMetadataSpaceQueryOutput, common.returnCode) },
+    { APITYPE_RS_INT4,             4,    4, STRUCT_INDX_0, NEST_LEVEL_0, offsetof(vmApiMetadataSpaceQueryOutput, common.reasonCode) },
+    { APITYPE_C_STR_ARRAY_PTR,     4,    4, STRUCT_INDX_0, NEST_LEVEL_0, offsetof(vmApiMetadataSpaceQueryOutput, metadataEntryList) },
+    { APITYPE_C_STR_ARRAY_COUNT,   4,    4, STRUCT_INDX_0, NEST_LEVEL_0, offsetof(vmApiMetadataSpaceQueryOutput, metadataEntryCount) },
+    { APITYPE_C_STR_STRUCT_LEN,    4,    4, STRUCT_INDX_1, NEST_LEVEL_1, sizeof(vmApiCStringInfo) },
+    { APITYPE_C_STR_PTR,           4,    4, STRUCT_INDX_1, NEST_LEVEL_1, offsetof(vmApiCStringInfo, vmapiString) },
+    { APITYPE_END_OF_TABLE, 0, 0, 0, 0 }
+};
+
+int smMetadataSpaceQuery(struct _vmApiInternalContext* vmapiContextP, char * userid, int passwordLength, char * password,
+        char * targetIdentifier, char * keywordlist, vmApiMetadataSpaceQueryOutput ** outData);
 #ifdef __cplusplus
 }
 #endif
