@@ -633,10 +633,10 @@ function deployDiskImage {
 
     # Exec zipl according different linux distro
     if [[ $os == sles12* ]]; then
-      out=`chroot $deviceMountPoint grub2-zipl-setup 2>&1`
+      out=`chroot $deviceMountPoint /sbin/zipl -c /boot/zipl/config 2>&1`
       rc=$?
       if (( rc != 0 )); then
-        printError "Failed to execute grub2-zipl-setup on $os due to $out"
+        printError "Failed to execute zipl on $os due to $out"
         umount $deviceMountPoint
         rm -rf $deviceMountPoint
         return 1
