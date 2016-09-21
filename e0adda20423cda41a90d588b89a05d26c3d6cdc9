@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_3ab6a3f9",
+        "filename": "zhcp/bin/unpackdiskimage",
+        "patchSetId": 1
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-09-21T09:13:40Z",
+      "side": 1,
+      "message": "can we add some comments here on why we use zipl instead of grub2 and link some bug info ?",
+      "range": {
+        "startLine": 636,
+        "startChar": 48,
+        "endLine": 636,
+        "endChar": 49
+      },
+      "revId": "e0adda20423cda41a90d588b89a05d26c3d6cdc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
