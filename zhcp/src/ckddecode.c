@@ -138,8 +138,8 @@ int main (int argumentCount, char* argumentValues[]) {
     goto exit;
   }
 
-  if ( ((uint) trackBuffer) % 4096 != 0 ) {
-    fprintf( stderr, "Track buffer is not on a 4k boundary: 0x%x\n", (uint) trackBuffer );
+  if ( ((uint32_t) trackBuffer) % 4096 != 0 ) {
+    fprintf( stderr, "Track buffer is not on a 4k boundary: 0x%x\n", (uint32_t) trackBuffer );
     exitCode = 7;
     goto exit;
   }
