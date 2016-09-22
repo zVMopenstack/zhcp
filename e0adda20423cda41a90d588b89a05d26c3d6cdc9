@@ -22,6 +22,30 @@
       "revId": "e0adda20423cda41a90d588b89a05d26c3d6cdc9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_edf2c49a",
+        "filename": "zhcp/bin/unpackdiskimage",
+        "patchSetId": 1
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1009058
+      },
+      "writtenOn": "2016-09-22T06:33:52Z",
+      "side": 1,
+      "message": "I think it\u0027s not good to put a link of our internal bug at here, so just modify the description message.",
+      "parentUuid": "baa041b7_3ab6a3f9",
+      "range": {
+        "startLine": 636,
+        "startChar": 48,
+        "endLine": 636,
+        "endChar": 49
+      },
+      "revId": "e0adda20423cda41a90d588b89a05d26c3d6cdc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
