@@ -40,10 +40,11 @@ uint16_t dataCountRunValue[256];
 //***************************************************************************
 int main (int argumentCount, char* argumentValues[]) {
   RecordMetadata recordMetadata;
+  int     dasdDescriptor = -1;
   int      returnCode = 0;
   int      exitCode   = 0;
   uint8_t  recordsInTrack;
-  uint16_t cylinderIndex, trackIndex;
+  //uint16_t cylinderIndex, trackIndex;
   uint32_t trackCount = 0;
   void*    trackBuffer = NULL;
   void*    trackBufferCursor;
@@ -60,7 +61,7 @@ int main (int argumentCount, char* argumentValues[]) {
   //**************************************************************************
   // Open the disk for reading and obtain a work buffer.
   //**************************************************************************
-  int dasdDescriptor = open(argumentValues[1], O_RDONLY | O_DIRECT);
+  dasdDescriptor = open(argumentValues[1], O_RDONLY | O_DIRECT);
   if (dasdDescriptor == -1) {
     fprintf(stderr, "Error: unable to open disk %s for reading\n", argumentValues[1]);
     exitCode = 2;
@@ -78,8 +79,8 @@ int main (int argumentCount, char* argumentValues[]) {
   // Main Loop: Read and process each track in the disk.
   //**************************************************************************
   while (( returnCode = read( dasdDescriptor, trackBuffer, TRACK_SIZE ) ) > 0) {
-    cylinderIndex = ((uint16_t*)trackBuffer)[0];
-    trackIndex    = ((uint16_t*)trackBuffer)[1];
+    //cylinderIndex = ((uint16_t*)trackBuffer)[0];
+    //trackIndex    = ((uint16_t*)trackBuffer)[1];
     trackCount++;
 
     // Re-initialize these values for each track read.
