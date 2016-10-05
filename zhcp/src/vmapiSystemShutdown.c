@@ -1,5 +1,5 @@
 /**
- * IBM (C) Copyright 2013 Eclipse Public License
+ * IBM (C) Copyright 2013, 2016 Eclipse Public License
  * http://www.eclipse.org/org/documents/epl-v10.html
  */
 
@@ -19,7 +19,6 @@ int smSystem_Shutdown(struct _vmApiInternalContext* vmapiContextP, char * userid
     int i;
     int rc;
     char * cursor;
-    char* targetStart[2];
 
     const char * const functionName = "System_Shutdown";
     int inputSize = 4 + 4 + strlen(functionName) + 4 + strlen(userid) + 4
@@ -61,12 +60,10 @@ int smSystem_Shutdown(struct _vmApiInternalContext* vmapiContextP, char * userid
 
     tempSize = strlen(targetIdentifier);  // Target identifier 1..8
     PUT_INT(tempSize, cursor);
-    targetStart[0] = targetIdentifier;  // Remember position relocateTarget for later tracing
     memcpy(cursor, targetIdentifier, tempSize);
     cursor += tempSize;
 
     for ( i = 0; i < keyValueCount; i++ ) {  // Keyword = value terminated strings
-        targetStart[i+1] = cursor;  // Remember position of parameter for later tracing
         tempSize = strlen(keyValueArray[i]) + 1;
         strcpy(cursor, keyValueArray[i]);
         cursor += tempSize;
@@ -74,7 +71,11 @@ int smSystem_Shutdown(struct _vmApiInternalContext* vmapiContextP, char * userid
 
     // Trace the important SMAPI parameters for parser detail tracing
     TRACE_START(vmapiContextP, TRACEAREA_ZHCP_GENERAL, TRACELEVEL_PARAMETERS);
-        sprintf(line, "System_Shutdown SMAPI parms, userid: %s, %s\n", targetStart[0], targetStart[1]);
+        sprintf(line, "System_Shutdown SMAPI parms, userid: %s,", targetIdentifier);
+        for ( i = 0; i < keyValueCount; i++ ) {
+            sprintf(line+strlen(line), " %s,", keyValueArray[i]);
+        }
+        sprintf(line+strlen(line), "\n");
     TRACE_END_DEBUG(vmapiContextP, line);
 
     // This routine will send SMAPI the input, delete the input storage
