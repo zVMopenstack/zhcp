@@ -86,7 +86,7 @@ int check_client_authorization(int newsockfd, char *req_userid)
 */
 int receive_file_from_client(int newsockfd, char *des_path)
 {
-    char buffer[BUFFER_SIZE], md5[256];
+    char buffer[BUFFER_SIZE], md5[256], filemode[8];
     int n = 0;
     FILE * fp = NULL;
     syslog(LOG_INFO,"Will receive and save file to %s which is sent from IUCV client.\n", des_path);
@@ -125,8 +125,10 @@ int receive_file_from_client(int newsockfd, char *des_path)
         {
             syslog(LOG_INFO, "FILE_SENT_OVER");
             /* Get md5 code from client */
-            strcpy(md5, buffer + strlen(FILE_SENT_OVER) + 1);
-            syslog(LOG_INFO,"file md5=%s",md5);
+            strncpy(md5, buffer + strlen(FILE_SENT_OVER) + 1, 32);
+            strncpy(filemode, buffer + strlen(FILE_SENT_OVER) + 1 + 33, 3);
+            filemode[3]='\0';
+            syslog(LOG_INFO,"file md5=%s filemode=%s",md5, filemode);
             break;
         }
         syslog(LOG_INFO,"start to write file\n");
@@ -168,7 +170,7 @@ int receive_file_from_client(int newsockfd, char *des_path)
     }
     else
     {
-        bzero(buffer,BUFFER_SIZE);
+        bzero(buffer, BUFFER_SIZE);
         if(fgets(buffer, sizeof(buffer), fp) != NULL)
         {
             if(strncmp(md5, buffer, 32)==0) //md5 is 32 bytes
@@ -178,6 +180,8 @@ int receive_file_from_client(int newsockfd, char *des_path)
                 syslog(LOG_INFO, "send FILE_RECEIVED_OK to client",buffer);
                 pclose(fp);
                 fp = NULL;
+                //set file mode the same as source.
+                chmod(des_path, strtol(filemode, NULL, 8));
                 return 0;
             }
         }
@@ -190,18 +194,158 @@ int receive_file_from_client(int newsockfd, char *des_path)
     return errno;
 }
 
+/* Receive file with roll back
+* @param $1: the socket which is used to make IUCV communication to client.
+*        $2: the path for the file which need to be saved
+*
+* @return 0: if file transport is successful.
+*         FILE_TRANSPORT_ERROR: if file transport is failed.
+*         errno: if there are any socket connection error.
+*/
+int receive_file_from_client_with_rollback(int newsockfd, char *des_path)
+{
+    char buffer[BUFFER_SIZE], tmp_path[BUFFER_SIZE];
+    int returncode;
+    if((returncode = receive_file_from_client(newsockfd, des_path)) != 0)
+    {
+        //rollback
+        sprintf(tmp_path,"%s.iucvold", des_path);
+        if(!access(tmp_path, 0))
+        {
+            syslog(LOG_INFO,"rollback file from xxx.iucvold to xxx.");
+            sprintf(buffer,"mv %s %s", tmp_path, des_path);
+            system(buffer);
+        }
+    }
+    return returncode;
+}
 
+/* Get linux name and version
+* @param 
+*
+* @return struct lnx_dist 
+*/
+struct lnx_dist get_linux_version()
+{
+    FILE *fp;
+    char buffer[BUFFER_SIZE];
+    struct lnx_dist linux_dist;
+    // Get linux name
+    strcpy(buffer, "echo `cat /etc/*release|grep ^NAME`");
+    if(NULL != (fp=popen(buffer, "r")))
+    {
+        bzero(buffer, BUFFER_SIZE);
+        if(fgets(buffer, sizeof(buffer), fp) != NULL)
+        {
+            if(strstr(buffer, "Red") != NULL)
+            {
+                strcpy(linux_dist.name, "Rhel");
+            }
+            else if(strstr(buffer, "Suse") != NULL)
+            {
+                strcpy(linux_dist.name, "Suse");
+            }
+            else if(strstr(buffer, "Ubuntu") != NULL)
+            {
+                strcpy(linux_dist.name, "Ubuntu");
+            }
+            printf("name=%s\n", linux_dist.name);
+        }     
+    }
+    // Get linux version
+    strcpy(buffer, "echo `cat /etc/*release|grep ^VERSION`");
+    if(NULL != (fp=popen(buffer, "r")))
+    {
+        bzero(buffer, BUFFER_SIZE);
+        if(fgets(buffer, sizeof(buffer), fp) != NULL)
+        {
+            strtok(buffer,".");
+            linux_dist.version = atoi(buffer + strlen("VERSION=\""));
+            printf("version=%d\n", linux_dist.version);
+        }     
+    }
+    return linux_dist;
+}
 /* When server's version is lower than client side server version,
 *  upgrade is needed.
-* @param
+* @param  $1: the socket which is used to make IUCV communication to client.
 *
-* @return 0:
+* @return 0: upgade successfully.
+*         errno: upgarde failed with error number.
 */
-int handle_upgrade()
+int handle_upgrade(int newsockfd)
 {
+    char buffer[BUFFER_SIZE], iucvservpath[BUFFER_SIZE], iucvserdpath[BUFFER_SIZE];;
+    struct lnx_dist linux_dist;
+    int returncode;
+
+    /* Get system version and handle file path for different version*/
+    linux_dist = get_linux_version();
+    syslog(LOG_INFO,"VM's version is %s %d", linux_dist.name, linux_dist.version);
+    
+    sprintf(iucvservpath, "%s.new", IUCV_SERV_PATH);
+
     /* 1. Send upgrade needed signal to client.*/
+    if((strcasecmp(linux_dist.name, "Rhel") == 0 && linux_dist.version < 7) ||
+            (strcasecmp(linux_dist.name, "Suse") == 0 && linux_dist.version < 12))
+    {
+        sprintf(iucvserdpath, "%s.new", IUCV_SERD_SYSTEMV_PATH);
+        strcpy(buffer, UPGRADE_NEEDED_SYSTEMV);   
+    }
+    else if((strcasecmp(linux_dist.name, "Rhel") == 0 && linux_dist.version >= 7)||
+            (strcasecmp(linux_dist.name, "Ubuntu") == 0))
+    {
+        sprintf(iucvserdpath, "%s.new", IUCV_SERD_SYSTEMD_PATH_RH7_UB);
+        strcpy(buffer, UPGRADE_NEEDED_SYSTEMD);
+    }
+    else if(strcasecmp(linux_dist.name, "Suse") == 0 && linux_dist.version >= 12)
+    {
+        sprintf(iucvserdpath, "%s.new", IUCV_SERD_SYSTEMD_PATH_SL12);
+        strcpy(buffer, UPGRADE_NEEDED_SYSTEMD);
+    }
+    else
+    {
+        syslog(LOG_ERR,"Get VM's version failed or the version is not supported.");
+        return IUCV_UPGRADE_ERROR;
+    }
+    send(newsockfd, buffer, strlen(buffer) + 1, 0);
+    syslog(LOG_ERR, "send %s to client\n", buffer);
+
     /* 2. Receive new version file from client.*/
-    /* 3. Execute restart command which is got from client.*/
+    /* iucvserv*/
+    if((returncode = receive_file_from_client(newsockfd, iucvservpath)) != 0)
+    {
+        syslog(LOG_ERR, "Failed to transport iucvserv file for upgrade.");
+        return returncode;
+    }
+    syslog(LOG_INFO,"Finish %s file transport.", iucvservpath);
+    /* iucvserd*/
+    if((returncode = receive_file_from_client(newsockfd, iucvserdpath)) != 0)
+    {
+        syslog(LOG_ERR, "Failed to transport iucvserd service file for upgrade.");
+        return returncode;
+    }
+    syslog(LOG_INFO,"Finish %s file transport.", iucvserdpath);
+    /* iucvupgrade.sh*/
+    if((returncode = receive_file_from_client(newsockfd, IUCV_UPGRADE_PATH)) != 0)
+    {
+        syslog(LOG_ERR, "Failed to transport iucvupgrade.sh file for upgrade.");
+        return returncode;
+    }
+    syslog(LOG_INFO,"Finish iucvupgrade.sh file transport.");
+
+    /* 3. Execute restart service command which is got from client. if successfuly, this process will be killed.*/
+    if((strcasecmp(linux_dist.name, "Rhel") == 0 && linux_dist.version < 7) ||
+            (strcasecmp(linux_dist.name, "Suse") == 0 && linux_dist.version < 12))
+    {
+        sprintf(buffer, "%s &", IUCV_UPGRADE_PATH);
+        system(buffer);
+    }
+    else
+    {
+        syslog(LOG_INFO,"systemctl reload iucvserd");
+        system("systemctl reload iucvserd");
+    }
     return 0;
 }
 
@@ -273,8 +417,8 @@ int server_socket()
             return errno;
         }
         /* If connection is established then start communicating */
-        bzero(buffer,BUFFER_SIZE);
-        n =  recv(newsockfd,buffer, BUFFER_SIZE, 0);
+        bzero(buffer, BUFFER_SIZE);
+        n =  recv(newsockfd, buffer, BUFFER_SIZE, 0);
         if (n < 0)
         {
             syslog(LOG_ERR, "ERROR reading from socket: %s\n",strerror(errno));
@@ -306,7 +450,7 @@ int server_socket()
         if(strcmp(tmp, IUCV_SERVER_VERSION) > 0)
         {
             syslog(LOG_ERR, "Upgrade for IUCV is needed.Current version is %s, upgraded version is %s", IUCV_SERVER_VERSION, tmp);
-            if((returncode = handle_upgrade()) != 0)
+            if((returncode = handle_upgrade(newsockfd)) != 0)
             {
                 close(newsockfd);
                 close(sockfd);
@@ -326,16 +470,8 @@ int server_socket()
                 strtok(buffer," ");
                 char path[BUFFER_SIZE], tmp_path[BUFFER_SIZE + 10];
                 strcpy(path, strtok(NULL," "));
-                if((returncode = receive_file_from_client(newsockfd, path)) != 0)
+                if((returncode = receive_file_from_client_with_rollback(newsockfd, path)) != 0)
                 {
-                    //rollback
-                    sprintf(tmp_path,"%s.iucvold", path);
-                    if(!access(tmp_path, 0))
-                    {
-                        syslog(LOG_INFO,"rollback file from xxx.iucvold to xxx.");
-                        sprintf(buffer,"mv %s %s", tmp_path, path);
-                        system(buffer);
-                    }
                     close(newsockfd);
                     close(sockfd);
                     return returncode;
@@ -417,7 +553,7 @@ int main(int argc,char* argv[])
     /* This is used by RHEL6 SLES11 */
     else if(argc==2 && strcmp(argv[1],"start-as-daemon")==0)
     {
-        syslog(LOG_INFO,"IUCV server start to work as daemon!\n");
+        syslog(LOG_INFO,"IUCV server %s start to work as daemon!\n", IUCV_SERVER_VERSION);
         daemon(0,0);
         while(1)
         {
@@ -429,7 +565,7 @@ int main(int argc,char* argv[])
     /* This is used by RHEL7 SLES12 */
     else if(argc==2 && strcmp(argv[1],"start")==0)
     {
-        syslog(LOG_INFO,"IUCV server start to work!\n");
+        syslog(LOG_INFO,"IUCV server %s start to work!\n", IUCV_SERVER_VERSION);
         while(1)
         {
             syslog(LOG_INFO,"Begin a new socket.\n");

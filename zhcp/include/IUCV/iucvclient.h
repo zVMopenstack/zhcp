@@ -26,6 +26,7 @@
 #define CMD_EXEC_ERROR 8
 #define FILE_TRANSPORT_ERROR 16
 #define IUCV_FILE_NOT_EXIST 32
+#define IUCV_UPGRADE_FAILED 64
 
 /*string define*/
 #define IUCV_CLIENT_VERSION "0.0.0.1"
@@ -33,7 +34,10 @@
 #define READY_TO_RECEIVE "ready_to_receive"
 #define FILE_SENT_OVER "FILE_SENT_OVER"
 #define FILE_PATH_IUCV_SERVER "/opt/zhcp/bin/IUCV/iucvserv"
+#define FILE_PATH_IUCV_FOLDER "/opt/zhcp/bin/IUCV"
 #define IUCV_SERVER_NEED_UPGRADE "need_upgrade"
+#define UPGRADE_NEEDED_SYSTEMD "UPGRADE_NEEDED_SYSTEMD"
+#define UPGRADE_NEEDED_SYSTEMV "UPGRADE_NEEDED_SYSTEMV"
 
 /*functions*/
 int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasoncode, char * message, int with_strerr);
