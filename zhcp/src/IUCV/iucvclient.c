@@ -17,13 +17,13 @@ int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasonco
 {
     if(returncode || reasoncode)
     {
-        syslog(LOG_ERR,"%s  Return code %d, Reason code %d", message, returncode, reasoncode);
+        syslog(LOG_ERR,"ERROR: %s  Return code %d, Reason code %d", message, returncode, reasoncode);
         if(reasoncode && with_strerr)
         {
-            printf("%s\n%s\nReturn code %d, Reason code %d.\n", message, strerror(reasoncode), returncode, reasoncode);
+            printf("ERROR: %s\n%s\nReturn code %d, Reason code %d.\n", message, strerror(reasoncode), returncode, reasoncode);
             return returncode;
         }
-        printf("%s\nReturn code %d, Reason code %d.\n", message, returncode, reasoncode);
+        printf("ERROR: %s\nReturn code %d, Reason code %d.\n", message, returncode, reasoncode);
     }
     else
     {
@@ -62,7 +62,7 @@ int prepare_commands(char* buffer, int argc, char *argv[])
     }
     else
     {
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(UNAUTHORIZED_ERROR, errno,"ERROR failed to get userid:", 0);
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(UNAUTHORIZED_ERROR, errno,"ERROR: failed to get userid:", 0);
         pclose(fp);
         fp = NULL;
         return UNAUTHORIZED_ERROR;
@@ -105,25 +105,79 @@ int prepare_commands(char* buffer, int argc, char *argv[])
         strcat(buffer, " ");
         strcat(buffer, argv[i]);
     }
-    //printf("command=%s\n",buffer);
+    syslog(LOG_INFO, "command=%s\n",buffer);
     return 0;
 }
 
 /* When server's version is lower than client side server version,
-   upgrade is needed.(to-do)
-*  @param
+   upgrade is needed.
+*  @param $1 the socket which is used to make IUCV communication to server.
+*         $2 the upgrade signal
 *
 *  @return 0: successfully.
 */
-int handle_upgrade()
+int handle_upgrade(int sockfd, char* signal_buf)
 {
-    /* 1. Send the upgrade file to server.*/
-    /* 2. Send IUCV server update command, it will upgrade server. current socket will be disconnected */
-    /* 3. Reconnect with server*/
-    /* 4. get the new server's version to make compare(currently not do this step)*/
+    char src_path[BUFFER_SIZE], recv_buf[BUFFER_SIZE];
+    int returncode;
+    /* Send the upgrade files to server.*/
+    syslog(LOG_INFO,"Target system service use %s, Send the upgrade files to server.\n", signal_buf);
+    // iucvserv
+    recv(sockfd, recv_buf, SMALL_BUFFER_SIZE, 0);
+    if((returncode = send_file_to_server(sockfd, FILE_PATH_IUCV_SERVER))!= 0)
+    {
+        printf("ERROR: Upgrade failed! Failed to send iucvserv file");
+        return returncode;
+    }
+    if(strcmp(signal_buf, UPGRADE_NEEDED_SYSTEMV)==0)
+    {
+        // iucvserd
+        sprintf(src_path, "%s/%s", FILE_PATH_IUCV_FOLDER, "iucvserd");
+        recv(sockfd, recv_buf, SMALL_BUFFER_SIZE, 0);
+        if((returncode = send_file_to_server(sockfd, src_path))!= 0)
+        {
+            printf("ERROR: Upgrade failed! Failed to send iucvserd file");
+            return returncode;
+        }
+    }
+    if(strcmp(signal_buf, UPGRADE_NEEDED_SYSTEMD)==0)
+    {
+        // iucvserd
+        sprintf(src_path, "%s/%s", FILE_PATH_IUCV_FOLDER, "iucvserd.service");
+        recv(sockfd, recv_buf, SMALL_BUFFER_SIZE, 0);
+        if((returncode = send_file_to_server(sockfd, src_path))!= 0)
+        {
+            printf("ERROR: Upgrade failed! Failed to send iucvserd.service file");
+            return returncode;
+        }
+    }
+    // iucvupgrade.sh
+    sprintf(src_path, "%s/%s", FILE_PATH_IUCV_FOLDER, "iucvupgrade.sh");
+    recv(sockfd, recv_buf, SMALL_BUFFER_SIZE, 0);
+    if((returncode = send_file_to_server(sockfd, src_path))!= 0)
+    {
+        printf("ERROR: Upgrade failed! Failed to send iucvupgrade.sh file");
+        return returncode;
+    }
+    syslog(LOG_INFO, "Successfully to send the upgrade files to server.\n");
     return 0;
 }
 
+/*  Get file mode.
+ *  @param $1: file name
+ * @return  file access.
+ */
+int get_file_mod(char *fileName)
+{
+    struct stat fileInfo;
+    if (stat(fileName, &fileInfo) < 0){
+          return 0;
+    }
+    unsigned int mask = 0000777;
+    unsigned int access = mask & fileInfo.st_mode;
+    //printf("%o\n", access);
+    return access;
+}
 
 /* Send specified file (NOT support to transport folder) to IUCV server.
 * @param $1: the socket which is used to make IUCV communication to server.
@@ -135,17 +189,18 @@ int handle_upgrade()
 */
 int send_file_to_server(int sockfd, char *src_path)
 {
-    char buffer[SMALL_BUFFER_SIZE],md5[SMALL_BUFFER_SIZE];
+    char buffer[SMALL_BUFFER_SIZE],info[SMALL_BUFFER_SIZE];
     char *file_buf;
     FILE *fp = NULL;
     int n_time = 0, n = 0;
     size_t len = n_time = n = 0;
 
-    printf("Will send file %s to IUCV server.\n", src_path);
+    //printf("Will send file %s to IUCV server.\n", src_path);
+    syslog(LOG_INFO, "Will send file %s to IUCV server.\n", src_path);
     file_buf = (char *) malloc(BUFFER_SIZE);
     if((fp = fopen(src_path, "rb"))==NULL)
     {
-        sprintf(buffer, "Failed to open file %s for read.", src_path);
+        sprintf(buffer, "ERROR: Failed to open file %s for read.", src_path);
         printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, errno, buffer, 1);
         free(file_buf);
         file_buf = NULL;
@@ -153,14 +208,15 @@ int send_file_to_server(int sockfd, char *src_path)
     }
     else
     {
-        printf("Start to read file\n");
+        //printf("Start to read file\n");
+        syslog(LOG_INFO, "Start to read file\n");
         while (!feof(fp))
         {
             bzero(file_buf, BUFFER_SIZE);
             len = fread(file_buf, sizeof(char), BUFFER_SIZE, fp);
             if ((len = send(sockfd, file_buf, len, 0)) < 0)
             {
-                 printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "Failed to send file to serer.", 1);
+                 printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR: Failed to send file to serer.", 1);
                  free(file_buf);
                  file_buf = NULL;
                  fclose(fp);
@@ -170,17 +226,17 @@ int send_file_to_server(int sockfd, char *src_path)
         }
         if (fclose(fp) != 0)
         {
-            syslog(LOG_ERR, "ERROR Fail to close sent file after reading: %s.\n",strerror(errno));
+            syslog(LOG_ERR, "ERROR: Fail to close sent file after reading: %s.\n",strerror(errno));
         }
         fp = NULL;
         free(file_buf);
         file_buf = NULL;
 
-        /* send send_over signal + md5 */
+        /* send send_over signal + md5 + file_mod*/
         sprintf(buffer, "md5sum %s",src_path);
         if((fp = popen(buffer, "r"))==NULL)
         {
-            printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, errno,"Failed to get md5 for file.", 1);
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, errno,"ERROR: Failed to get md5 for file.", 1);
             strcpy(buffer, "FILE_SENT_OVER");
             send(sockfd, buffer, strlen(buffer) + 1, 0);
         }
@@ -190,25 +246,27 @@ int send_file_to_server(int sockfd, char *src_path)
             if(fgets(buffer, sizeof(buffer), fp) != NULL)
             {
                 buffer[MD5_LENGTH]='\0';
-                sprintf(md5,"FILE_SENT_OVER %s",buffer);
+                sprintf(info,"FILE_SENT_OVER %s %o", buffer, get_file_mod(src_path));
             }
-            send(sockfd, md5, strlen(md5) + 1, 0);
+            send(sockfd, info, strlen(info) + 1, 0);
         }
         pclose(fp);
         fp = NULL;
         /* After finish sending file, wait for the message from server to get the file transport result */
-        printf("Finish sending file, just need to wait for the server's receive respond\n");
+        //printf("Finish sending file, just need to wait for the server's receive respond\n");
+        syslog(LOG_INFO, "Finish sending file, just need to wait for the server's receive respond\n");
         bzero(buffer,SMALL_BUFFER_SIZE);
         recv(sockfd, buffer, SMALL_BUFFER_SIZE, 0);
         if(strcmp(buffer, "FILE_RECEIVED_OK")==0)
         {
             sprintf(buffer,"Transport file %s successfully.\n", src_path);
-            printAndLogIUCVserverReturnCodeReasonCodeoutput(0, 0, buffer, 0);
+            //printAndLogIUCVserverReturnCodeReasonCodeoutput(0, 0, buffer, 0);
+            syslog(LOG_INFO, buffer);
             return 0;
         }
         else
         {
-            sprintf(buffer,"Transport file %s failed. %s.", src_path, buffer);
+            sprintf(buffer,"ERROR: Transport file %s failed. %s.", src_path, buffer);
             printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, FILE_TRANSPORT_ERROR, buffer, 0);
             return FILE_TRANSPORT_ERROR;
         }
@@ -238,6 +296,8 @@ int main(int argc, char *argv[])
     char buffer[BUFFER_SIZE],result[BUFFER_SIZE],cmd_rc[8];
     int returncode = 0;
     char* pos = NULL;
+    int need_reconnect = 1;
+    int check_upgrade_version = 0;
 
     if (argc < 3)
     {
@@ -261,137 +321,150 @@ int main(int argc, char *argv[])
         printAndLogIUCVserverReturnCodeReasonCodeoutput(USAGE_ERROR, 1, buffer, 0);
         return -1;
     }
-    /* Create a socket point */
-    sockfd = socket(AF_IUCV, SOCK_STREAM, IPPROTO_IP);
-    if (sockfd < 0)
+    while(need_reconnect == 1)
     {
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR opening socket:", 1);
-        close(sockfd);
-        return SOCKET_ERROR;
-    }
-    bzero((char *) &serv_addr, sizeof(serv_addr));
-    serv_addr.siucv_family = AF_IUCV;
-    memcpy(&serv_addr.siucv_user_id, argv[1], 8);
-    memcpy(&serv_addr.siucv_name, "OPNCLOUD", 8);
-
-     /* Now connect to the server */
-    if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
-    {
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR connecting socket:", 1);
-        close(sockfd);
-        return SOCKET_ERROR;
-    }
-    if((returncode = prepare_commands(buffer, argc, argv)) != 0)
-    {
-        close(sockfd);
-        return returncode;
-    }
-    /* Send messages to server. */
-    n = send(sockfd, buffer, strlen(buffer)+1,0);
-    if (n < 0) {
-        printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR writing to socket:", 1);
-        close(sockfd);
-        return SOCKET_ERROR;
-    }
-    /* Receive messages from server, to determine what should be done next */
-    bzero(buffer,BUFFER_SIZE);
-    while (n = recv(sockfd, buffer, BUFFER_SIZE,0) > 0)
-    {
-        //printf("result =%s\n",buffer);
-        /* Check the result is NOT_AUTHORIZED_USERID */
-        if(strncmp(buffer, "UNAUTHORIZED_ERROR", strlen("UNAUTHORIZED_ERROR")) == 0)
+        need_reconnect = 0;
+        /* Create a socket point */
+        sockfd = socket(AF_IUCV, SOCK_STREAM, IPPROTO_IP);
+        if (sockfd < 0)
         {
-            bzero(result, 8);
-            strcpy(result, strtok(buffer, "#"));
-            bzero(cmd_rc, 8);
-            strcpy(cmd_rc, strtok(NULL,"#"));
-            returncode = (atoi(cmd_rc) == UNAUTHORIZED_ERROR) ? 0 : atoi(cmd_rc);
-            printAndLogIUCVserverReturnCodeReasonCodeoutput(UNAUTHORIZED_ERROR, returncode, buffer, 0);
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR opening socket:", 1);
             close(sockfd);
-            return UNAUTHORIZED_ERROR;
+            return SOCKET_ERROR;
         }
-        /* if upgrade is needed */
-        if(strcmp(buffer, IUCV_SERVER_NEED_UPGRADE) == 0)
+        bzero((char *) &serv_addr, sizeof(serv_addr));
+        serv_addr.siucv_family = AF_IUCV;
+        memcpy(&serv_addr.siucv_user_id, argv[1], 8);
+        memcpy(&serv_addr.siucv_name, "OPNCLOUD", 8);
+
+         /* Now connect to the server */
+        if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
         {
-            printf("Need to make upgrade!\n");
-            if((returncode = handle_upgrade()) != 0)
-            {
-                close(sockfd);
-                return returncode;
-            }
-            break;
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR connecting socket:", 1);
+            close(sockfd);
+            return SOCKET_ERROR;
         }
-        /* If command is to transport file to VM */
-        /* (to-do)later should add a Mutex, when file is transport, command is not be allowed */
-        if(strcmp(argv[2], FILE_TRANSPORT)==0)
+        if((returncode = prepare_commands(buffer, argc, argv)) != 0)
         {
-            /* If the source path is a folder, return error */
-            struct stat st;
-            stat(argv[3], &st);
-            if((st.st_mode & S_IFDIR) == S_IFDIR)
-            {
-                sprintf(buffer, "The source path %s should include the file name.", argv[3]);
-                printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, 1, buffer, 0);
-                close(sockfd);
-                return FILE_TRANSPORT_ERROR;
-            }
-            printf("Begin to send file.\n");
-            if(n < 0 || strcmp(buffer,READY_TO_RECEIVE) != 0)
-            {
-                sprintf(result, "Server can't receive file. Reason: %s.", buffer);
-                printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, result, 0);
-                close(sockfd);
-                return SOCKET_ERROR;
-            }
-            if((returncode = send_file_to_server(sockfd, argv[3])) != 0)
-            {
-                close(sockfd);
-                return returncode;
-            }
-            break;
+            close(sockfd);
+            return returncode;
         }
-        /* If command is normal linux command */
-        else
+        syslog(LOG_ERR, "command=%s\n",buffer);
+        /* Send messages to server. */
+        n = send(sockfd, buffer, strlen(buffer)+1,0);
+        if (n < 0) {
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR writing to socket:", 1);
+            close(sockfd);
+            return SOCKET_ERROR;
+        }
+        /* Receive messages from server, to determine what should be done next */
+        bzero(buffer,BUFFER_SIZE);
+        while (n = recv(sockfd, buffer, BUFFER_SIZE,0) > 0)
         {
-            /* Now read server response */
             //printf("result =%s\n",buffer);
-            /* check the command return code */
-            pos = strstr(buffer, "iucvcmdrc=");
-            if(pos == NULL)
+            /* Check the result is NOT_AUTHORIZED_USERID */
+            if(strncmp(buffer, "UNAUTHORIZED_ERROR", strlen("UNAUTHORIZED_ERROR")) == 0)
             {
-                strcpy(cmd_rc, "0");
-                bzero(result,BUFFER_SIZE);
-                strcpy(result, buffer);
-            }
-            else
-            {
+                bzero(result, 8);
+                strcpy(result, strtok(buffer, "#"));
                 bzero(cmd_rc, 8);
-                strncpy(cmd_rc, pos+strlen("iucvcmdrc="), 8);
-                bzero(result,BUFFER_SIZE);
-                strncpy(result, buffer, strlen(buffer)-strlen(pos));
+                strcpy(cmd_rc, strtok(NULL,"#"));
+                returncode = (atoi(cmd_rc) == UNAUTHORIZED_ERROR) ? 0 : atoi(cmd_rc);
+                printAndLogIUCVserverReturnCodeReasonCodeoutput(UNAUTHORIZED_ERROR, returncode, buffer, 0);
+                close(sockfd);
+                return UNAUTHORIZED_ERROR;
             }
-            //printf("rc=%d,result=%s,buffer=%s",atoi(cmd_rc),result,buffer);
-            if(atoi(cmd_rc) == 0)
+            /* if upgrade is needed */
+            if((strcmp(buffer, UPGRADE_NEEDED_SYSTEMD) == 0) || (strcmp(buffer, UPGRADE_NEEDED_SYSTEMV) == 0))
             {
-                printAndLogIUCVserverReturnCodeReasonCodeoutput(0, 0, result, 0);
-                /* If message has sent over, close the socket immediately to enhance performance */
-                if(pos != NULL)
+                if(check_upgrade_version == 1)
+                {
+                    printf("ERROR: Failed to make upgrade!\n");
+                    return IUCV_UPGRADE_FAILED;
+                }
+                //printf("Need to make %s upgrade!\n", buffer);
+                if((returncode = handle_upgrade(sockfd, buffer)) != 0)
                 {
                     close(sockfd);
-                    return 0;
+                    return returncode;
                 }
+                need_reconnect = 1;
+                check_upgrade_version = 1;
+                sleep(10);
+                break;
             }
+            /* If command is to transport file to VM */
+            /* (to-do)later should add a Mutex, when file is transport, command is not be allowed */
+            if(strcmp(argv[2], FILE_TRANSPORT)==0)
+            {
+                /* If the source path is a folder, return error */
+                struct stat st;
+                stat(argv[3], &st);
+                if((st.st_mode & S_IFDIR) == S_IFDIR)
+                {
+                    sprintf(buffer, "The source path %s should include the file name.", argv[3]);
+                    printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, 1, buffer, 0);
+                    close(sockfd);
+                    return FILE_TRANSPORT_ERROR;
+                }
+                printf("Begin to send file.\n");
+                if(n < 0 || strcmp(buffer,READY_TO_RECEIVE) != 0)
+                {
+                    sprintf(result, "ERROR: Server can't receive file. Reason: %s.", buffer);
+                    printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, result, 0);
+                    close(sockfd);
+                    return SOCKET_ERROR;
+                }
+                if((returncode = send_file_to_server(sockfd, argv[3])) != 0)
+                {
+                    close(sockfd);
+                    return returncode;
+                }
+                break;
+            }
+            /* If command is normal linux command */
             else
             {
-                printAndLogIUCVserverReturnCodeReasonCodeoutput(CMD_EXEC_ERROR, atoi(cmd_rc), result, 0);
-                close(sockfd);
-                return CMD_EXEC_ERROR;
-            }
-            if (n < 0)
-            {
-                printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR reading from socket:", 1);
-                close(sockfd);
-                return SOCKET_ERROR;
+                /* Now read server response */
+                //printf("result =%s\n",buffer);
+                /* check the command return code */
+                pos = strstr(buffer, "iucvcmdrc=");
+                if(pos == NULL)
+                {
+                    strcpy(cmd_rc, "0");
+                    bzero(result,BUFFER_SIZE);
+                    strcpy(result, buffer);
+                }
+                else
+                {
+                    bzero(cmd_rc, 8);
+                    strncpy(cmd_rc, pos+strlen("iucvcmdrc="), 8);
+                    bzero(result,BUFFER_SIZE);
+                    strncpy(result, buffer, strlen(buffer)-strlen(pos));
+                }
+                //printf("rc=%d,result=%s,buffer=%s",atoi(cmd_rc),result,buffer);
+                if(atoi(cmd_rc) == 0)
+                {
+                    printAndLogIUCVserverReturnCodeReasonCodeoutput(0, 0, result, 0);
+                    /* If message has sent over, close the socket immediately to enhance performance */
+                    if(pos != NULL)
+                    {
+                        close(sockfd);
+                        return 0;
+                    }
+                }
+                else
+                {
+                    printAndLogIUCVserverReturnCodeReasonCodeoutput(CMD_EXEC_ERROR, atoi(cmd_rc), result, 0);
+                    close(sockfd);
+                    return CMD_EXEC_ERROR;
+                }
+                if (n < 0)
+                {
+                    printAndLogIUCVserverReturnCodeReasonCodeoutput(SOCKET_ERROR, errno, "ERROR reading from socket:", 1);
+                    close(sockfd);
+                    return SOCKET_ERROR;
+                }
             }
         }
     }
