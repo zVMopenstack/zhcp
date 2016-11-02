@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_4fbc64db",
+        "filename": "zhcp/bin/IUCV/iucvserd.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-11-02T21:49:32Z",
+      "side": 0,
+      "message": "I suggest you indicate that this is used to communicate with \"xCAT for z/VM\".  We will not limit this function to only our version of xCAT that is shipped with z/VM but it will eventually move to the community\u0027s version where it can be run on virtual machines other than OPNCLOUD.",
+      "range": {
+        "startLine": 2,
+        "startChar": 80,
+        "endLine": 2,
+        "endChar": 88
+      },
+      "revId": "ae491c86cc3c328cc842cf1e6a542f17c93ebfa8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
