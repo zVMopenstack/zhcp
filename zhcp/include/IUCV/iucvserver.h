@@ -20,7 +20,7 @@
 #define BUFFER_SIZE 1024
 
 /*string define*/
-#define PATH_FOR_AUTHORIZED_USERID "/tmp/authorized_userid"
+#define PATH_FOR_AUTHORIZED_USERID "/etc/iucv_authorized_userid"
 //#define PATH_FOR_IUCV_SERVER "/usr/bin/iucvserver"
 //#define PATH_FOR_IUCV_SERVER_SERVICE "/etc/init.d/iucvserverd"
 #define IUCV_SERVER_VERSION "0.0.0.1"
