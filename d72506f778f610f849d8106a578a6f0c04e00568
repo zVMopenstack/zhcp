@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_c31a8b18",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-11-03T16:48:39Z",
+      "side": 1,
+      "message": "Please put a space between the control keyword and the opening parenthesis.  This makes the code more readable.  In other words, put a space after the \"if\" and the \"while\" etc.  Thanks.",
+      "revId": "d72506f778f610f849d8106a578a6f0c04e00568",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c3f3abe6",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2016-11-03T16:48:39Z",
+      "side": 1,
+      "message": "Insert space after \"ERROR:\" and before send.",
+      "revId": "d72506f778f610f849d8106a578a6f0c04e00568",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
