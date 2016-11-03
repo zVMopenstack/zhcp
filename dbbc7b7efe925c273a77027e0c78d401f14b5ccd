@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_9245ef44",
+        "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-11-03T05:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_2fb12002",
+      "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_afc5305d",
         "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-02T21:49:32Z",
       "side": 1,
       "message": "Are you supporting Ubuntu ?  I don\u0027t see a test for it.",
+      "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_72714bab",
+        "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-11-03T05:57:46Z",
+      "side": 1,
+      "message": "Yes, Ubuntu should be supported. \nWhat test do you mean?\nUbuntu image has been test on zvm6.4.",
+      "parentUuid": "baa041b7_afc5305d",
       "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_527647a4",
+        "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-11-03T05:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_609067ee",
+      "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_0fb65cf9",
         "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-11-02T21:49:32Z",
       "side": 1,
       "message": "What have you done to insure that the file permissions on the files that you have updated are set correctly ?",
+      "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_1270bfa3",
+        "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-11-03T05:57:46Z",
+      "side": 1,
+      "message": "When IUCV send file, it will set file type to the same as source file.\nSo we only need to make sure that the permission of source files on zhcp are correct.",
+      "parentUuid": "baa041b7_0fb65cf9",
       "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_f2655be2",
+        "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-11-03T05:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_e0b23796",
+      "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_e06917fa",
         "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_d26257d9",
+        "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-11-03T05:57:46Z",
+      "side": 1,
+      "message": "yes, good suggestion.",
+      "parentUuid": "baa041b7_e06917fa",
+      "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_efcb3872",
         "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2016-11-02T21:49:32Z",
       "side": 1,
       "message": "You do not know what other files the customer might be running that have \"iucv\" string.  I suggest you test for the specific process names that you are creating when the service starts.",
+      "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_925ccf1a",
+        "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-11-03T05:57:46Z",
+      "side": 1,
+      "message": "OK, change to iucvserv.",
+      "parentUuid": "baa041b7_efcb3872",
       "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -172,6 +298,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_72982bcd",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-11-03T05:57:46Z",
+      "side": 1,
+      "message": "it is an upgrade signal. I will change name to \"signal_buf\"",
+      "parentUuid": "baa041b7_221dd1bd",
+      "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_6f9e086b",
         "filename": "zhcp/src/IUCV/iucvclient.c",
         "patchSetId": 1
@@ -183,6 +327,24 @@
       "writtenOn": "2016-11-02T21:49:32Z",
       "side": 1,
       "message": "I suggest that your error messages begin with either (Error) or Error: so that code which relies on it can easily detect the error information message.",
+      "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_529d27ba",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2016-11-03T05:57:46Z",
+      "side": 1,
+      "message": "Yes, good suggestion.",
+      "parentUuid": "baa041b7_6f9e086b",
       "revId": "dbbc7b7efe925c273a77027e0c78d401f14b5ccd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
