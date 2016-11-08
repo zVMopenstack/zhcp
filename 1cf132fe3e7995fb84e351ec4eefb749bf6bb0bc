@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_639df5ba",
+        "filename": "zhcp/bin/IUCV/iucvserd.service",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-11-08T10:25:39Z",
+      "side": 1,
+      "message": "who will trigger this reload?",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "1cf132fe3e7995fb84e351ec4eefb749bf6bb0bc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_a35c1d1a",
+        "filename": "zhcp/src/IUCV/iucvserver.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-11-08T10:25:39Z",
+      "side": 1,
+      "message": "you will call reload/restart at update.sh, why reload here?",
+      "range": {
+        "startLine": 347,
+        "startChar": 33,
+        "endLine": 347,
+        "endChar": 41
+      },
+      "revId": "1cf132fe3e7995fb84e351ec4eefb749bf6bb0bc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
