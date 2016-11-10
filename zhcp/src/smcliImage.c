@@ -11,6 +11,9 @@ int imageActivate(int argC, char* argV[], struct _vmApiInternalContext* vmapiCon
     int rc;
     int option;
     char * image = NULL;
+    int retries = 6;
+    int sleepTimeSeconds = 15;
+    int i;
     vmApiImageActivateOutput* output;
 
     // Options that have arguments are followed by a : character
@@ -51,15 +54,30 @@ int imageActivate(int argC, char* argV[], struct _vmApiInternalContext* vmapiCon
     }
 
     printf("Activating %s... ", image);
-    rc = smImage_Activate(vmapiContextP, "", 0, "",  // Authorizing user, password length, password.
-            image, &output);
 
-    if (rc) {
-        printAndLogSmapiCallReturnCode("Image_Activate", rc, vmapiContextP);
-    } else {
-        // Handle SMAPI return code and reason code
-        rc = printAndLogSmapiReturnCodeReasonCodeDescription("Image_Activate", output->common.returnCode,
-                output->common.reasonCode, vmapiContextP);
+    // Loop a few times if image is still being shutdown
+    for (i=0; i < retries; i++) {
+        rc = smImage_Activate(vmapiContextP, "", 0, "",  // Authorizing user, password length, password.
+                image, &output);
+
+        if (rc) {
+            printAndLogSmapiCallReturnCode("Image_Activate", rc, vmapiContextP);
+            break; // Stop loop if severe error
+        } else {
+            // Handle SMAPI return code and reason code
+            // If this is a rc 200 reason 16, the image is still shutting down, so sleep and retry a few times
+            // Note: The &output data will be reobtained and the old memory freed later
+            if ((output->common.returnCode == 200) && (output->common.reasonCode == 16)) {
+                // If this is not the last attempt, sleep and retry
+                if (i < (retries -1)) {
+                    sleep(sleepTimeSeconds);
+                    continue;
+                }
+            }
+            rc = printAndLogSmapiReturnCodeReasonCodeDescription("Image_Activate", output->common.returnCode,
+                    output->common.reasonCode, vmapiContextP);
+            break; // all done if other return codes.
+        }
     }
     return rc;
 }
