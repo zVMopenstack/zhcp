@@ -116,6 +116,7 @@ int receive_file_from_client(int newsockfd, char *des_path)
         return errno;
     }
     send(newsockfd, READY_TO_RECEIVE,strlen(READY_TO_RECEIVE)+1, 0);
+    syslog(LOG_INFO, "Send READY_TO_RECEIVE to IUCV client.");
     bzero(buffer,BUFFER_SIZE);
     while ((n=recv(newsockfd, buffer, BUFFER_SIZE, 0)) > 0)
     {
@@ -230,22 +231,27 @@ struct lnx_dist get_linux_version()
     FILE *fp;
     char buffer[BUFFER_SIZE];
     struct lnx_dist linux_dist;
+    int i = 0;
     // Get linux name
-    strcpy(buffer, "echo `cat /etc/*release|grep ^NAME`");
+    strcpy(buffer, "echo `cat /etc/*release|egrep -i 'Red|Suse|Ubuntu'`");
     if (NULL != (fp=popen(buffer, "r")))
     {
         bzero(buffer, BUFFER_SIZE);
+        for ( i = 0 ; i <= strlen(buffer) ; i++)
+        {
+            toupper(buffer[i]);
+        }
         if (fgets(buffer, sizeof(buffer), fp) != NULL)
         {
-            if (strstr(buffer, "Red") != NULL)
+            if (strstr(buffer, "RED") != NULL)
             {
                 strcpy(linux_dist.name, "Rhel");
             }
-            else if (strstr(buffer, "Suse") != NULL)
+            else if (strstr(buffer, "SUSE") != NULL)
             {
                 strcpy(linux_dist.name, "Suse");
             }
-            else if (strstr(buffer, "Ubuntu") != NULL)
+            else if (strstr(buffer, "UBUNTU") != NULL)
             {
                 strcpy(linux_dist.name, "Ubuntu");
             }
@@ -273,7 +279,7 @@ struct lnx_dist get_linux_version()
 * @return 0: upgade successfully.
 *         errno: upgarde failed with error number.
 */
-int handle_upgrade(int newsockfd)
+int handle_upgrade(int sockfd, int newsockfd)
 {
     char buffer[BUFFER_SIZE], iucvservpath[BUFFER_SIZE], iucvserdpath[BUFFER_SIZE];;
     struct lnx_dist linux_dist;
@@ -325,25 +331,29 @@ int handle_upgrade(int newsockfd)
         syslog(LOG_ERR, "ERROR: Failed to transport iucvserd service file for upgrade.");
         return returncode;
     }
-    syslog(LOG_INFO,"Finish %s file transport.", iucvserdpath);
+    syslog(LOG_INFO, "Finish %s file transport.", iucvserdpath);
     /* iucvupgrade.sh*/
     if ((returncode = receive_file_from_client(newsockfd, IUCV_UPGRADE_PATH)) != 0)
     {
         syslog(LOG_ERR, "ERROR: Failed to transport iucvupgrade.sh file for upgrade.");
         return returncode;
     }
-    syslog(LOG_INFO,"Finish iucvupgrade.sh file transport.");
+    syslog(LOG_INFO,"Finish IUCV_UPGRADE_PATH file transport.");
+    // Close socket for re-use.
+    close(sockfd);
+    close(newsockfd);
 
     /* 3. Execute restart service command which is got from client. if successfuly, this process will be killed.*/
     if ((strcasecmp(linux_dist.name, "Rhel") == 0 && linux_dist.version < 7) ||
             (strcasecmp(linux_dist.name, "Suse") == 0 && linux_dist.version < 12))
     {
         sprintf(buffer, "%s &", IUCV_UPGRADE_PATH);
+        syslog(LOG_INFO,"Execute upgrade command: %s.", buffer); 
         system(buffer);
     }
     else
     {
-        syslog(LOG_INFO,"systemctl reload iucvserd");
+        syslog(LOG_INFO,"Execute upgrade command: systemctl reload iucvserd.");
         system("systemctl reload iucvserd");
     }
     return 0;
@@ -367,7 +377,6 @@ int server_socket()
     int n, returncode = 0;
     FILE *fp = NULL;
     char tmp[16];
-
     /* First call to socket() function */
     sockfd = socket(AF_IUCV, SOCK_STREAM, 0);
     if (sockfd < 0)
@@ -376,8 +385,7 @@ int server_socket()
         close(sockfd);
         return errno;
     }
-
-    if ((setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&on,sizeof(on)))<0)
+    if ((setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on)))<0)
     {
         syslog(LOG_ERR, "ERROR setsockopt: %s\n",strerror(errno));
         close(sockfd);
@@ -391,7 +399,7 @@ int server_socket()
     /* Now bind the host address using bind() call.*/
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
     {
-        syslog(LOG_ERR, "ERROR on binding: %s\n",strerror(errno));
+        syslog(LOG_ERR, "ERROR on binding: (errno %d) %s\n", errno, strerror(errno));
         close(sockfd);
         return errno;
     }
@@ -450,11 +458,19 @@ int server_socket()
         if (strcmp(tmp, IUCV_SERVER_VERSION) > 0)
         {
             syslog(LOG_ERR, "Upgrade for IUCV is needed.Current version is %s, upgraded version is %s", IUCV_SERVER_VERSION, tmp);
-            if ((returncode = handle_upgrade(newsockfd)) != 0)
+            if ((returncode = handle_upgrade(sockfd, newsockfd)) != 0)
             {
                 close(newsockfd);
                 close(sockfd);
                 return returncode;
+            }
+            else
+            {
+                // After upgrade finished, return -1.
+                syslog(LOG_INFO, "Upgrade finished return from server_socket function.");
+                close(newsockfd);
+                close(sockfd);
+                return -1;
             }
         }
         /* Handle the commands sent from client. */
@@ -544,6 +560,7 @@ int server_socket()
 */
 int main(int argc,char* argv[])
 {
+    int rt = 0;
     /*(to-do) change to use "getopt"*/
     if (argc==2 && strcmp(argv[1],"--version")==0)
     {
@@ -558,7 +575,17 @@ int main(int argc,char* argv[])
         while (1)
         {
             syslog(LOG_INFO,"Begin a new socket.\n");
-            server_socket();
+            rt = server_socket();
+            //address in used
+            if (rt == 98)
+            {
+                return 0;
+            }
+            else if (rt ==-1)
+            {
+                syslog(LOG_INFO,"IUCV server upgrade finished, exit from old iucvserv.");
+                return 0;
+            }
         }
         return 0;
     }
@@ -569,7 +596,16 @@ int main(int argc,char* argv[])
         while (1)
         {
             syslog(LOG_INFO,"Begin a new socket.\n");
-            server_socket();
+            //address in used
+            if (server_socket() == 98)
+            {
+                return 0;
+            }
+            else if (rt ==-1)
+            {
+                syslog(LOG_INFO,"IUCV server upgrade finished, exit from old iucvserv.");
+                return 0;
+            }
         }
         return 0;
     }

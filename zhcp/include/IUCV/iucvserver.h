@@ -26,7 +26,7 @@
 //#define PATH_FOR_IUCV_SERVER_SERVICE "/etc/init.d/iucvserverd"
 
 #define IUCV_SERVER_VERSION "0.0.0.1"
-#define FILE_TRANSPORT "file_transport"
+#define FILE_TRANSPORT "iucv_file_transport"
 #define PIPE_FIFO_NAME "pipe_fifo"
 #define READY_TO_RECEIVE "ready_to_receive"
 #define FILE_SENT_OVER "FILE_SENT_OVER"
@@ -53,6 +53,6 @@ struct lnx_dist{
 /*functions*/
 int check_client_authorization(int newsockfd, char *req_userid);
 int receive_file_from_client(int newsockfd, char *des_path);
-int handle_upgrade();
+int handle_upgrade(int sockfd, int newsockfd);
 int server_socket();
 int main(int argc,char* argv[]);
