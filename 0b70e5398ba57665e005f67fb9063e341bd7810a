@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "baa041b7_4d6af782",
+        "filename": "zhcp/bin/IUCV/iucvupgrade.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-11-15T12:37:18Z",
+      "side": 1,
+      "message": "should we log to this specified message or our zhcp log?",
+      "range": {
+        "startLine": 14,
+        "startChar": 35,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "0b70e5398ba57665e005f67fb9063e341bd7810a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_e493275b",
         "filename": "zhcp/src/IUCV/iucvserver.c",
         "patchSetId": 1
