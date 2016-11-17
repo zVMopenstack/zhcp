@@ -390,7 +390,7 @@ int main(int argc, char *argv[])
                 }
                 need_reconnect = 1;
                 check_upgrade_version = 1;
-                sleep(10);
+                sleep(2);
                 break;
             }
             /* If command is to transport file to VM */
@@ -407,7 +407,7 @@ int main(int argc, char *argv[])
                     close(sockfd);
                     return FILE_TRANSPORT_ERROR;
                 }
-                printf("Begin to send file.\n");
+                printf("Receive %s, begin to send file.\n", buffer);
                 if (n < 0 || strcmp(buffer,READY_TO_RECEIVE) != 0)
                 {
                     sprintf(result, "ERROR: Server can't receive file. Reason: %s.", buffer);

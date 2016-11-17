@@ -30,7 +30,7 @@
 
 /*string define*/
 #define IUCV_CLIENT_VERSION "0.0.0.1"
-#define FILE_TRANSPORT "file_transport"
+#define FILE_TRANSPORT "iucv_file_transport"
 #define READY_TO_RECEIVE "ready_to_receive"
 #define FILE_SENT_OVER "FILE_SENT_OVER"
 #define FILE_PATH_IUCV_SERVER "/opt/zhcp/bin/IUCV/iucvserv"
