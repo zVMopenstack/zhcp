@@ -8,7 +8,7 @@
 # Get linux version
 name=`cat /etc/*release|egrep -i 'Red|Suse|Ubuntu'`
 lnx_name=`echo ${name#*\"}|awk '{print $1}'`
-version=`cat /etc/*release|egrep '^VERSION=|^VERSION ='`
+version=`cat /etc/*release|egrep '^VERSION=|^VERSION =|Red’`
 lnx_version=`echo $version|grep -o '[0-9]\+'|head -1`
 
 echo $lnx_name $lnx_version >>/var/log/messages
