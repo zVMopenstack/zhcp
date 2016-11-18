@@ -232,6 +232,8 @@ struct lnx_dist get_linux_version()
     char buffer[BUFFER_SIZE];
     struct lnx_dist linux_dist;
     int i = 0;
+
+    bzero((char *) &linux_dist, sizeof(linux_dist));
     // Get linux name
     strcpy(buffer, "echo `cat /etc/*release|egrep -i 'Red|Suse|Ubuntu'`");
     if (NULL != (fp=popen(buffer, "r")))
@@ -241,11 +243,15 @@ struct lnx_dist get_linux_version()
         {
             for (i = 0 ; i <= strlen(buffer) ; i++)
             {
-                toupper(buffer[i]);
+                buffer[i] = toupper(buffer[i]);
             }
             if (strstr(buffer, "RED") != NULL)
             {
                 strcpy(linux_dist.name, "Rhel");
+                // For rhel65, it doesn't have a "VERSION" line.
+                if (strstr(buffer, "6")!= NULL){
+                    linux_dist.version = 6;
+                }
             }
             else if (strstr(buffer, "SUSE") != NULL)
             {
@@ -260,7 +266,7 @@ struct lnx_dist get_linux_version()
     }
     // Get linux version
     strcpy(buffer, "echo `cat /etc/*release|grep ^VERSION`");
-    if (NULL != (fp=popen(buffer, "r")))
+    if ((linux_dist.version == 0) && (NULL != (fp=popen(buffer, "r"))))
     {
         bzero(buffer, BUFFER_SIZE);
         if (fgets(buffer, sizeof(buffer), fp) != NULL)

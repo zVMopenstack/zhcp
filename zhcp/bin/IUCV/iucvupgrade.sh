@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # IBM(c) 2013-2016 EPL license http://www.eclipse.org/legal/epl-v10.html
 #
@@ -6,9 +6,9 @@
 #
 
 # Get linux version
-name=`cat /etc/*release|egrep -i 'Red|Suse|Ubuntu'`
+name=`cat /etc/*release|egrep -i 'Red Hat|Suse|Ubuntu'`
 lnx_name=`echo ${name#*\"}|awk '{print $1}'`
-version=`cat /etc/*release|egrep '^VERSION=|^VERSION ='`
+version=`cat /etc/*release|egrep '^VERSION=|^VERSION =|Red Hat'`
 lnx_version=`echo $version|grep -o '[0-9]\+'|head -1`
 
 echo $lnx_name $lnx_version >>/var/log/messages
