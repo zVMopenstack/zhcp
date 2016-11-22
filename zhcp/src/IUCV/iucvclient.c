@@ -34,6 +34,42 @@ int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasonco
 }
 
 
+/* Pre-check the environment good to execute the command before setup socket connection.
+*  @param $1: get from main.
+*  @return  0 check result successful. 
+*          -1 check result failed.
+*/
+int pre_checks(char *argv[])
+{
+    char buffer[SMALL_BUFFER_SIZE];
+    FILE *fp;
+    int i = 0;
+    /* need to check whether iucvserv existed, we need to check its version.*/
+    /* Check whether the IUCV server exist */
+    if ((fp = fopen(FILE_PATH_IUCV_SERVER,"r")) == NULL)
+    {
+        sprintf(buffer, "ERROR: can't find IUCV server in path %s, please copy file to the path and try again.", FILE_PATH_IUCV_SERVER);
+        printAndLogIUCVserverReturnCodeReasonCodeoutput(IUCV_FILE_NOT_EXIST, errno, buffer, 1);
+        return IUCV_FILE_NOT_EXIST;
+    }
+    close(fp);
+    fp = NULL;
+    /* if command is transport file, need to check whether the source path is valid*/
+    if (strcmp(argv[2], FILE_TRANSPORT)==0)
+    {
+        if ((fp = fopen(argv[3], "rb"))==NULL)
+        {
+            sprintf(buffer, "ERROR: In pre_check, failed to open file %s for read.", argv[3]);
+            printAndLogIUCVserverReturnCodeReasonCodeoutput(FILE_TRANSPORT_ERROR, errno, buffer, 1);
+            return FILE_TRANSPORT_ERROR;
+        }
+    }
+    close(fp);
+    fp = NULL;
+    return 0;
+}
+
+
 /* Prepare the commands which will sent to server.
 *  the command format should be:
 *  client_userid clientside_server_version command [parameters]
@@ -319,6 +355,10 @@ int main(int argc, char *argv[])
                       FILE_TRANSPORT);
         */
         printAndLogIUCVserverReturnCodeReasonCodeoutput(USAGE_ERROR, 1, buffer, 0);
+        return -1;
+    }
+    if (pre_checks(argv) != 0)
+    {
         return -1;
     }
     while (need_reconnect == 1)
