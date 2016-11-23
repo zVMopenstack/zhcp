@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa53dc9_45956ce2",
+        "filename": "zhcp/src/IUCV/iucvclient.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2016-11-23T09:10:47Z",
+      "side": 1,
+      "message": "nit,",
+      "range": {
+        "startLine": 39,
+        "startChar": 38,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "bb2701493ede00e1ff9a4f9a0593745d86716519",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
