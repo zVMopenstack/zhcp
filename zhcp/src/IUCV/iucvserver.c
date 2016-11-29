@@ -121,7 +121,6 @@ int receive_file_from_client(int newsockfd, char *des_path)
     while ((n=recv(newsockfd, buffer, BUFFER_SIZE, 0)) > 0)
     {
         buffer[n] = 0;
-        syslog(LOG_DEBUG,"write n=%d,data=%s,len=%u\n",n, buffer, strlen(buffer));
         if (strncmp(buffer, FILE_SENT_OVER, strlen(FILE_SENT_OVER) )==0)
         {
             syslog(LOG_INFO, "FILE_SENT_OVER");
@@ -132,7 +131,6 @@ int receive_file_from_client(int newsockfd, char *des_path)
             syslog(LOG_INFO,"file md5=%s filemode=%s",md5, filemode);
             break;
         }
-        syslog(LOG_INFO,"start to write file\n");
         if (fwrite(buffer, n, 1, fp)!=1)
         {
             syslog(LOG_ERR,"ERROR: Failed to write file to %s", des_path);
@@ -145,7 +143,6 @@ int receive_file_from_client(int newsockfd, char *des_path)
             fp = NULL;
             return errno;
         }
-        syslog(LOG_INFO, "write to file a time");
         bzero(buffer,BUFFER_SIZE);
     }
     if (fclose(fp) != 0)
@@ -158,7 +155,7 @@ int receive_file_from_client(int newsockfd, char *des_path)
         syslog(LOG_ERR, "ERROR: Failed to read from socket to get the tranport file: %s\n",strerror(errno));
         return errno;
     }
-
+    syslog(LOG_INFO, "Finish file transporting, start to get and check md5.");
     /* After finish sending file, send message to client */
     sprintf(buffer, "md5sum %s",des_path);
     if ((fp = popen(buffer, "r"))==NULL)
