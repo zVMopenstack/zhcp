@@ -44,7 +44,7 @@ cp zhcp/lib/* $RPM_BUILD_ROOT/opt/zhcp/lib
 echo "zhcp version: "%{xcatver} "Built on: "%{builddate} > $RPM_BUILD_ROOT/opt/zhcp/version
 
 %post
-echo "/opt/zhcp/lib" > /etc/ld.so.conf.d/zhcp.conf
+cp -f config/zhcp.conf $RPM_BUILD_ROOT/etc/ld.so.conf.d/zhcp.conf
 
 # Create log file for zHCP
 mkdir -p /var/log/zhcp
@@ -88,7 +88,6 @@ fi
 
 %preun
 # Delete man page and smcli command
-rm -rf /etc/ld.so.conf.d/zhcp.conf
 rm -rf /usr/share/man/man1/smcli.1.gz
 
 %files
@@ -99,3 +98,4 @@ rm -rf /usr/share/man/man1/smcli.1.gz
 %config(noreplace) /usr/share/man/man1/smcli.1.gz
 %config(noreplace) /var/opt/zhcp/tracing.conf
 %config(noreplace) /var/opt/zhcp/settings.conf
+%config(noreplace) /etc/ld.so.conf.d/zhcp.conf
