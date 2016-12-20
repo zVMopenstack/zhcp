@@ -37,6 +37,8 @@ cp smcli.1.gz $RPM_BUILD_ROOT/usr/share/man/man1/
 mkdir -p $RPM_BUILD_ROOT/var/opt/zhcp
 cp config/tracing.conf $RPM_BUILD_ROOT/var/opt/zhcp
 cp config/settings.conf $RPM_BUILD_ROOT/var/opt/zhcp
+mkdir -p $RPM_BUILD_ROOT/etc/ld.so.conf.d
+cp config/zhcp.conf $RPM_BUILD_ROOT/etc/ld.so.conf.d
 chmod -R 755 zhcp/bin/*
 chmod -R 755 zhcp/lib/*
 cp -rf zhcp/bin/* $RPM_BUILD_ROOT/opt/zhcp/bin
@@ -44,7 +46,6 @@ cp zhcp/lib/* $RPM_BUILD_ROOT/opt/zhcp/lib
 echo "zhcp version: "%{xcatver} "Built on: "%{builddate} > $RPM_BUILD_ROOT/opt/zhcp/version
 
 %post
-cp -f config/zhcp.conf $RPM_BUILD_ROOT/etc/ld.so.conf.d/zhcp.conf
 
 # Create log file for zHCP
 mkdir -p /var/log/zhcp
