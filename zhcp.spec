@@ -12,8 +12,8 @@ BuildRoot: %{_tmppath}/zhcp
 Prefix: /opt/zhcp
 
 %description
-The System z hardware control point (zHCP) is a set of APIs to interface with 
-z/VM SMAPI. It is used by xCAT to manage virtual machines running Linux on 
+The System z hardware control point (zHCP) is a set of APIs to interface with
+z/VM SMAPI. It is used by xCAT to manage virtual machines running Linux on
 System z.
 %define xcatver %(cat /root/build/zhcp/Version)
 %define builddate %(date)
@@ -37,8 +37,6 @@ cp smcli.1.gz $RPM_BUILD_ROOT/usr/share/man/man1/
 mkdir -p $RPM_BUILD_ROOT/var/opt/zhcp
 cp config/tracing.conf $RPM_BUILD_ROOT/var/opt/zhcp
 cp config/settings.conf $RPM_BUILD_ROOT/var/opt/zhcp
-mkdir -p $RPM_BUILD_ROOT/etc/ld.so.conf.d
-cp config/zhcp.conf $RPM_BUILD_ROOT/etc/ld.so.conf.d
 chmod -R 755 zhcp/bin/*
 chmod -R 755 zhcp/lib/*
 cp -rf zhcp/bin/* $RPM_BUILD_ROOT/opt/zhcp/bin
@@ -46,6 +44,7 @@ cp zhcp/lib/* $RPM_BUILD_ROOT/opt/zhcp/lib
 echo "zhcp version: "%{xcatver} "Built on: "%{builddate} > $RPM_BUILD_ROOT/opt/zhcp/version
 
 %post
+echo "/opt/zhcp/lib" > /etc/ld.so.conf.d/zhcp.conf
 
 # Create log file for zHCP
 mkdir -p /var/log/zhcp
@@ -89,6 +88,7 @@ fi
 
 %preun
 # Delete man page and smcli command
+rm -rf /etc/ld.so.conf.d/zhcp.conf
 rm -rf /usr/share/man/man1/smcli.1.gz
 
 %files
@@ -99,4 +99,3 @@ rm -rf /usr/share/man/man1/smcli.1.gz
 %config(noreplace) /usr/share/man/man1/smcli.1.gz
 %config(noreplace) /var/opt/zhcp/tracing.conf
 %config(noreplace) /var/opt/zhcp/settings.conf
-%config(noreplace) /etc/ld.so.conf.d/zhcp.conf
