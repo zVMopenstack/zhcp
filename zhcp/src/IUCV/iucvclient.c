@@ -374,7 +374,8 @@ int main(int argc, char *argv[])
         }
         bzero((char *) &serv_addr, sizeof(serv_addr));
         serv_addr.siucv_family = AF_IUCV;
-        memcpy(&serv_addr.siucv_user_id, argv[1], 8);
+        memset(&serv_addr.siucv_user_id, ' ', 8);
+        memcpy(&serv_addr.siucv_user_id, argv[1], strlen(argv[1]));
         memcpy(&serv_addr.siucv_name, "OPNCLOUD", 8);
 
          /* Now connect to the server */
