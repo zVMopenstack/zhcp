@@ -53,8 +53,8 @@ int printAndLogSmapiReturnCodeReasonCodeDescriptionAndErrorBuffer(char * class, 
 void printSmapiDescriptionAndLogError(char * class, int rc, int rs, struct _vmApiInternalContext* vmapiContextP);
 
 /* For development use to aid in debugging code */
-#define LOG(format) syslog(LOG_LOCAL7 | LOG_INFO, "%d.%lu %s %s: " format, getpid(), pthread_self(), __FILE__, __FUNCTION__)
-#define LOGA(format, args) syslog(LOG_LOCAL7 | LOG_INFO, "%d.%lu %s %s: " format, getpid(), pthread_self(), __FILE__, __FUNCTION__, args)
+#define LOG(format) syslog(LOG_LOCAL5 | LOG_INFO, "%d.%lu %s %s: " format, getpid(), pthread_self(), __FILE__, __FUNCTION__)
+#define LOGA(format, args) syslog(LOG_LOCAL5 | LOG_INFO, "%d.%lu %s %s: " format, getpid(), pthread_self(), __FILE__, __FUNCTION__, args)
 
 /* This macro will clear out the context and memory structures */
 #define INIT_CONTEXT_AND_MEMORY(_CONTEXT_, _MEMORYCONTEXT_, _TRACEFLAGS_, _RC_) { \
