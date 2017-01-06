@@ -314,7 +314,7 @@ function inform {
   local message=$1
   # @Code:
   message=$(echo "$message" | sed 's/\(\S\)\s\s*/\1 /g')
-  logger -p 'local7.info' \
+  logger -p 'local5.info' \
             "$$.0 $CMDNAME: ${BASH_SOURCE[1]/*\/}: ${FUNCNAME[1]}: ${message}"
   echo "${message}"
 } #inform{}
@@ -331,7 +331,7 @@ function warn {
   local message=$1
   # @Code:
   message=$(echo "$message" | sed 's/\s\s*/ /g')
-  logger -p 'local7.warning' \
+  logger -p 'local5.warning' \
             "$$.0 $CMDNAME: ${BASH_SOURCE[1]/*\/}: ${FUNCNAME[1]}: ${message}"
   echo "WARNING: ${message}"
 } #warn{}
@@ -348,7 +348,7 @@ function printError {
   local message=$1
   # @Code:
   message=$(echo "$message" | sed 's/\s\s*/ /g')
-  logger -p 'local7.err' \
+  logger -p 'local5.err' \
             "$$.0 $CMDNAME: ${BASH_SOURCE[1]/*\/}: ${FUNCNAME[1]}: ${message}"
   echo "ERROR: ${message}"
 } #printError{}
