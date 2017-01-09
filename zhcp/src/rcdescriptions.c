@@ -218,7 +218,7 @@ void printSmapiDescriptionAndLogError(char * class, int rc, int rs, struct _vmAp
     } else if (rc == 8 && rs == 3014) {
         sprintf(errMsg, "Volume does not support sharing\n");
     } else if (rc == 8) {
-        sprintf(errMsg, "The RS %d represents the HCP %d message\n", rs, rs);
+        sprintf(errMsg, "The RS %d represents the HCP/DMS %d message number\n", rs, rs);
     } else if (rc == 24 && rs == 13) {
         sprintf(errMsg, "Metadata entry name value length exceeds allowable length (1024)\n");
     } else if (rc == 24) {
