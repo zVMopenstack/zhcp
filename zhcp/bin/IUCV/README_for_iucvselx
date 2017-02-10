@@ -1,0 +1,37 @@
+On RHEL7 or later system, when SElinux works in "Enforcing" mode, IUCV communication between
+daemon and client is not allowed. For SLES and Ubuntu system, as SELINUX is not installed by
+default, no tests are made on them.
+
+This file describes:
+1. How to generate the SELinux policy files to allow IUCV communication.
+2. How to install the proper SELinux policy in the correct directory on the IUCV target guest.
+3. The difference between the SELinux policy file that is for newly deployed xCAT guests
+   and existing guest.
+
+
+1. How to generate the SELinux policy files to allow IUCV communication.
+   User need to install policycoreutils-devel on the RHEL7 or later target system which SElinux
+   works in "Enforcing" mode.
+
+   Generate the iucvselx(_running).te file, which is the source file of .pp file.
+   Run command on an openstack newly deployed VM:
+   "grep iucvserv /var/log/audit/audit.log | audit2allow -m iucvselx > iucvselx.te"
+   and run command on an existing running system
+   "grep iucvserv /var/log/audit/audit.log | audit2allow -m iucvselx_running > iucvselx_running.te"
+
+   Generate the iucvselx(_running).pp file, which is the SElinux policy file for IUCV daemon.
+   Run command on an openstack newly deployed VM.
+   "grep iucvserv /var/log/audit/audit.log | audit2allow -M iucvselx.pp"
+   and run command on an existing running system.
+   "grep iucvserv /var/log/audit/audit.log | audit2allow -M iucvselx_running.pp"
+
+2. How to install the proper SELinux policy in the correct directory on the IUCV target guest.
+   Run command "semodule -i iucvselx.pp" or "semodule -i iucvselx_running.pp"on the target system.
+
+3. The difference between the SELinux policy file that is for newly deployed xCAT guests and
+   existing guest.
+   When the system are newly deployed, IUCV related files are copied by xcatconf4z at the system
+   init stage, IUCV daemon process works in init_t domain.
+   For an existing running system, use "scp" to copy file to the target guest, IUCV daemon process
+   works in unconfined_service_t domain.
+   So two policy files are needed to handle different scenarios.
