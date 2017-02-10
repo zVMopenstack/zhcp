@@ -1,0 +1,34 @@
+On Rhel7 or later system, when SELINUX works in "Enforcing" status, IUCV
+communication between daemon and client will can't work well.
+
+This file is used to describe:
+1. How to generated selinux policy files to allow IUCV communication.
+2. How to set the iucv policy file in the same directory to the target guest.
+3. The difference of iucv policy file between new deployed system and a running system.
+
+
+1. How to generated selinux policy files to allow IUCV communication.
+   User need to install policycoreutils-devel on the rhel7 or later target system which selinux
+   works in "Enforcing" mode.  
+
+   Generate the iucvselx(_running).te file, which is source file of .pp.
+   Run command on an openstack newly deployed VM: 
+   "grep iucvserv /var/log/audit/audit.log | audit2allow -m iucvselx > iucvselx.te"
+   and run command on an existing running system
+   "grep iucvserv /var/log/audit/audit.log | audit2allow -m iucvselx_running > iucvselx_running.te"
+
+   Generate the iucvselx(_running).pp file, which is the policy file.
+   Run command on an openstack newly deployed VM.
+   "grep iucvserv /var/log/audit/audit.log | audit2allow -M iucvselx.pp" 
+   and run command on an existing running system.
+   "grep iucvserv /var/log/audit/audit.log | audit2allow -M iucvselx_running.pp"
+
+2. How to set the iucv policy file in the same directory to the target guest.
+   Run command "semodule -i iucvselx.pp" or "semodule -i iucvselx_running.pp"on the target system.
+
+3. The difference of iucv policy file between new deployed system and a running system. 
+   When the system are newly deployed, iucv related files are copyed by xcatconf4z at the system init stage,
+   iucv process work in init_t domain.
+   For an existing running system, use "scp" to copy file to target guest, iucv process work in unconfined_service_t
+   domain.
+   So two policy files are needed to handle different scenarios.
