@@ -674,24 +674,6 @@ function deployDiskImage {
     local rc
     local errorFile
 
-    # Zero out the disk header
-    connectDisk $userID $channelID 'w' -1
-    if (( $? )); then
-      printError "Failed to connect disk: ${userID}:${channelID}"
-      exit 3
-    fi
-    local alias=$(getDiskAlias $userID $channelID)
-    out=`dd if=/dev/zero bs=512 count=2 2>&1 of=/dev/disk/by-path/ccw-0.0.${alias}`
-    rc=$?
-    if (( rc )); then
-      out=`echo $out | tr '\n' ' '`
-      printError "An error was encountered while zero out the disk header. $out"
-      exit 1
-    fi
-    syncfileutil /dev/disk/by-path/ccw-0.0.${alias}
-    disconnectDisk $userID $channelID 0
-
-    # Reconnect to dd the partition
     connectDisk $userID $channelID 'w' -1
     if (( $? )); then
       printError "Failed to connect disk: ${userID}:${channelID}"
@@ -714,6 +696,25 @@ function deployDiskImage {
           printError "Failed to create a temporary file in the /var/log/zhcp directory"
           exit 3
         fi
+
+        # Zero out the disk header
+        out=`dd if=/dev/zero bs=512 count=2 2>&1 of=/dev/disk/by-path/ccw-0.0.${alias}`
+        rc=$?
+        if (( rc )); then
+          out=`echo $out | tr '\n' ' '`
+          printError "An error was encountered while zero out the disk header. $out"
+          exit 1
+        fi
+        syncfileutil /dev/disk/by-path/ccw-0.0.${alias}
+        disconnectDisk $userID $channelID 0
+
+        # Reconnect to dd the partition
+        connectDisk $userID $channelID 'w' -1
+        if (( $? )); then
+          printError "Failed to connect disk: ${userID}:${channelID}"
+          exit 3
+        fi
+        alias=$(getDiskAlias $userID $channelID)
 
         if [[ ! -L /dev/disk/by-path/ccw-0.0.${alias}-part1 ]]; then
           printError "Failed to detect the partition on FBA disk: ${userID}:${channelID}"
