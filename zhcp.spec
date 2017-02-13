@@ -59,21 +59,21 @@ echo "Configuring syslog"
 # SUSE Linux Enterprise Server
 if [ -e "/etc/init.d/syslog" ]; then
     # Syslog is the standard for log messages
-    grep ${ZHCP_LOG} /etc/syslog.conf > /dev/null || (echo -e "\n${ZHCP_LOG_HEADER}\nlocal4.*        ${ZHCP_LOG}" >> /etc/syslog.conf)
+    grep ${ZHCP_LOG} /etc/syslog.conf > /dev/null || (echo -e "\n${ZHCP_LOG_HEADER}\nlocal5.*        ${ZHCP_LOG}" >> /etc/syslog.conf)
 elif [ -e "/opt/ibm/cmo/version" ]; then
-    grep ${ZHCP_LOG} /etc/rsyslog.conf > /dev/null || (echo -e "\n${ZHCP_LOG_HEADER}\nlocal4.*        ${ZHCP_LOG}" >> /etc/syslog.conf)
+    grep ${ZHCP_LOG} /etc/rsyslog.conf > /dev/null || (echo -e "\n${ZHCP_LOG_HEADER}\nlocal5.*        ${ZHCP_LOG}" >> /etc/rsyslog.conf)
 fi
 if [ -e "/etc/syslog-ng/syslog-ng.conf" ]; then
     # Syslog-ng is the replacement for syslogd
     grep ${ZHCP_LOG} /etc/syslog-ng/syslog-ng.conf > /dev/null || (echo -e "\n${ZHCP_LOG_HEADER}\n\
-filter f_xcat_zhcp  { facility(local4); };\n\
+filter f_xcat_zhcp  { facility(local5); };\n\
 destination zhcplog { file(\"${ZHCP_LOG}\"); };\n\
 log { source(src); filter(f_xcat_zhcp); destination(zhcplog); };" >> /etc/syslog-ng/syslog-ng.conf)
 fi
 
 # Red Hat Enterprise Linux
 if [ -e "/etc/rc.d/init.d/rsyslog" ]; then
-    grep ${ZHCP_LOG} /etc/rsyslog.conf > /dev/null || (echo -e "\n${ZHCP_LOG_HEADER}\nlocal4.*        ${ZHCP_LOG}" >> /etc/rsyslog.conf)
+    grep ${ZHCP_LOG} /etc/rsyslog.conf > /dev/null || (echo -e "\n${ZHCP_LOG_HEADER}\nlocal5.*        ${ZHCP_LOG}" >> /etc/rsyslog.conf)
 fi
 
 # Restart syslog
