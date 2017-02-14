@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "fabf19d9_aa8b261e",
+        "filename": "zhcp/bin/IUCV/README_for_iucvselx",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010466
+      },
+      "writtenOn": "2017-02-14T15:57:55Z",
+      "side": 1,
+      "message": "Question, is this only for RHEL systems, this procedure isn\u0027t needed on SLES or Ubuntu?  We should probably note that here.\n\n\"IUCV communication between daemon and client can\u0027t work well\" isn\u0027t very specific.  We should say either \"IUCV communication between daemon and client is not allowed\" or \"it works but with these restrictions: ______\"",
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fabf19d9_0ae69214",
         "filename": "zhcp/bin/IUCV/README_for_iucvselx",
         "patchSetId": 3
@@ -30,6 +47,23 @@
       "writtenOn": "2017-02-14T14:38:42Z",
       "side": 1,
       "message": "\"How to generate ...\"",
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_aa3446fb",
+        "filename": "zhcp/bin/IUCV/README_for_iucvselx",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010466
+      },
+      "writtenOn": "2017-02-14T15:57:55Z",
+      "side": 1,
+      "message": "Suggestion:\nThis file describes:\n1. How to generate the SELinux policy files to allow IUCV communication.\n2. How to install the proper SELinux policy in the correct directory on the IUCV target guest.\n3. The difference between the SELinux policy file that this procedure creates and how newly deployed xCAT guests get their SELinux policy files.",
       "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
