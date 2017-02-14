@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_4adfea39",
+        "filename": "zhcp/bin/IUCV/README_for_iucvselx",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-02-14T14:38:42Z",
+      "side": 1,
+      "message": "\"client can\u0027t work well.\"",
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_0ae69214",
+        "filename": "zhcp/bin/IUCV/README_for_iucvselx",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-02-14T14:38:42Z",
+      "side": 1,
+      "message": "\"How to generate ...\"",
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_6ab3ce0a",
+        "filename": "zhcp/bin/IUCV/README_for_iucvselx",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-02-14T14:38:42Z",
+      "side": 1,
+      "message": "\"How to generate ...\"",
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_cac2da52",
+        "filename": "zhcp/bin/IUCV/README_for_iucvselx",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-02-14T14:38:42Z",
+      "side": 1,
+      "message": "couple of trailing spaces to delete.\nA few more spots below to get rid of",
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_aad68625",
+        "filename": "zhcp/bin/IUCV/iucvselx_running.te",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-02-14T14:38:42Z",
+      "side": 1,
+      "message": "Why is this file in two GerritHub reviews? (also in 341904)",
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
