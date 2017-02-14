@@ -70,6 +70,52 @@
     },
     {
       "key": {
+        "uuid": "fabf19d9_caec1abd",
+        "filename": "zhcp/bin/IUCV/README_for_iucvselx",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-02-14T14:57:45Z",
+      "side": 1,
+      "message": "\"copyed\" should be \"copied\"",
+      "range": {
+        "startLine": 30,
+        "startChar": 62,
+        "endLine": 30,
+        "endChar": 68
+      },
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_2a4396b3",
+        "filename": "zhcp/bin/IUCV/README_for_iucvselx",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-02-14T14:57:45Z",
+      "side": 1,
+      "message": "Do you want to reform this paragraph so that the text on line 30 and 32 are less than the recommended end margin as shown in this tool ?",
+      "range": {
+        "startLine": 32,
+        "startChar": 96,
+        "endLine": 32,
+        "endChar": 116
+      },
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fabf19d9_aad68625",
         "filename": "zhcp/bin/IUCV/iucvselx_running.te",
         "patchSetId": 3
