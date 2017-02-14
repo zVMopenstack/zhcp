@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_8a64e2b8",
+        "filename": "zhcp/bin/IUCV/iucvselx.te",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-02-14T14:25:31Z",
+      "side": 1,
+      "message": "Not a big deal, can you use spaces instead of tabs in this file?",
+      "revId": "2a55649c8dc93bb22a9ff1a805a50b32619f3016",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
