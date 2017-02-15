@@ -164,6 +164,24 @@
       "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_c06639ba",
+        "filename": "zhcp/bin/IUCV/iucvselx_running.te",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008753
+      },
+      "writtenOn": "2017-02-15T02:45:59Z",
+      "side": 1,
+      "message": "in patch 34194, the source file is iucvselx.te, this patch file name is iucvselx_running.te. The content are different in these two files.",
+      "parentUuid": "fabf19d9_aad68625",
+      "revId": "b0c5e55356fe04cc1f377deb45292e0c6d6cc52a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
