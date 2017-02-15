@@ -45,6 +45,23 @@
       "revId": "080460b1920476946cbbc89d59fec9b517e4254b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_aea1f395",
+        "filename": "zhcp/bin/IUCV/README_for_iucvselx",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010466
+      },
+      "writtenOn": "2017-02-15T18:30:42Z",
+      "side": 1,
+      "message": "Suggested rewording\nOn RHEL7 or later system, when SElinux works in \"Enforcing\" mode, IUCV communication between\ndaemon and client is not allowed. For SLES and Ubuntu system, as SELINUX is not installed by\ndefault, this is not an issue.\n\nThis file describes:\n1. How to generate the SELinux policy files to allow IUCV communication.\n2. How to install the proper SELinux policy in the correct directory on the IUCV target guest.\n3. Why there is a difference between the SELinux policy file for newly deployed OpenStack/xCAT\n   guests and the policy file for existing guests.\n\n\n1. How to generate the SELinux policy files to allow IUCV communication on a RHEL7 or later \nsystem with SELinux running in \"Enforcing\" mode.\n   a. Install policycoreutils-devel.\n\n   b. Generate the iucvselx(_running).te file, which is the source of the .pp file.\n      i. For a system newly deployed via OpenStack/xCAT:\n             \"grep iucvserv /var/log/audit/audit.log | audit2allow -m iucvselx \u003e iucvselx.te\"\n      ii. For an existing system, deployed via another method:\n             \"grep iucvserv /var/log/audit/audit.log | audit2allow -m iucvselx_running \u003e iucvselx_running.te\"\n\n   c. Generate the iucvselx(_running).pp file, which is the SElinux policy file for the IUCV daemon.\n      i. For a system newly deployed via OpenStack/xCAT:\n             \"grep iucvserv /var/log/audit/audit.log | audit2allow -M iucvselx.pp\"\n      ii. For an existing system, deployed via another method:\n             \"grep iucvserv /var/log/audit/audit.log | audit2allow -M iucvselx_running.pp\"\n\n2. How to install the proper SELinux policy in the correct directory on the IUCV target guest.\n   On the target system:\n      \"semodule -i iucvselx.pp\" or \"semodule -i iucvselx_running.pp\"\n\n3. The difference between the SELinux policy file for newly deployed OpenStack/xCAT guests vs the \n   policy file for existing guests.\n   a. When the system is deployed by OpenStack or xCAT, IUCV related files are copied by xcatconf4z \n      at the system init stage, and the IUCV daemon process runs in the init_t domain.\n\n   b. For an existing running system, we use \"scp\" to copy file to the target guest,  and the IUCV \n      daemon process runs in the unconfined_service_t domain.\n   \n   Thus two policy files are needed to handle different scenarios.",
+      "revId": "080460b1920476946cbbc89d59fec9b517e4254b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
