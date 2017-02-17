@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_aea688ab",
+        "filename": "buildzhcpgithub",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-02-17T16:15:43Z",
+      "side": 1,
+      "message": "Please remove \"the\" and \"smcli\".  This script builds ZHCP and not just the smcli portion.",
+      "range": {
+        "startLine": 4,
+        "startChar": 48,
+        "endLine": 4,
+        "endChar": 53
+      },
+      "revId": "c3f5eab16628f19274b14131f913b1cbeeb63ef8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_6eacf08b",
+        "filename": "compilezhcponly",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-02-17T16:15:43Z",
+      "side": 1,
+      "message": "Remove \"the\" and \"smcli\"",
+      "range": {
+        "startLine": 4,
+        "startChar": 38,
+        "endLine": 4,
+        "endChar": 43
+      },
+      "revId": "c3f5eab16628f19274b14131f913b1cbeeb63ef8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_4ea7eca6",
+        "filename": "compilezhcponly",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-02-17T16:15:43Z",
+      "side": 1,
+      "message": "Make this a sentence.  Don\u0027t start with a lowercase.\nShould \"of\" -\u003e \"have\" ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "c3f5eab16628f19274b14131f913b1cbeeb63ef8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
