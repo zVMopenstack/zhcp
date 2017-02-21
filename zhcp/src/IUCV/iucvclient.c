@@ -17,7 +17,7 @@ int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasonco
 {
     if (returncode || reasoncode)
     {
-        syslog(LOG_ERR,"ERROR: %s  Return code %d, Reason code %d", message, returncode, reasoncode);
+        syslog(LOG_LOCAL5, "ERROR: %s  Return code %d, Reason code %d", message, returncode, reasoncode);
         if (reasoncode && with_strerr)
         {
             printf("ERROR: %s\n%s\nReturn code %d, Reason code %d.\n", message, strerror(reasoncode), returncode, reasoncode);
@@ -390,7 +390,7 @@ int main(int argc, char *argv[])
             close(sockfd);
             return returncode;
         }
-        syslog(LOG_ERR, "command=%s\n",buffer);
+        syslog(LOG_INFO, "command=%s\n",buffer);
         /* Send messages to server. */
         n = send(sockfd, buffer, strlen(buffer)+1,0);
         if (n < 0) {
