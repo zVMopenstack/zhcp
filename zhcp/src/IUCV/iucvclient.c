@@ -17,7 +17,7 @@ int printAndLogIUCVserverReturnCodeReasonCodeoutput(int returncode, int reasonco
 {
     if (returncode || reasoncode)
     {
-        syslog(LOG_LOCAL5, "ERROR: %s  Return code %d, Reason code %d", message, returncode, reasoncode);
+        syslog(LOG_ERR, "ERROR: %s  Return code %d, Reason code %d", message, returncode, reasoncode);
         if (reasoncode && with_strerr)
         {
             printf("ERROR: %s\n%s\nReturn code %d, Reason code %d.\n", message, strerror(reasoncode), returncode, reasoncode);
@@ -335,6 +335,7 @@ int main(int argc, char *argv[])
     int need_reconnect = 1;
     int check_upgrade_version = 0;
 
+    openlog(NULL, 0, LOG_LOCAL5);
     if (argc < 3)
     {
         if (argc==2 && strcmp(argv[1],"--version")==0)
@@ -510,5 +511,6 @@ int main(int argc, char *argv[])
         }
     }
     close(sockfd);
+    closelog();
     return 0;
 }
