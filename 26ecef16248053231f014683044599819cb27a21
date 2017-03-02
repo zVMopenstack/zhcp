@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_d608f52f",
+        "filename": "zhcp/bin/linkdiskandbringonline",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-03-02T19:48:30Z",
+      "side": 1,
+      "message": "Blanks !!!!",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 2
+      },
+      "revId": "26ecef16248053231f014683044599819cb27a21",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_b6058115",
+        "filename": "zhcp/bin/linkdiskandbringonline",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-03-02T19:48:30Z",
+      "side": 1,
+      "message": "You are not defaulting to RR but instead exiting 1.",
+      "revId": "26ecef16248053231f014683044599819cb27a21",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_96027d0a",
+        "filename": "zhcp/bin/linkdiskandbringonline",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-03-02T19:48:30Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 119,
+        "startChar": 60,
+        "endLine": 119,
+        "endChar": 67
+      },
+      "revId": "26ecef16248053231f014683044599819cb27a21",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_91fe0704",
+        "filename": "zhcp/bin/linkdiskandbringonline",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-03-02T19:48:30Z",
+      "side": 1,
+      "message": "extra line",
+      "revId": "26ecef16248053231f014683044599819cb27a21",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_7103730e",
+        "filename": "zhcp/bin/linkdiskandbringonline",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-03-02T19:48:30Z",
+      "side": 1,
+      "message": "extra blank line",
+      "revId": "26ecef16248053231f014683044599819cb27a21",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_51086f28",
+        "filename": "zhcp/bin/linkdiskandbringonline",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-03-02T19:48:30Z",
+      "side": 1,
+      "message": "Hmmm, You don\u0027t mention this rc in the prolog of this routine.  Is there a reason ?",
+      "range": {
+        "startLine": 156,
+        "startChar": 11,
+        "endLine": 156,
+        "endChar": 14
+      },
+      "revId": "26ecef16248053231f014683044599819cb27a21",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_f10f832c",
+        "filename": "zhcp/bin/offlinediskanddetach",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-03-02T19:48:30Z",
+      "side": 1,
+      "message": "Any reason for this blank line ?",
+      "revId": "26ecef16248053231f014683044599819cb27a21",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
