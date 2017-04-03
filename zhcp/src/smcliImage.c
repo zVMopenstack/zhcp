@@ -325,39 +325,50 @@ int imageCPUDefineDM(int argC, char* argV[], struct _vmApiInternalContext* vmapi
                 break;
 
             case 'h':
-                printf("NAME\n"
+                printf( "NAME\n"
                     "  Image_CPU_Define_DM\n\n"
                     "SYNOPSIS\n"
-                    "  smcli Image_CPU_Define_DM [-T] image_name [-v] virtual_address\n"
-                    "    [-b] base_cpu [-d] dedicate_cpu [-y] cryto_cpu [-c] cpu_id\n\n"
+                    "  smcli Image_CPU_Define_DM -h\n\n"
+                    "  smcli Image_CPU_Define_DM -T image_name -v virtual_address -b base_cpu\n"
+                    "    -d dedicate_cpu [-c cpu_id]\n" );
+                if ( smapiLevel < 610 ) {
+                    printf( "    [-y cryto_cpu]\n" );
+                }
+                printf( "\n"
                     "DESCRIPTION\n"
                     "  Use Image_CPU_Define_DM to add a virtual processor to a virtual image's\n"
                     "  directory entry.\n\n"
                     "  The following options are required:\n"
-                    "    -T    The name of the virtual image for which to statically define a\n"
+                    "    -T image_name\n"
+                    "          The name of the virtual image for which to statically define a\n"
                     "          virtual CPU.\n"
-                    "    -v    The virtual CPU address to add to the static definition of the\n"
+                    "    -v virtual_address\n"
+                    "          The virtual CPU address to add to the static definition of the\n"
                     "          virtual image (in the hexadecimal range of 0-3F)\n"
-                    "    -b    Whether this CPU defines the base virtual processor:\n"
+                    "    -b base_cpu\n"
+                    "          Specifies whether this CPU defines the base virtual processor:\n"
                     "            0: Unspecified\n"
                     "            1: BASE\n"
-                    "    -d    Whether the virtual processor is to be dedicated at LOGON time to a\n"
-                    "          real processor:\n"
+                    "    -d dedicate_cpu\n"
+                    "          Specifies whether the virtual processor is to be dedicated at LOGON\n"
+                    "          time to a real processor:\n"
                     "            0: Unspecified\n"
                     "            1: NODEDICATE\n"
                     "            2: DEDICATE\n");
-                if (smapiLevel < 610){
-                    printf(
-                    "    -y    Whether the virtual Cryptographic Coprocessor Facility (CCF) should be\n"
-                    "          defined automatically for the virtual CPU at LOGON time:\n"
-                    "            0: Unspecified (no CRYPTO)\n"
-                    "            1: CRYPTO\n");
-                }
                 printf(
                     "  The following options are optional:\n"
-                    "    -c    The processor identification number to be stored in bits 8 through 31\n"
+                    "    -c cpu_id\n"
+                    "          The processor identification number to be stored in bits 8 through 31\n"
                     "          of the CPU ID, returned in response to the store processor ID (STIDP)\n"
                     "          instruction\n");
+                if ( smapiLevel < 610 ) {
+                    printf(
+                    "    -y cryto_cpu\n"
+                    "          Specifies whether the virtual Cryptographic Coprocessor Facility (CCF)\n"
+                    "          should be defined automatically for the virtual CPU at LOGON time:\n"
+                    "            0: Unspecified (no CRYPTO)\n"
+                    "            1: CRYPTO\n" );
+                }
                 return 1;
                 break;
 
