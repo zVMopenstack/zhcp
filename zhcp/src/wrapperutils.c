@@ -208,6 +208,10 @@ void printAndLogSmapiCallReturnCode(char * class, int rc, struct _vmApiInternalC
         sprintf(errMsg, "Socket write retry error\n");
     } else if(rc == -108) {
         sprintf(errMsg, "Socket processing error\n");
+    } else if(rc == -109) {
+        sprintf(errMsg, "Socket not connected error\n");
+    } else if(rc == -110) {
+        sprintf(errMsg, "SMAPI response_recovery retry has no data error\n");
     } else if(rc == -999) {
         sprintf(errMsg, "Memory error\n");
     } else if(rc == -4002) {
@@ -221,6 +225,11 @@ void printAndLogSmapiCallReturnCode(char * class, int rc, struct _vmApiInternalC
     printf("Failed\n"
             "  Return Code: %d\n"
             "  Description: %s\n", rc, errMsg);
+
+    if (0 != vmapiContextP->errnoSaved) {
+        printf("Errno value: %d\n", vmapiContextP->errnoSaved);
+    }
+
     // If the trace file has not been read yet, do it.
     if (!(vmapiContextP->smTraceDetails->traceFileRead)) {
         readTraceFile(vmapiContextP);
