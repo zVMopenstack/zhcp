@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a528ff08_e6a1c7a1",
+        "filename": "zhcp/src/smapiTableParser.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-04-20T19:42:04Z",
+      "side": 1,
+      "message": "This value is 8 in smPublic.h.  Why are you only initializing 4 of the values ?  So I would expect the last 4 entries to have a value of 0.  Did you intend this ?\n\nShould you have some kind of warning comment in smPublic.h to warn the maintenance programmer that there are arrays not defined in smPublic.h which are sensitive to the value ?",
+      "range": {
+        "startLine": 1477,
+        "startChar": 26,
+        "endLine": 1477,
+        "endChar": 42
+      },
+      "revId": "0739c70b8de7cb6e329e4b405b9f07b5302cc9ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bb23a24_123fe322",
+        "filename": "zhcp/src/smapiTableParser.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-04-20T19:42:04Z",
+      "side": 1,
+      "message": "size is 8 in smPublic.h yet you only specify 4.\n\nI do not see this array being used in this routine.",
+      "range": {
+        "startLine": 1731,
+        "startChar": 26,
+        "endLine": 1731,
+        "endChar": 42
+      },
+      "revId": "0739c70b8de7cb6e329e4b405b9f07b5302cc9ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
