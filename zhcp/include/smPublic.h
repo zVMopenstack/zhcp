@@ -99,10 +99,12 @@ typedef struct _List {
     int size;
 } List;
 
+/* When changing the following, do a search to check for impacts to array init, etc*/
 enum Times {
     ConnectRetryLimit = 10,
     SEND_RETRY_LIMIT = 8,
     Delay = 10,
+    ResponseRecoveryDelay = 2,
     MaxWaitCycleN = 10,
     SleepInterval = 15,
     Socket_Timeout = 240,
@@ -120,10 +122,12 @@ enum Times {
 #define SOCKET_CONNECT_TRYAGAIN_ERROR -102
 #define SOCKET_TIMEOUT_ERROR          -103
 #define SOCKET_READ_ERROR             -104
-#define SOCKET_READ_RETRYABLE_ERROR   -105
+
 #define SOCKET_WRITE_ERROR            -106
-#define SOCKET_WRITE_RETRYABLE_ERROR  -107
+
 #define SOCKET_PROCESSING_ERROR       -108
+#define SOCKET_NOT_CONNECTED_ERROR    -109
+#define SOCKET_RETRY_NO_DATA          -110
 #define CUSTOM_DEFINED_SOCKET_RETRY   100
 
 /* Return and reason codes */
@@ -243,6 +247,7 @@ typedef struct _vmApiInternalContext {
     int instanceId;
     char tag[256];
     int resolveHostName;
+    int errnoSaved;
 } vmApiInternalContext;
 
 typedef struct _Abbreviation {

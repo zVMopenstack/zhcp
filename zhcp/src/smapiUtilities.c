@@ -2143,7 +2143,7 @@ void  *vmbkendMain_iucv(void *context) {
  */
 int vmbkendMain_Event_UnSubscribe(struct _vmApiInternalContext* vmapiContextP) {
     const char * const functionName = "Event_Unsubscribe";
-    const int SLEEP_TIMES[SEND_RETRY_LIMIT] = { 0, 8, 16, 16 };
+    const int SLEEP_TIMES[SEND_RETRY_LIMIT] = { 0, 8, 16, 16, 15, 15, 15, 15 };
     char line[LINESIZE];
     char * cursor;
     char * inputP = 0;
@@ -2203,7 +2203,7 @@ int vmbkendMain_Event_UnSubscribe(struct _vmApiInternalContext* vmapiContextP) {
     // Retry the send if the error detected is Ok to retry
     for (j = 0;; j++) {
         if (0 != (rc = smSocketWrite(vmapiContextP, sockDesc, inputP, inputSize))) {
-            if (rc == SOCKET_WRITE_RETRYABLE_ERROR) {
+            if (rc == SOCKET_NOT_CONNECTED_ERROR) {
                 if (j < SEND_RETRY_LIMIT) {
                     // Delay for a while to give SMAPI some time to restart
                     if (SLEEP_TIMES[j] > 0) {
@@ -2254,7 +2254,7 @@ int vmbkendMain_Event_Subscribe(struct _vmApiInternalContext* vmapiContextP) {
     int sockDesc;
     int requestId;
     int j;
-    const int SLEEP_TIMES[SEND_RETRY_LIMIT] = { 0, 8, 16, 16 };
+    const int SLEEP_TIMES[SEND_RETRY_LIMIT] = { 0, 8, 16, 16, 15, 15, 15, 15 };
     const char * const functionName = "Event_Subscribe";
     char * cursor;
     char line[LINESIZE];
@@ -2327,7 +2327,7 @@ int vmbkendMain_Event_Subscribe(struct _vmApiInternalContext* vmapiContextP) {
     for (j = 0;; j++) {
         if (0 != (rc = smSocketWrite(vmapiContextP, sockDesc, inputP, inputSize))) {
             // Retry the send if the error detected is Ok to retry
-            if (rc == SOCKET_WRITE_RETRYABLE_ERROR) {
+            if (rc == SOCKET_NOT_CONNECTED_ERROR) {
                 if (j < SEND_RETRY_LIMIT) {
                     // Delay for a while to give SMAPI some time to restart
                     if (SLEEP_TIMES[j] > 0) {

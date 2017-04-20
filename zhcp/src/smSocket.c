@@ -111,6 +111,7 @@ int smSocketInitialize(struct _vmApiInternalContext* vmapiContextP,    int * soc
 
     *sockId = socket(PF_IUCV, SOCK_STREAM, IPPROTO_IP);
     if (*sockId == -1) {
+        vmapiContextP->errnoSaved = errno;
         sprintf(line, "smSocketInitialize(): socket() returned errno: %d\n", errno);
         errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, *sockId, line);
         return SOCKET_OBTAIN_ERROR;
@@ -133,6 +134,7 @@ int smSocketInitialize(struct _vmApiInternalContext* vmapiContextP,    int * soc
     timeoutValue.tv_sec = 60;  // Changed to 60 now that af iucv and CMS are working better
     retValue = setsockopt(*sockId, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *) &timeoutValue, sizeof(struct timeval));
     if (retValue < 0) {
+        vmapiContextP->errnoSaved = errno;
         sprintf(line, "setsockopt(): connect timeout returned errno %d\n", errno);
         errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, errno, line);
         retValue = close(*sockId);
@@ -157,6 +159,7 @@ int smSocketInitialize(struct _vmApiInternalContext* vmapiContextP,    int * soc
         retValue = connect(*sockId, (struct sockaddr *) &serverSockAddr, sizeof(serverSockAddr));
         if (retValue != 0) {
             saveErrno = errno;
+            vmapiContextP->errnoSaved = errno;
             sprintf(line, "connect() of socket %d returned %d errno %d\n", *sockId, retValue, errno);
             errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, retValue, line);
             // If we have exceeded the retry limit, then shutdown, close and return with error
@@ -207,6 +210,7 @@ int smSocketInitialize(struct _vmApiInternalContext* vmapiContextP,    int * soc
 
                     *sockId = socket(PF_IUCV, SOCK_STREAM, IPPROTO_IP);
                     if (*sockId == -1) {
+                        vmapiContextP->errnoSaved = errno;
                         sprintf(line, "smSocketInitialize(): socket() returned errno: %d\n", errno);
                         errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, *sockId, line);
                         return SOCKET_OBTAIN_ERROR;
@@ -267,6 +271,7 @@ int smSocketWrite(struct _vmApiInternalContext* vmapiContextP, int sockId, char 
     timeoutValue.tv_sec = Socket_Timeout;
     retValue = setsockopt(sockId, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *) &timeoutValue, sizeof(struct timeval));
     if (retValue < 0) {
+        vmapiContextP->errnoSaved = errno;
         sprintf(line, "setsockopt(): send timeout returned errno %d\n", errno);
         errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, errno, line);
         retValue = close(sockId);
@@ -279,6 +284,7 @@ int smSocketWrite(struct _vmApiInternalContext* vmapiContextP, int sockId, char 
     retValue = setsockopt(sockId, SOL_SOCKET, SO_REUSEADDR, (int *) &onValue,
             sizeof(int));
     if (retValue < 0) {
+        vmapiContextP->errnoSaved = errno;
         sprintf(line, "setsockopt(): reuse addr returned errno %d\n", errno);
         errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, errno, line);
         retValue = close(sockId);
@@ -291,6 +297,7 @@ int smSocketWrite(struct _vmApiInternalContext* vmapiContextP, int sockId, char 
         retValue = send(sockId, (void *) data, dataLen, 0);
         if (retValue < 0) {
             saveErrno = errno;
+            vmapiContextP->errnoSaved = errno;
             // Log a special message and set the return and reason code if a timeout
             if (errno == EAGAIN) {
                 sprintf(line, "smSocketWrite(): timeout errno %d\n", errno);
@@ -304,7 +311,7 @@ int smSocketWrite(struct _vmApiInternalContext* vmapiContextP, int sockId, char 
             if (saveErrno == EAGAIN)
                 return SOCKET_TIMEOUT_ERROR;
             if (saveErrno == ENOTCONN)
-                return SOCKET_WRITE_RETRYABLE_ERROR;
+                return SOCKET_NOT_CONNECTED_ERROR;
             return SOCKET_WRITE_ERROR;
         }
         data = data + retValue;
@@ -352,6 +359,7 @@ int smSocketRead(struct _vmApiInternalContext* vmapiContextP, int sockId, char *
     timeoutValue.tv_sec = ulTimeoutSeconds;
     retValue = setsockopt(sockId, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *) &timeoutValue, sizeof(struct timeval));
     if (retValue < 0) {
+        vmapiContextP->errnoSaved = errno;
         sprintf(line, "setsockopt(): receive timeout returned errno %d\n", errno);
         errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, errno, line);
         retValue = close(sockId);
@@ -363,6 +371,7 @@ int smSocketRead(struct _vmApiInternalContext* vmapiContextP, int sockId, char *
     onValue = 1;
     retValue = setsockopt(sockId, SOL_SOCKET, SO_REUSEADDR, (int *) &onValue, sizeof(int));
     if (retValue < 0) {
+        vmapiContextP->errnoSaved = errno;
         sprintf(line, "setsockopt(): reuse addr returned errno %d\n", errno);
         errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, errno, line);
         retValue = close(sockId);
@@ -376,6 +385,7 @@ int smSocketRead(struct _vmApiInternalContext* vmapiContextP, int sockId, char *
         retValue = recv(sockId, buffPtr, buffLength, 0);
         if (retValue < 0) {
             saveErrno = errno;
+            vmapiContextP->errnoSaved = errno;
             // Log a special message and set the return and reason code if a timeout
             if (errno == EAGAIN) {
                 sprintf(line, "smSocketRead(): timeout errno %d\n", errno);
@@ -389,7 +399,7 @@ int smSocketRead(struct _vmApiInternalContext* vmapiContextP, int sockId, char *
             if (saveErrno == EAGAIN)
                 return SOCKET_TIMEOUT_ERROR;
             if (saveErrno == ENOTCONN)
-                return SOCKET_READ_RETRYABLE_ERROR;
+                return SOCKET_NOT_CONNECTED_ERROR;
             return SOCKET_READ_ERROR;
         }
 
@@ -464,6 +474,7 @@ int smSocketReadLoop(struct _vmApiInternalContext* vmapiContextP, int sockId, ch
     timeoutValue.tv_sec = ulTimeoutSeconds;
     retValue = setsockopt(sockId, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *) &timeoutValue, sizeof(struct timeval));
     if (retValue < 0) {
+        vmapiContextP->errnoSaved = errno;
         sprintf(line, "setsockopt(): receive timeout returned errno %d\n", errno);
         errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, errno, line);
         retValue = close(sockId);
@@ -481,6 +492,7 @@ int smSocketReadLoop(struct _vmApiInternalContext* vmapiContextP, int sockId, ch
         TRACE_END_DEBUG(vmapiContextP, line);
 
         if (retValue < 0) {
+            vmapiContextP->errnoSaved = errno;
             saveErrno = errno;
             // Log a special message and set the return and reason code if a timeout
             if (errno == EAGAIN) {
@@ -501,7 +513,7 @@ int smSocketReadLoop(struct _vmApiInternalContext* vmapiContextP, int sockId, ch
             if (saveErrno == EAGAIN)
                 return SOCKET_TIMEOUT_ERROR;
             if (saveErrno == ENOTCONN)
-                return SOCKET_READ_RETRYABLE_ERROR;
+                return SOCKET_NOT_CONNECTED_ERROR;
             if (readMod == SOCKET_ERROR_OK)
                 return 0;
             return SOCKET_READ_ERROR;

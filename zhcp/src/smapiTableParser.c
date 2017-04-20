@@ -5,9 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 #include "smapiTableParser.h"
 #include "smPublic.h"
 #include "smSocket.h"
+#include "smcliResponse.h"
 
 // Internal function to handle embedded arrays in SMAPI output
 static int handleCountedArrays(struct _vmApiInternalContext* vmapiContextP, enum tableParserModes mode, int * tableStartingIndex, tableLayout table, tableParserParms * parms, void * previousStruct);
@@ -1467,62 +1469,142 @@ int getAndParseSmapiBuffer(struct _vmApiInternalContext* vmapiContextP, char * *
     int tempSize;
     int * pReturnCode;
     int * pReasonCode;
-    int rc, i, j;
+    int rc, i, j, k;
+    int saverc;
     char line[BUFLEN];
     char * smapiOutputP = 0;
     rc = 0;
-    const int SLEEP_TIMES[SEND_RETRY_LIMIT] = { 0, 8, 16, 16 };
+    const int SLEEP_TIMES[SEND_RETRY_LIMIT] = { 0, 8, 16, 16, 15, 15, 15, 15 };
 
     readTraceFile(vmapiContextP);
     TRACE_ENTRY_FLOW(vmapiContextP, TRACEAREA_ZHCP_GENERAL);
 
     TRACE_1SUB(vmapiContextP, TRACEAREA_PARSER, TRACELEVEL_DETAILS, "Table being parsed: <%s>\n", parserTableName);
 
-    // Initialize our socket
-    if (0 != (rc = smSocketInitialize(vmapiContextP, &sockDesc))) {
-        FREE_MEMORY(*inputPp);
-        return rc;
-    }
-
-    TRACE_1SUB(vmapiContextP, TRACEAREA_SMAPI_ONLY, TRACELEVEL_DETAILS, "Socket write starting for <%s>\n", parserTableName);
-
-    // Retry the send if the error detected is ok to retry
-    for (j = 0;; j++) {
-        if (0 != (rc = smSocketWrite(vmapiContextP, sockDesc, *inputPp, inputSize))) {
-            if (rc == SOCKET_WRITE_RETRYABLE_ERROR) {
-                if (j < SEND_RETRY_LIMIT) {
-                    // Delay for a while to give SMAPI some time to restart
-                    if (SLEEP_TIMES[j] > 0) {
-                        sleep(SLEEP_TIMES[j]);
-                    }
-                    continue;
+    // Create a retry in case the socket loses connection
+    // Cover creating the socket, sending SMAPI the API, and also getting the requestID
+    for (k = 0;; k++) {
+        if (k > SEND_RETRY_LIMIT) {
+            sprintf(line, "Socket create/send/receive requestId failed after %n retries\n", SEND_RETRY_LIMIT);
+            errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
+            return saverc;
+        } else
+        {
+            // clean up old socket on retry
+            if (k > 0) {
+                rc = close(sockDesc);
+                if (0 != rc) {
+                    sprintf(line, "Close of old socket create/send/receive requestId got errno: %d Continuing anyway.\n", errno);
+                    errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
                 }
-                // Change the internal return code to general write one
-                rc = SOCKET_WRITE_ERROR;
             }
+        }
 
+        // Initialize our socket, no need to retry this, usually not a problem
+        if (0 != (rc = smSocketInitialize(vmapiContextP, &sockDesc))) {
             FREE_MEMORY(*inputPp);
-            TRACE_2SUBS(vmapiContextP, TRACEAREA_SMAPI_ONLY, TRACELEVEL_DETAILS, "Socket write for <%s> did not complete after %d retries\n",
-                        parserTableName, SEND_RETRY_LIMIT);
             return rc;
         }
-        break;
+
+        TRACE_1SUB(vmapiContextP, TRACEAREA_SMAPI_ONLY, TRACELEVEL_DETAILS, "Socket write starting for <%s>\n", parserTableName);
+
+        saverc = 0;
+
+        // Retry the send if the error detected is ok to retry
+        for (j = 0;; j++) {
+            if (0 != (rc = smSocketWrite(vmapiContextP, sockDesc, *inputPp, inputSize))) {
+                if (rc == SOCKET_TIMEOUT_ERROR || rc == SOCKET_NOT_CONNECTED_ERROR || rc == SOCKET_CONNECT_REFUSED_ERROR) {
+                    if (j < SEND_RETRY_LIMIT) {
+                        // Delay for a while to give SMAPI some time to restart
+                        if (SLEEP_TIMES[j] > 0) {
+                            sleep(SLEEP_TIMES[j]);
+                        }
+                        continue;
+                    }
+                    // Change the internal return code to general write one
+                    rc = SOCKET_WRITE_ERROR;
+                }
+
+                FREE_MEMORY(*inputPp);
+                TRACE_2SUBS(vmapiContextP, TRACEAREA_SMAPI_ONLY, TRACELEVEL_DETAILS, "Socket write for <%s> did not complete after %d retries\n",
+                            parserTableName, SEND_RETRY_LIMIT);
+                return rc;
+            }
+            break;
+        }
+
+
+        // Get the request Id
+        if (0 != (rc = smSocketRead(vmapiContextP, sockDesc, (char*) &requestId, 4))) {
+            if (rc == SOCKET_TIMEOUT_ERROR || rc == SOCKET_NOT_CONNECTED_ERROR || rc == SOCKET_CONNECT_REFUSED_ERROR) {
+                // redrive entire request
+                saverc = rc;
+                continue;
+            }
+            sprintf(line, "Socket %d receive of the requestId failed after %n retries\n", sockDesc, SEND_RETRY_LIMIT);
+            errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
+            FREE_MEMORY(*inputPp);
+            return rc;
+        } else break; // leave outer loop
     }
+    // Since we now have a request id, we can clean up memory of the API buffer
 
     FREE_MEMORY(*inputPp);
 
-    // Get the request Id
-    if (0 != (rc = smSocketRead(vmapiContextP, sockDesc, (char*) &requestId, 4))) {
-        sprintf(line, "Socket %d receive of the requestId failed\n", sockDesc);
-        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
-        return rc;
-    }
+    // Read in the output length and retry if an error. Retry a few times if needed
+    for (k=0;; k++) {
+        if (k > SEND_RETRY_LIMIT) {
+            sprintf(line, "SMAPI response_recovery retry limit of %d exceeded\n", SEND_RETRY_LIMIT);
+            errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
+            return saverc;
+        } else {
+            if (0 != (rc = smSocketRead(vmapiContextP, sockDesc, (char *)&tempSize, 4))) {
+                saverc = rc;
+                // Try SMAPI recovery for SOCKET_TIMEOUT_ERROR; SOCKET_NOT_CONNECTED_ERROR;
+                if (rc == SOCKET_TIMEOUT_ERROR || rc == SOCKET_NOT_CONNECTED_ERROR  || rc == SOCKET_CONNECT_REFUSED_ERROR) {
 
-    // Read in the output length
-    if (0 != (rc = smSocketRead(vmapiContextP, sockDesc, (char *) &tempSize, 4))) {
-        sprintf(line, "Socket %d receive of the buffer length failed\n", sockDesc);
-        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
-        return rc;
+                    // clean up old socket on retry
+                    rc = close(sockDesc);
+                    if (0 != rc) {
+                        sprintf(line, "Close of old socket got errno: %d Continuing anyway.\n", errno);
+                        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
+                    }
+
+                    // Sleep to give SMAPI a chance to recover
+                    sleep(ResponseRecoveryDelay);
+
+                    // Initialize our socket
+                    if (0 != (rc = smSocketInitialize(vmapiContextP, &sockDesc))) {
+                        return rc;
+                    }
+
+                    sprintf(line, "Calling SMAPI response_recovery for requestId %d attempt %d\n", requestId,k+1);
+                    errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
+                    rc =  tryRecoveryUsingRequestId(vmapiContextP, sockDesc, requestId, &tempSize);
+                    saverc = rc;
+                    if (rc == SOCKET_TIMEOUT_ERROR || rc == SOCKET_NOT_CONNECTED_ERROR  || rc == SOCKET_CONNECT_REFUSED_ERROR) {
+                        // retry
+                        continue;
+                    }
+                    if (0 != saverc) {
+                        sprintf(line, "Failed on call to SMAPI response_recovery for requestId %d Error rc:%d\n", requestId, saverc);
+                        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
+                        return saverc;
+                    } else {
+                        // all good, lets see if any data
+                        break;
+                    }
+
+                } else {
+                    sprintf(line, "Socket %d receive of the buffer length for requestId %d failed. Error rc:%d\n", sockDesc, requestId, saverc);
+                    errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcIucv, RsUnexpected, line);
+                    return saverc;
+                }
+            } else {
+                // All good
+                break;
+            }
+        }
     }
     tempSize = ntohl(tempSize);
 
@@ -1618,11 +1700,105 @@ int getAndParseSmapiBuffer(struct _vmApiInternalContext* vmapiContextP, char * *
             return rc;
         }
     } else {
-        sprintf(line, "Insufficient memory (request=%d bytes)\n", parserParms.outStringByteCount);
+        sprintf(line, "SMAPI response data too small. Bytes returned:%d\n", tempSize);
         errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcRuntime, RsUnexpected, line);
         return INVALID_DATA;  // Not enough data returned
     }
 
     FREE_MEMORY(smapiOutputP);
+
+    return 0;
+}
+/**
+ * This helper function will try to call SMAPI recovery to get
+ * the buffer data using the requestId. It will just read first
+ * 16 bytes to see if any output length, requestid, retcode,
+ * reasoncode for the recovery is returned.
+ */
+int tryRecoveryUsingRequestId(struct _vmApiInternalContext* vmapiContextP, int sockId, int requestId, int * inputSize) {
+    char smapiAPI[46];
+    int rc, saverc;
+    int j, tempSize;
+    char * cursor;
+    char * inputP = 0;
+    char recoveryCodes[12]; // this api has req id, rc, rs
+    char * rCodesP;
+    int recoveryRQid = 0;
+    int recoveryRC = 0;
+    int recoveryRS = 0;
+    int recoverySize = 0;
+    char line[LINESIZE];
+
+    // Start at top of smapi API buffer to send
+    inputP = smapiAPI;
+    cursor = inputP;
+    rCodesP = recoveryCodes;
+
+    tempSize = 42;  //Buffer length after this field
+    PUT_INT(tempSize, cursor);
+
+    tempSize = 17; // Length of API
+    PUT_INT(tempSize, cursor);
+
+    memcpy(cursor, "Response_Recovery", 17);
+    cursor += 17;
+
+    tempSize = 0;
+    PUT_INT(tempSize, cursor); // userid length 0
+    PUT_INT(tempSize, cursor); // password length 0
+
+    tempSize = 5; // Length of MAINT
+    PUT_INT(tempSize, cursor); // Maint length 5
+    memcpy(cursor, "MAINT", 5);
+    cursor += 5;
+
+    PUT_INT(requestId, cursor);
+
+    rc = 0;
+
+    if (0 != (rc = smSocketWrite(vmapiContextP, sockId, smapiAPI, 46))) {
+        saverc = rc;
+        sprintf(line, "tryRecoveryUsingRequestId failed in socket write call. Return code: %d \n", saverc);
+        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcRuntime, RsUnexpected, line);
+        return saverc;
+    }
+
+    // Read in the request ID for response recovery
+    if (0 != (rc = smSocketRead(vmapiContextP, sockId, (char *) &recoveryRQid, 4))) {
+        saverc = rc;
+        sprintf(line, "tryRecoveryUsingRequestId failed in socket read call for requestID. Return code: %d \n", saverc);
+        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcRuntime, RsUnexpected, line);
+        return saverc;
+    }
+
+    // Read in the total output length
+    if (0 != (rc = smSocketRead(vmapiContextP, sockId, (char *) &recoverySize, 4))) {
+        saverc = rc;
+        sprintf(line, "tryRecoveryUsingRequestId failed in socket read call for recovery response length. Return code: %d \n", saverc);
+        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcRuntime, RsUnexpected, line);
+        return saverc;
+    }
+    // Read in the reqid, rc, and rs for this API
+    if (0 != (rc = smSocketRead(vmapiContextP, sockId, (char *) rCodesP, 12))) {
+        saverc = rc;
+        sprintf(line, "tryRecoveryUsingRequestId failed in socket read call for request ID, rc, rs. Return code: %d \n", saverc);
+        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcRuntime, RsUnexpected, line);
+        return saverc;
+    }
+    recoveryRC = *((int *) (rCodesP + 4));
+    recoveryRS = *((int *) (rCodesP + 8));
+    if (0 != recoveryRC) {
+        sprintf(line, "tryRecoveryUsingRequestId error from SMAPI Response_Recovery. Error rc:%d rs:%d\n", recoveryRC, recoveryRS);
+        errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcRuntime, RsUnexpected, line);
+        if (4 == recoveryRC) {
+            return SOCKET_RETRY_NO_DATA;
+        }
+        return recoveryRC;
+    }
+    // Adjust the buffer size to be 12 bytes less because of previous read for return codes, etc
+    *inputSize = recoverySize - 12;
+    sprintf(line, "tryRecoveryUsingRequestId data buffer size from previous API is bytes:%d\n", *inputSize);
+    errorLog(vmapiContextP, __func__, TO_STRING(__LINE__), RcRuntime, RsUnexpected, line);
+
     return 0;
 }
