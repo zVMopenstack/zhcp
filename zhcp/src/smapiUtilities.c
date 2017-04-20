@@ -2203,7 +2203,7 @@ int vmbkendMain_Event_UnSubscribe(struct _vmApiInternalContext* vmapiContextP) {
     // Retry the send if the error detected is Ok to retry
     for (j = 0;; j++) {
         if (0 != (rc = smSocketWrite(vmapiContextP, sockDesc, inputP, inputSize))) {
-            if (rc == SOCKET_WRITE_RETRYABLE_ERROR) {
+            if (rc == SOCKET_NOT_CONNECTED_ERROR) {
                 if (j < SEND_RETRY_LIMIT) {
                     // Delay for a while to give SMAPI some time to restart
                     if (SLEEP_TIMES[j] > 0) {
@@ -2327,7 +2327,7 @@ int vmbkendMain_Event_Subscribe(struct _vmApiInternalContext* vmapiContextP) {
     for (j = 0;; j++) {
         if (0 != (rc = smSocketWrite(vmapiContextP, sockDesc, inputP, inputSize))) {
             // Retry the send if the error detected is Ok to retry
-            if (rc == SOCKET_WRITE_RETRYABLE_ERROR) {
+            if (rc == SOCKET_NOT_CONNECTED_ERROR) {
                 if (j < SEND_RETRY_LIMIT) {
                     // Delay for a while to give SMAPI some time to restart
                     if (SLEEP_TIMES[j] > 0) {
