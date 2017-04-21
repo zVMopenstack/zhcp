@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f5664932_33ee9c62",
+        "filename": "zhcp/src/smapiTableParser.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-04-21T12:48:01Z",
+      "side": 1,
+      "message": "From google, the rest of them are initialized to 0. I honestly do not remember if that was the intention, it has been a few years. It certainly will work fine, hmmm. I think for clarity, it would be best for now to add zeros to the init.",
+      "parentUuid": "a528ff08_e6a1c7a1",
+      "range": {
+        "startLine": 1477,
+        "startChar": 26,
+        "endLine": 1477,
+        "endChar": 42
+      },
+      "revId": "0739c70b8de7cb6e329e4b405b9f07b5302cc9ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bb23a24_123fe322",
         "filename": "zhcp/src/smapiTableParser.c",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-20T19:42:04Z",
       "side": 1,
       "message": "size is 8 in smPublic.h yet you only specify 4.\n\nI do not see this array being used in this routine.",
+      "range": {
+        "startLine": 1731,
+        "startChar": 26,
+        "endLine": 1731,
+        "endChar": 42
+      },
+      "revId": "0739c70b8de7cb6e329e4b405b9f07b5302cc9ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1237d0dd_ee13ae92",
+        "filename": "zhcp/src/smapiTableParser.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-04-21T12:48:01Z",
+      "side": 1,
+      "message": "Should just delete it, must of been a copy paste.",
+      "parentUuid": "3bb23a24_123fe322",
       "range": {
         "startLine": 1731,
         "startChar": 26,
