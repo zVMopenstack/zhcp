@@ -156,9 +156,16 @@ function linkDisk {
   fi
 
   # sample output"
-  # (0.0.ad35(ECKD) at ( 94:    28) is dasdh       : active at blocksize: 4096, 90000 blocks, 351 MB
+  # 0.0.ad35(ECKD) at ( 94:    28) is dasdh       : active at blocksize: 4096, 90000 blocks, 351 MB
+  # 0.0.0444(FBA ) at ( 94:    44) is dasdl       : active at blocksize: 512, 10 blocks, 0 MB
+
   set -- $output
+
   deviceName=$7
+  if [[ ".$7" == ".is" ]]; then
+    # Device name is in word 8 for FBA
+    deviceName=$8
+  fi
 
   printf "Success: Userid ${userID} vdev ${vdev} linked at ${linkedAsVdev} device name ${deviceName}\n"
 
