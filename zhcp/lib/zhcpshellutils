@@ -599,6 +599,8 @@ function connectDisk {
   if [[ $error ]]; then
     local errorInfo=$(echo "$cmdResp" | grep '^HCP')
     printError "Unable to link $userID $vdev disk. $errorInfo"
+    # Note: We will do a detach just in case we linked it in read mode.
+    vmcp "detach $alias"
     local rc=2
   fi
 
