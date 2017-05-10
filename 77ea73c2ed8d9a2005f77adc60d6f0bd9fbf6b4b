@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "869ca456_b18226cb",
+        "filename": "zhcp/src/smcliImage.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4746,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-05-10T18:54:15Z",
+      "side": 1,
+      "message": "Since you are getting detailed,  the values of x,y are numeric; should it something like \u003dn or \u003dn1, \u003dn2?",
+      "revId": "77ea73c2ed8d9a2005f77adc60d6f0bd9fbf6b4b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ad4a57_f83357e8",
+        "filename": "zhcp/src/smcliImage.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4771,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-05-10T18:54:15Z",
+      "side": 1,
+      "message": "You will want to end this with a newline so the next input starts in the beginning of next line.",
+      "revId": "77ea73c2ed8d9a2005f77adc60d6f0bd9fbf6b4b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
