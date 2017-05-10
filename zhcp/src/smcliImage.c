@@ -4743,15 +4743,14 @@ int imageVolumeSpaceQueryExtendedDM(int argC, char* argV[], struct _vmApiInterna
                     "  Image_Volume_Space_Query_Extended_DM\n\n"
                     "SYNOPSIS\n"
                     "  smcli Image_Volume_Space_Query_Extended_DM [-T] image_name\n"
-                    "    [-k] 'entry1' [-k] 'entry2' ...\n\n"
+                    "    [-k] 'query_type=x' [-k] 'entry_type=y' ...\n\n"
                     "DESCRIPTION\n"
                     "  Use Image_Volume_Space_Query_Extended_DM to query how space on a DASD volume\n"
                     "  is allocated by the directory manager.\n\n"
                     "  The following options are required:\n"
                     "    -T    Target image or authorization entry name.\n"
                     "    -k    Quoted 'keyword=value' items to describe the type of space to be added.\n"
-                    "  Refer to the System Management Application Programming manual for additional\n"
-                    "  details."
+                    "          Two of these items are required and one is optional:\n"
                     "      'query_type=1|2|3':\n"
                     "        1: DEFINITION Query volume definition for the specified image\n"
                     "           device.\n"
@@ -4767,7 +4766,9 @@ int imageVolumeSpaceQueryExtendedDM(int argC, char* argV[], struct _vmApiInterna
                     "    'entry_names=value': string,0-255,char42 plus blank) Names of groups,\n"
                     "      regions or volumes to be queried, separated by blanks. An asterisk (*)\n"
                     "      specifies all areas of the requested type. If unspecified, * is the\n"
-                    "      default.\n");
+                    "      default.\n"
+                    "  Refer to the System Management Application Programming manual for additional\n"
+                    "  details.");
                 FREE_MEMORY_CLEAR_POINTER(entryArray);
                 return 1;
                 break;
