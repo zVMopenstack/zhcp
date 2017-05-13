@@ -861,6 +861,7 @@ int systemInformationQuery(int argC, char* argV[], struct _vmApiInternalContext*
 
             case 'k':
                 if (!optarg) {
+                	printf("ERROR: Missing -k value \n");
                     return INVALID_DATA;
                 }
                 if (entryCount < 1) {
