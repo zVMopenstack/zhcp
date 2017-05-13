@@ -861,7 +861,7 @@ int systemInformationQuery(int argC, char* argV[], struct _vmApiInternalContext*
 
             case 'k':
                 if (!optarg) {
-                    return INVALID_DATA;
+                	return INVALID_DATA;
                 }
                 if (entryCount < 1) {
                     entryArray[entryCount] = optarg;
@@ -910,8 +910,13 @@ int systemInformationQuery(int argC, char* argV[], struct _vmApiInternalContext*
     // Fill the var format with the input for FORMAT
     // Convert the input to upper case for the strcmp test
     memset(format, 0, 11);
-    for (i=0; i < strlen(entryArray[0]); i++) {
-        format[i] = toupper(entryArray[0][i]);
+    if (entryCount < 1) {
+       sprintf(format,"FORMAT=NO\0");
+    }
+    else  {
+       for (i=0; i < strlen(entryArray[0]); i++) {
+           format[i] = toupper(entryArray[0][i]);
+       }
     }
 
     rc = smSystem_Information_Query(vmapiContextP, "", 0, "", // Authorizing user, password length, password
