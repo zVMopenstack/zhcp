@@ -16,6 +16,29 @@
       "revId": "845e407c6e0d3f41111cba5d99a960fbbd32d606",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f8d3b5f_8e705cbf",
+        "filename": "zhcp/src/smcliSystem.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-05-15T18:10:52Z",
+      "side": 1,
+      "message": "I do not see any benefit of the sprintf.  Why don\u0027t you just string copy the fixed character string into the field?",
+      "range": {
+        "startLine": 914,
+        "startChar": 7,
+        "endLine": 914,
+        "endChar": 14
+      },
+      "revId": "845e407c6e0d3f41111cba5d99a960fbbd32d606",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
