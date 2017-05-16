@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b861e0fd_d14e1fa6",
+        "filename": "zhcp/src/smcliSystem.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1008725
+      },
+      "writtenOn": "2017-05-16T20:06:18Z",
+      "side": 1,
+      "message": "My opinion.  Feel free to ignore this...\n\nThis instruction will work BUT it is more complex than necessary.  You did not need to use strncpy and calculate the length of the string (9).  \n\nstrcpy( format, \"FORMAT\u003dNO\" );\n\nshould do the same thing (safely) and will ensure that the null terminator is always added.  \n\nstrncopy would be helpful if you did not know the maximum length of the field being copied (i.e. provided by a user as input).  In your case, you created the literal that is being copied.  Thus, the compiler would be able to do what you want safely with a simpler instruction.",
+      "range": {
+        "startLine": 914,
+        "startChar": 7,
+        "endLine": 914,
+        "endChar": 37
+      },
+      "revId": "70c4ac2d7f8fb2da55ae1752ac184919fa21c10a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
