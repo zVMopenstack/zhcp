@@ -1,5 +1,5 @@
 /**
- * IBM (C) Copyright 2013 Eclipse Public License
+ * IBM (C) Copyright 2013,2017 Eclipse Public License
  * http://www.eclipse.org/org/documents/epl-v10.html
  */
 #include "smcliSystem.h"
@@ -910,8 +910,13 @@ int systemInformationQuery(int argC, char* argV[], struct _vmApiInternalContext*
     // Fill the var format with the input for FORMAT
     // Convert the input to upper case for the strcmp test
     memset(format, 0, 11);
-    for (i=0; i < strlen(entryArray[0]); i++) {
-        format[i] = toupper(entryArray[0][i]);
+    if (entryCount < 1) {
+       strncpy(format,"FORMAT=NO",9);
+    }
+    else  {
+       for (i=0; i < strlen(entryArray[0]); i++) {
+           format[i] = toupper(entryArray[0][i]);
+       }
     }
 
     rc = smSystem_Information_Query(vmapiContextP, "", 0, "", // Authorizing user, password length, password
