@@ -3113,7 +3113,7 @@ int getSmapiLevel(struct _vmApiInternalContext* vmapiContextP, char * image, int
 
     if (-1 == stat(CACHE_SMAPI_LEVEL_FILE, &statbuf)) {
         if (errno != ENOENT) {
-            printf("ERROR: File stat error. Errno: %d text: %s\n", errno, strerror(errno));
+            printf("ERROR: File stat error on %s Errno: %d text: %s\n", CACHE_SMAPI_LEVEL_FILE, errno, strerror(errno));
             return 1;  /* Stat failed */
         }
         createFile = 1;
