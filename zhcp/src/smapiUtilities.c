@@ -1459,7 +1459,7 @@ void *vmbkendMain(void *data) {
     // Create msqId for directory change indication
     if ((msqid = msgget(MSGDEFKEY, IPC_CREAT | 0666) ) < 0) {
         TRACE_START(vmapiContextP, TRACEAREA_BACKGROUND_DIRECTORY_NOTIFICATION_THREAD, TRACELEVEL_DETAILS);
-        sprintf(line, "msgget for directory change error, key: %d, errno: %d", MSGDEFKEY, errno);
+        sprintf(line, "msgget for directory change error, key: %d, errno: %d text: %s", MSGDEFKEY, errno, strerror(errno));
         TRACE_END_DEBUG(vmapiContextP, line);
         // We can still process other events if we get a message get error so
         // we don't need to leave the routine until all events have been processed.
@@ -1490,7 +1490,7 @@ void *vmbkendMain(void *data) {
 
         if (bytesRead == -1) {
             TRACE_START(vmapiContextP, TRACEAREA_BACKGROUND_DIRECTORY_NOTIFICATION_THREAD, TRACELEVEL_DETAILS);
-            sprintf(line, "vmbkendMain:  recvfrom got errno %d\n", errno);
+            sprintf(line, "vmbkendMain:  recvfrom got errno %d text: %s\n", errno, strerror(errno));
             TRACE_END_DEBUG(vmapiContextP, line);
             break;
         } continue_if_error(Recvfrom, bytesRead, bytesRead);
@@ -1565,7 +1565,7 @@ void *vmbkendMain(void *data) {
             // Send a message to cause a Directory Changed indication to be created.
             if ((msqid = msgget(MSGDEFKEY, 0666)) < 0) {
                 TRACE_START(vmapiContextP, TRACEAREA_BACKGROUND_DIRECTORY_NOTIFICATION_THREAD, TRACELEVEL_DETAILS);
-                sprintf(line, "msgget for directory change error, key: %d, errno: %d", MSGDEFKEY, errno);
+                sprintf(line, "msgget for directory change error, key: %d, errno: %d text: %s", MSGDEFKEY, errno, strerror(errno));
                 TRACE_END_DEBUG(vmapiContextP, line);
                 // We can still process other events if we get a message get error so
                 // we don't need to leave the routine until all events have been processed.
@@ -1761,8 +1761,8 @@ int vmbkendSockaddrFileInfo(struct _vmApiInternalContext* vmapiContextP, int rea
 
     if (fileP == (FILE *) NULL) {
         TRACE_START(vmapiContextP, TRACEAREA_ZHCP_GENERAL, TRACELEVEL_DETAILS);
-        sprintf(line, "vmbkendSockaddrFileInfo:  Errno %d opening %s for %s()\n",
-                errno, fName, (readOrWrite == 0 ? "read" : "write"));
+        sprintf(line, "vmbkendSockaddrFileInfo:  Errno %d opening %s for %s() text: %s\n",
+                errno, fName, (readOrWrite == 0 ? "read" : "write"), strerror(errno));
         TRACE_END_DEBUG(vmapiContextP, line);
 
         rc = -1;
@@ -1775,7 +1775,7 @@ int vmbkendSockaddrFileInfo(struct _vmApiInternalContext* vmapiContextP, int rea
             /* If error reading record, return saddr value of zeroes */
             memset(saddr, 0, sizeof(struct sockaddr_in));
             TRACE_START(vmapiContextP, TRACEAREA_ZHCP_GENERAL, TRACELEVEL_DETAILS);
-            sprintf(line, "vmbkendSockaddrFileInfo:  Errno %d reading file %s\n", errno, fName);
+            sprintf(line, "vmbkendSockaddrFileInfo:  Errno %d reading file %s text: %s\n", errno, fName, strerror(errno));
             TRACE_END_DEBUG(vmapiContextP, line);
 
             rc = -1;
@@ -1788,7 +1788,7 @@ int vmbkendSockaddrFileInfo(struct _vmApiInternalContext* vmapiContextP, int rea
     } else {  // Write
         if (-1 == fprintf(fileP, "%x:%hu", saddr->sin_addr.s_addr, saddr->sin_port)) {
             TRACE_START(vmapiContextP, TRACEAREA_ZHCP_GENERAL, TRACELEVEL_DETAILS);
-            sprintf(line, "vmbkendSockaddrFileInfo:  Errno %d writing %x:%hu to %s\n", errno, saddr->sin_addr.s_addr, saddr->sin_port, fName);
+            sprintf(line, "vmbkendSockaddrFileInfo:  Errno %d writing %x:%hu to %s text: %s\n", errno, saddr->sin_addr.s_addr, saddr->sin_port, fName, strerror(errno));
             TRACE_END_DEBUG(vmapiContextP, line);
 
             rc = -1;
@@ -1803,7 +1803,7 @@ int vmbkendSockaddrFileInfo(struct _vmApiInternalContext* vmapiContextP, int rea
 
     exit_error1: if (EOF == fclose(fileP)) {
         TRACE_START(vmapiContextP, TRACEAREA_ZHCP_GENERAL, TRACELEVEL_DETAILS);
-        sprintf(line, "vmbkendSockaddrFileInfo:  Errno %d closing file %s()\n", errno, fName);
+        sprintf(line, "vmbkendSockaddrFileInfo:  Errno %d closing file %s() text: %s\n", errno, fName, strerror(errno));
         TRACE_END_DEBUG(vmapiContextP, line);
     }
 
@@ -2660,7 +2660,7 @@ int vmbkendMain_setSmapiSubscribeEventData(struct _vmApiInternalContext* vmapiCo
                 // Send a message to the indication provider
                 if ((msqid = msgget(MSGDEFKEY, msgflg)) < 0) {
                     TRACE_START(vmapiContextP, TRACEAREA_BACKGROUND_DIRECTORY_NOTIFICATION_THREAD, TRACELEVEL_DETAILS);
-                    sprintf(line, "msgget for directory change error, key: %d, errno: %d", MSGDEFKEY, errno);
+                    sprintf(line, "msgget for directory change error, key: %d, errno: %d text: %s", MSGDEFKEY, errno, strerror(errno));
                     TRACE_END_DEBUG(vmapiContextP, line);
 
                     // We can still process other events if we get a message get error so
@@ -2918,7 +2918,7 @@ int vmbkendMain_setSmapiSubscribeEventData(struct _vmApiInternalContext* vmapiCo
                     // Send a message to cause a logon/off indication to be created.
                     if ((msqid = msgget(MSGKEY, msgflg)) < 0) {
                         TRACE_START(vmapiContextP, TRACEAREA_BACKGROUND_DIRECTORY_NOTIFICATION_THREAD, TRACELEVEL_DETAILS);
-                        sprintf(line, "msgget for logon/off error, key: %d, errno: %d", MSGKEY, errno);
+                        sprintf(line, "msgget for logon/off error, key: %d, errno: %d, text: %s", MSGKEY, errno, strerror(errno));
                         TRACE_END_DEBUG(vmapiContextP, line);
                         // We can still process other events if we get a message get error so
                         // we don't need to leave the routine until all events have been processed.
@@ -2948,7 +2948,7 @@ int vmbkendMain_setSmapiSubscribeEventData(struct _vmApiInternalContext* vmapiCo
                     // Send a message to cause a relocation status indication to be created.
                     if ((msqid = msgget(MSGRELKEY, msgflg)) < 0) {
                         TRACE_START(vmapiContextP, TRACEAREA_BACKGROUND_DIRECTORY_NOTIFICATION_THREAD, TRACELEVEL_DETAILS);
-                        sprintf(line, "msgget for vmrelocate error, key: %d, errno: %d", MSGRELKEY, errno);
+                        sprintf(line, "msgget for vmrelocate error, key: %d, errno: %d text: %s", MSGRELKEY, errno, strerror(errno));
                         TRACE_END_DEBUG(vmapiContextP, line);
                         // We can still process other events if we get a message get error so
                         // we don't need to leave the routine until all events have been processed.
@@ -2989,7 +2989,7 @@ int vmbkendMain_setSmapiSubscribeEventData(struct _vmApiInternalContext* vmapiCo
                 // Send a message to cause a relocation status indication to be created.
                 if ((msqid = msgget(MSGRELKEY, msgflg)) < 0) {
                     TRACE_START(vmapiContextP, TRACEAREA_BACKGROUND_DIRECTORY_NOTIFICATION_THREAD, TRACELEVEL_DETAILS);
-                    sprintf(line, "msgget for vmrelocate error, key: %d, errno: %d", MSGRELKEY, errno);
+                    sprintf(line, "msgget for vmrelocate error, key: %d, errno: %d text: %s", MSGRELKEY, errno, strerror(errno));
                      TRACE_END_DEBUG(vmapiContextP, line);
                     // We can still process other events if we get a message get error so
                     // we don't need to leave the routine until all events have been processed.
@@ -3024,7 +3024,7 @@ int vmbkendMain_setSmapiSubscribeEventData(struct _vmApiInternalContext* vmapiCo
                     // Send a message to cause an SSI status indication to be created.
                     if ((msqid = msgget(MSGSSIKEY, msgflg)) < 0) {
                         TRACE_START(vmapiContextP, TRACEAREA_BACKGROUND_DIRECTORY_NOTIFICATION_THREAD, TRACELEVEL_DETAILS);
-                        sprintf(line, "msgget for SSI error, key: %d, errno: %d", MSGSSIKEY, errno);
+                        sprintf(line, "msgget for SSI error, key: %d, errno: %d text: %s", MSGSSIKEY, errno, strerror(errno));
                         TRACE_END_DEBUG(vmapiContextP, line);
 
                         // We can still process other events if we get a message get error so
@@ -3040,8 +3040,8 @@ int vmbkendMain_setSmapiSubscribeEventData(struct _vmApiInternalContext* vmapiCo
                         msgSSIBuf.messageStruct = msgSSI;
                         if (msgsnd(msqid, &msgSSIBuf, buf_length, IPC_NOWAIT) < 0) {
                             TRACE_START(vmapiContextP, TRACEAREA_BACKGROUND_DIRECTORY_NOTIFICATION_THREAD, TRACELEVEL_DETAILS);
-                            sprintf(line, "msgsnd for SSI error, key:%d, ssiName: %s, eventType: %d, buflen: %d, errno: %d\n",
-                                    msqid, msgSSI.ssiName, msgSSI.eventType, (int) buf_length , errno);
+                            sprintf(line, "msgsnd for SSI error, key:%d, ssiName: %s, eventType: %d, buflen: %d, errno: %d text: %s\n",
+                                    msqid, msgSSI.ssiName, msgSSI.eventType, (int) buf_length , errno, strerror(errno));
                             TRACE_END_DEBUG(vmapiContextP, line);
 
                             // We can still process other events if we get a message send error so
@@ -3107,13 +3107,13 @@ int getSmapiLevel(struct _vmApiInternalContext* vmapiContextP, char * image, int
     char outlevel[20];
 
     if (-1 == time(&currentTime)) {
-        printf("ERROR: Time function failed. Errno: %d\n", errno);
+        printf("ERROR: Time function failed. Errno: %d text: %s\n", errno, strerror(errno));
         return 1;  /* Current time failed */
     }
 
     if (-1 == stat(CACHE_SMAPI_LEVEL_FILE, &statbuf)) {
         if (errno != ENOENT) {
-            printf("ERROR: File stat error. Errno: %d\n", errno);
+            printf("ERROR: File stat error. Errno: %d text: %s\n", errno, strerror(errno));
             return 1;  /* Stat failed */
         }
         createFile = 1;
@@ -3143,14 +3143,14 @@ int getSmapiLevel(struct _vmApiInternalContext* vmapiContextP, char * image, int
         *pSmapiLevel = output->common.reasonCode;
         myStream = fopen(CACHE_SMAPI_LEVEL_FILE, "w");
         if (myStream == NULL) {
-            printf("ERROR: fopen failed for %s errno:%d\n", CACHE_SMAPI_LEVEL_FILE, errno);
+            printf("ERROR: fopen failed for %s errno:%d text: %s\n", CACHE_SMAPI_LEVEL_FILE, errno, strerror(errno));
             return 1;
         }
 
         sprintf(outlevel, "%d", *pSmapiLevel);
         rc = fputs(outlevel, myStream);
         if (rc < 0) {
-            printf("ERROR: fputs errno %d\n", errno);
+            printf("ERROR: fputs errno %d text: %s\n", errno, strerror(errno));
             return 1;
         }
 
@@ -3161,12 +3161,12 @@ int getSmapiLevel(struct _vmApiInternalContext* vmapiContextP, char * image, int
     // Need to read the file and get the SMAPI level
     myStream = fopen(CACHE_SMAPI_LEVEL_FILE, "r");
     if (myStream == NULL) {
-        printf("ERROR: fopen failed for %s errno:%d\n", CACHE_SMAPI_LEVEL_FILE, errno);
+        printf("ERROR: fopen failed for %s errno:%d text: %s\n", CACHE_SMAPI_LEVEL_FILE, errno, strerror(errno));
         return 1;
     }
 
     if (NULL == (fgets(outlevel, sizeof(outlevel), myStream))) {
-        printf("ERROR: fgets errno %d\n", errno);
+        printf("ERROR: fgets errno %d text: %s\n", errno, strerror(errno));
         return 1;
     }
 
