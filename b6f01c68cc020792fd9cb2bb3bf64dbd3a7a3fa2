@@ -22,6 +22,30 @@
       "revId": "b6f01c68cc020792fd9cb2bb3bf64dbd3a7a3fa2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85444a85_81eb3c4e",
+        "filename": "zhcp/src/smapiUtilities.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3120,
+      "author": {
+        "id": 1008483
+      },
+      "writtenOn": "2017-05-23T10:58:31Z",
+      "side": 1,
+      "message": "It is more than read. The cache file is written and then a timestamp is used to recreate it later. I think we need to figure out if we really want any Linux user to be running smcli since the zhcp is a powerful userid. I think that only root or a sudo as root should be running this.",
+      "parentUuid": "98cc079e_2aed9d3d",
+      "range": {
+        "startLine": 3114,
+        "startChar": 3,
+        "endLine": 3120,
+        "endChar": 5
+      },
+      "revId": "b6f01c68cc020792fd9cb2bb3bf64dbd3a7a3fa2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
