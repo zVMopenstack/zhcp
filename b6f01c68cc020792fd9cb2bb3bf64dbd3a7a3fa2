@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98cc079e_2aed9d3d",
+        "filename": "zhcp/src/smapiUtilities.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3120,
+      "author": {
+        "id": 1008712
+      },
+      "writtenOn": "2017-05-23T04:34:09Z",
+      "side": 1,
+      "message": "why we need distinguish it? I mean why root run this will lead to non-root can\u0027t execute ? what\u0027s the benefit to prevent it? can we just authorize all users to read it?",
+      "range": {
+        "startLine": 3114,
+        "startChar": 3,
+        "endLine": 3120,
+        "endChar": 5
+      },
+      "revId": "b6f01c68cc020792fd9cb2bb3bf64dbd3a7a3fa2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
