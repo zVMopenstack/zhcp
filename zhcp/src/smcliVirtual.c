@@ -3492,15 +3492,6 @@ int virtualNetworkVswitchQueryExtended(int argC, char* argV[], struct _vmApiInte
                 }
 
                 vlanCount = atoi(vlan_count);
-                char vlan_info[vlanCount * 9];
-                token = strtok_r(NULL, "\0", &buffer);
-                if (token != NULL) {
-                    strcpy(vlan_info, token);
-                } else {
-                    printf("Error vlan_info is NULL!!\n");
-                    rc = 1;
-                    break;
-                }
 
                 printf("port_num: %s\n"
                        "grant_userid: %s\n"
@@ -3509,16 +3500,7 @@ int virtualNetworkVswitchQueryExtended(int argC, char* argV[], struct _vmApiInte
                        "vlan_count: %s\n",
                        port_num, grant_userid, promiscuous_mode, osd_sim, vlan_count );
 
-                token = strtok_r(vlan_info, blank, &buffer);
-                if (token != NULL) {
-                    strcpy(user_vlan_id, token);
-                } else {
-                    printf("Error user_vlan_id is NULL!!\n");
-                    rc = 1;
-                    break;
-                }
-                printf("user_vlan_id: %s\n", user_vlan_id);
-                for (k =1; k < vlanCount; k++) {
+                for (k = 0; k < vlanCount; k++) {
                     token = strtok_r(NULL, blank, &buffer);
                     if (token != NULL) {
                         strcpy(user_vlan_id, token);
